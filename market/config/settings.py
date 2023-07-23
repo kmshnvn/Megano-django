@@ -67,7 +67,7 @@ TEMPLATES = [
         'OPTIONS':{
             "app_dirname": "templates",
             'environment': 'jinja2_env.environment',
-            'context_processors':[
+            'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
