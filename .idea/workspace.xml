@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ac4fce2-327e-4001-aaee-7e78394fc093" name="Changes" comment="Minor fixes">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/market/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/market/config/settings.py" afterDir="false" />
+    <list default="true" id="9ac4fce2-327e-4001-aaee-7e78394fc093" name="Changes" comment="Language code changed - minor fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +183,7 @@
       <workItem from="1690025813714" duration="674000" />
       <workItem from="1690027541370" duration="155000" />
       <workItem from="1690029004888" duration="1732000" />
-      <workItem from="1690181841080" duration="6113000" />
+      <workItem from="1690181841080" duration="6888000" />
     </task>
     <task id="LOCAL-00001" summary="Project language code modified">
       <created>1690183857172</created>
@@ -207,7 +206,49 @@
       <option name="project" value="LOCAL" />
       <updated>1690189671743</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Language code changed">
+      <created>1690196545638</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1690196545638</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Language code changed - minor fixes">
+      <created>1690196727889</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1690196727889</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Language code changed - minor fixes">
+      <created>1690196777715</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1690196777715</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Language code changed - minor fixes">
+      <created>1690196846913</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1690196846913</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Language code changed - minor fixes">
+      <created>1690197018098</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1690197018098</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Language code changed - minor fixes">
+      <created>1690197047652</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1690197047652</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +288,9 @@
     <MESSAGE value="Project language code modified" />
     <MESSAGE value="Add models to admin panel and l10n" />
     <MESSAGE value="Minor fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor fixes" />
+    <MESSAGE value="Language code changed" />
+    <MESSAGE value="Language code changed - minor fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Language code changed - minor fixes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/python_django_team27$test.coverage" NAME="test Coverage Results" MODIFIED="1690188909263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/market" />
