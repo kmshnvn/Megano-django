@@ -17,5 +17,3 @@ class ShopAdmin(admin.ModelAdmin):
 class OfferAdmin(admin.ModelAdmin):
     list_display = "pk", "shop", "product", "price"
     list_display_links = "pk", "shop"
-
-

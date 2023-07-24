@@ -31,4 +31,3 @@ class Offer(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT)
     product = models.ForeignKey("products.Product", on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("цена"))
-

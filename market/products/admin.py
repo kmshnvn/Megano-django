@@ -23,4 +23,3 @@ class DetailAdmin(admin.ModelAdmin):
 class ProductDetailAdmin(admin.ModelAdmin):
     list_display = "pk", "product", "detail", "value"
     list_display_links = "pk", "product"
-

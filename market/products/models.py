@@ -39,4 +39,3 @@ class ProductDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
     value = models.CharField(max_length=128, verbose_name=_("значение"))
-
