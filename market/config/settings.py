@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 import dj_database_url
+from django.utils.translation import gettext_lazy as _
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -106,13 +108,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+
+LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
+
+LOCALE_PATHS = [BASE_DIR / "locale/"]
+
+LANGUAGES = [("en", _("English")), ("ru", _("Russian"))]
 
 
 # Static files (CSS, JavaScript, Images)
