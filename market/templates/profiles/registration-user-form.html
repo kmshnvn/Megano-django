@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация пользователя{% endblock %}
+
+{% block content %}
+    <h1>Форма регистрации</h1>
+    <p>*Обязательное поле</p>
+
+    <div class="register-block">
+        <form id="register" action="#" method="post">
+            {% csrf_token %}
+
+            <div class="register">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">*Никнейм:</label>
+                {{ form.username }}
+            </div>
+            <div class="register">
+                {{ form.first_name.errors }}
+                <label for="{{ form.first_name.id_for_label }}">Имя:</label>
+                {{ form.first_name }}
+            </div>
+            <div class="register">
+                {{ form.last_name.errors }}
+                <label for="{{ form.last_name.id_for_label }}">Фамилия:</label>
+                {{ form.last_name }}
+            </div>
+            <div class="register">
+                {{ form.password1.errors }}
+                <label for="{{ form.password1.id_for_label }}">*Пароль:</label>
+                {{ form.password1 }}
+            </div>
+            <div class="register">
+                {{ form.password2.errors }}
+                <label for="{{ form.password2.id_for_label }}">*Подтверждения пароля:</label>
+                {{ form.password2 }}
+            </div>
+            <div class="register">
+                {{ form.group.errors }}
+                <label for="{{ form.group.id_for_label }}">Ваша роль:</label>
+                {{ form.group }}
+            </div>
+            <div class="register">
+                {{ form.email.errors }}
+                <label for="{{ form.email.id_for_label }}">Адрес электронной почты:</label>
+                {{ form.email }}
+            </div>
+
+
+            <button class="btn" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+{% endblock %}
