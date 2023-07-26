@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 
 import dj_database_url
+from django.utils.translation import gettext_lazy as _
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "products",
     "shops",
-    "profiles.apps.ProfilesConfig",
+    "django_jinja",
 ]
 
 MIDDLEWARE = [
@@ -55,11 +56,27 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "app_dirname": "templates",
+            "environment": "jinja2_env.environment",
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
@@ -76,18 +93,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-# email configs
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = config["EMAIL_USER"]
-EMAIL_HOST_PASSWORD = config["EMAIL_PASSWORD"]
-
-SERVER_EMAIL = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Database
@@ -119,13 +124,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+
+LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
 
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
+
+LOCALE_PATHS = [BASE_DIR / "locale/"]
+
+LANGUAGES = [("en", _("English")), ("ru", _("Russian"))]
 
 
 # Static files (CSS, JavaScript, Images)
