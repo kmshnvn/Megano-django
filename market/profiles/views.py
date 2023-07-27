@@ -8,7 +8,6 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView
 )
 
-from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
@@ -17,50 +16,41 @@ from .models import Profile
 from market.config import settings
 
 
-def success_log(request: HttpRequest) -> HttpResponse:
-    """Заглушка"""
-    return HttpResponse(f"Success login! {request.META}")
-
-
 class ResetPasswordView(PasswordResetView):
     """Представление формы сброса пароля."""
 
     from_email = settings.EMAIL_HOST_USER
-    template_name = "profiles/password-reset-form.html"
-    email_template_name = "profiles/password-reset-email.html"
-    subject_template_name = "profiles/password_reset_subject.txt"
+    template_name = "profiles/password-reset-form.jinja"
+    email_template_name = "profiles/email/password-reset-email.html"
+    subject_template_name = "profiles/email/password_reset_subject.txt"
     success_url = reverse_lazy("profiles:password_reset_done")
 
 
 class ResetPasswordDoneView(PasswordResetDoneView):
     """Представление вывода информации об успешной отправки ссылки для смены пароля."""
 
-    template_name = "profiles/password-reset-done.html"
+    template_name = "profiles/password-reset-done.jinja"
 
 
 class ResetPasswordConfirmView(PasswordResetConfirmView):
     """Представление регистрации нового пароля пользователя."""
 
-    template_name = "profiles/password-reset-confirm.html"
+    template_name = "profiles/password-reset-confirm.jinja"
     success_url = reverse_lazy("profiles:password_reset_complete")
 
 
 class ResetPasswordCompleteView(PasswordResetCompleteView):
+    """Представление для вывода информации об успешной смени пароля"""
 
-    template_name = "profiles/password-reset-complete.html"
+    template_name = "profiles/password-reset-complete.jinja"
 
 
 class LoginUserView(LoginView):
     """Представление авторизации пользователя."""
 
     form_class = AuthenticationForm
-    template_name = "profiles/login.html"
+    template_name = "profiles/login.jinja"
     redirect_authenticated_user = True
-
-    def get_success_url(self):
-        """Перенаправляем пользователя при успешной авторизации"""
-
-        return reverse_lazy("profiles:page_test")
 
 
 class RegisterView(CreateView):
@@ -68,7 +58,8 @@ class RegisterView(CreateView):
 
     form_class = RegisterUserForm
     form = RegisterUserForm()
-    template_name = "profiles/registration-user-form.html"
+    template_name = "profiles/registration-user-form.jinja"
+    success_url = reverse_lazy("profiles:login")
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -81,6 +72,3 @@ class RegisterView(CreateView):
         login(request=self.request, user=user)
 
         return response
-
-    def get_success_url(self):
-        return reverse_lazy("profiles:page_test")
