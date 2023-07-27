@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "general/base.jinja" %}
 
 {% block title %}Страница авторизации{% endblock %}
 
@@ -24,8 +24,8 @@
         </form>
         <p>
             Вы не зарегистрированы:
-            <a href="{% url 'profiles:registration-user' %}">Перейти к регистрации</a>
+            <a href="{( url('profiles:registration-user') }}">Перейти к регистрации</a>
         </p>
-        <p><a href="{% url 'profiles:password_reset' %}">Забыли пароль?</a></p>
+        <a href="{{ url('profiles:password_reset') }}">Забыли пароль?</a>
     </div>
 {% endblock %}
