@@ -9,7 +9,7 @@ class Profile(models.Model):
 
     regex_phone = RegexValidator(
         regex=r"^((8|\+7|)(\d{10}))$",
-        message="Формат номера телефона должен быть: +79999999999 или 89999999999"
+        message=_("Формат номера телефона должен быть: +79999999999 или 89999999999")
     )
 
     class Meta:
