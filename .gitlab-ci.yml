@@ -39,7 +39,7 @@ test:
     - echo "DATABASE_URL = $DATABASE_URL" >> .env
     - echo "REDIS_URL = $REDIS_URL" >> .env
     - echo "EMAIL_USER = skillboxteam27@yandex.ru" >> .env
-    - echo "EMAIL_PASSWORD = edwmkaylxtxjtieb" >> .env 
+    - echo "EMAIL_PASSWORD = edwmkaylxtxjtieb" >> .env
     - cd market
     - poetry run python manage.py makemigrations
     - poetry run python manage.py test
