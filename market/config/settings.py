@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "products",
     "shops",
     "django_jinja",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
