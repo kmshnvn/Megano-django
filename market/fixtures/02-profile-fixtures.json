@@ -1,0 +1,22 @@
+[
+{
+    "model": "profiles.profile",
+    "pk": 2,
+    "fields": {
+        "user": 10,
+        "address": "",
+        "phone": "",
+        "balance": "0.00"
+    }
+},
+{
+    "model": "profiles.profile",
+    "pk": 3,
+    "fields": {
+        "user": 11,
+        "address": "",
+        "phone": "",
+        "balance": "0.00"
+    }
+}
+]
