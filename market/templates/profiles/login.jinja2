@@ -1,0 +1,31 @@
+{% extends "general/base.jinja2" %}
+
+{% block title %}Страница авторизации{% endblock %}
+
+{% block content %}
+    <div class="auth-block">
+        <h1>Авторизация:</h1>
+
+        <form id='auth' action="#" method="post">
+            {% csrf_token %}
+
+            <p class="auth-name">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">Никнейм:</label>
+                {{ form.username }}
+            </p>
+            <p class="auth-pass">
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}">Пароль:</label>
+                {{ form.password }}
+            </p>
+
+            <button class="btn" type="submit">Войти</button>
+        </form>
+        <p>
+            Вы не зарегистрированы:
+            <a href="{% url 'profiles:registration_user' %}">Перейти к регистрации</a>
+        </p>
+        <a href="{% url 'profiles:password_reset' %}">Забыли пароль?</a>
+    </div>
+{% endblock %}
