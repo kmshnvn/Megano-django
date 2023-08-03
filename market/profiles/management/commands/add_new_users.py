@@ -5,7 +5,7 @@ from typing import List
 
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from profiles.models import Profile
 
 
@@ -38,6 +38,7 @@ class Command(BaseCommand):
         sys.stdout.write("Создания профилей пользователей:\n")
         self.register_profile()
 
+    @transaction.atomic
     def register_profile(self):
         try:
 
@@ -102,11 +103,3 @@ class Command(BaseCommand):
     @property
     def get_address(self) -> List[str]:
         return self.__address
-
-    # @property
-    # def create_random_name(self) -> str:
-    #     """Метод полупения имени"""
-    #
-    #     first_letter = chr(random.randint(65, 90))
-    #     last_letters = "".join([chr(random.randint(97, 122)) for _ in range(5)])
-    #     return first_letter + last_letters
