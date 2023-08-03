@@ -2,18 +2,19 @@ from django.urls import path
 
 from .views import (
     RegisterView,
-    LoginUserView,
     ResetPasswordView,
     ResetPasswordDoneView,
     ResetPasswordConfirmView,
     ResetPasswordCompleteView,
+    email_login_view,
 )
 
 app_name = "profiles"
 
 urlpatterns = [
     path("registration/", RegisterView.as_view(), name="registration_user"),
-    path("login/", LoginUserView.as_view(), name="login"),
+    path("login/", email_login_view, name="login"),
+
     path("password-reset/", ResetPasswordView.as_view(), name="password_reset"),
     path("password-reset-sent/", ResetPasswordDoneView.as_view(), name="password_reset_done"),
     path("reset/<uidb64>/<token>/", ResetPasswordConfirmView.as_view(), name="password_reset_confirm"),
