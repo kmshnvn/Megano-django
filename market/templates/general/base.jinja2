@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "assets/css/basic.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/extra.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/fonts.css" %}">
+    <script src="assets/plg/CountDown/countdown.js"></script>
+
+    <title>
+        {% block title %}
+            Заголовок
+        {% endblock %}
+    </title>
+</head>
+
+<body class="Site">
+    {% block body %}
+        <header class="Header">
+            <h1>Header<h1>
+        </header>
+
+        <main class="Main">
+            {% block content %}
+                <h1>Ваш контент<h1>
+            {% endblock %}
+        </main>
+
+        <footer class="Footer">
+            <h1>Footer<h1>
+        </footer>
+    {% endblock %}
+
+    <script src="assets/plg/jQuery/jquery-3.5.0.slim.min.js"></script>
+    <script src="assets/plg/form/jquery.form.js"></script>
+    <script src="assets/plg/form/jquery.maskedinput.min.js"></script>
+    <script src="assets/plg/range/ion.rangeSlider.min.js"></script>
+    <script src="assets/plg/Slider/slick.min.js"></script>
+    <script src="assets/js/scripts.js"></script>
+</body>
+</html>

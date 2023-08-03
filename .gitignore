@@ -157,6 +157,3 @@ cython_debug/
 !**/migrations/__init__.py
 
 # directory with media files
-
-media/
-static/

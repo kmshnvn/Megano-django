@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "products",
     "shops",
     "django_jinja",
+    "django_extensions",
 ]
 
 # email configs
@@ -156,8 +157,11 @@ LANGUAGES = [("en", _("English")), ("ru", _("Russian"))]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = "static/"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -165,3 +169,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/admin/"
+
+SHELL_PLUS = "ipython"
+SHELL_PLUS_PRINT_SQL = True

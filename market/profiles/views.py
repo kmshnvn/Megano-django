@@ -5,7 +5,7 @@ from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView
+    PasswordResetCompleteView,
 )
 
 from django.urls import reverse_lazy
@@ -20,7 +20,7 @@ class ResetPasswordView(PasswordResetView):
     """Представление формы сброса пароля."""
 
     from_email = settings.EMAIL_HOST_USER
-    template_name = "profiles/password-reset-form.jinja"
+    template_name = "profiles/password-reset-form.jinja2"
     email_template_name = "profiles/email/password-reset-email.html"
     subject_template_name = "profiles/email/password_reset_subject.txt"
     success_url = reverse_lazy("profiles:password_reset_done")
@@ -29,27 +29,27 @@ class ResetPasswordView(PasswordResetView):
 class ResetPasswordDoneView(PasswordResetDoneView):
     """Представление вывода информации об успешной отправки ссылки для смены пароля."""
 
-    template_name = "profiles/password-reset-done.jinja"
+    template_name = "profiles/password-reset-done.jinja2"
 
 
 class ResetPasswordConfirmView(PasswordResetConfirmView):
     """Представление регистрации нового пароля пользователя."""
 
-    template_name = "profiles/password-reset-confirm.jinja"
+    template_name = "profiles/password-reset-confirm.jinja2"
     success_url = reverse_lazy("profiles:password_reset_complete")
 
 
 class ResetPasswordCompleteView(PasswordResetCompleteView):
     """Представление для вывода информации об успешной смени пароля"""
 
-    template_name = "profiles/password-reset-complete.jinja"
+    template_name = "profiles/password-reset-complete.jinja2"
 
 
 class LoginUserView(LoginView):
     """Представление авторизации пользователя."""
 
     form_class = AuthenticationForm
-    template_name = "profiles/login.jinja"
+    template_name = "profiles/login.jinja2"
     redirect_authenticated_user = True
 
 
@@ -58,7 +58,7 @@ class RegisterView(CreateView):
 
     form_class = RegisterUserForm
     form = RegisterUserForm()
-    template_name = "profiles/registration-user-form.jinja"
+    template_name = "profiles/registration-user-form.jinja2"
     success_url = reverse_lazy("profiles:login")
 
     def form_valid(self, form):
