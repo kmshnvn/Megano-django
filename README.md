@@ -60,6 +60,12 @@ black market
 ```shell
 python manage.py runserver 0.0.0.0:8000
 ```
+## Добавление пользователей в модели User и Profile
+После создания проекта выполнете миграции и запустите СУБД.  
+Запуск команды производится из папки `market/`
+```shell
+python manage.py add_new_users
+```
 
 # Цели проекта
 
