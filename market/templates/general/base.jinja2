@@ -1,20 +1,22 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    {% include 'general/header.jinja2' %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static "favicon.ico" %}" rel="shortcut icon">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Regular.woff" %} as="font">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Italic.woff" %} as="font">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Bold.woff" %} as="font">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Bold_Italic.woff" %} as="font">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Light.woff" %} as="font">
-    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Light_Italic.woff" %} as="font">
-    <link rel="stylesheet" href="{% static "assets/css/basic.css" %}">
-    <link rel="stylesheet" href="{% static "assets/css/extra.css" %}">
-    <link rel="stylesheet" href="{% static "assets/css/fonts.css" %}">
-    <script src="{% static "assets/plg/CountDown/countdown.js" %}"></script>
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Regular.woff' %}" as="font">
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Italic.woff' %}" as="font">
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Bold.woff' %}" as="font">
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Bold_Italic.woff' %}" as="font">
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Light.woff' %}" as="font">
+    <link rel="preload" href="{% static 'assets/fonts/Roboto/Roboto-Light_Italic.woff' %}" as="font">
+    <link rel="stylesheet" href="{% static 'assets/css/basic.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/extra.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/fonts.css' %}">
+    <script src="{% static 'assets/plg/CountDown/countdown.js' %}"></script>
 
     <title>
         {% block title %}
@@ -26,17 +28,17 @@
 <body class="Site">
     {% block body %}
         <header class="Header">
-            <h1>Header<h1>
+            <h1>Header</h1>
         </header>
 
         <main class="Main">
             {% block content %}
-                <h1>Ваш контент<h1>
+                <h1>Ваш контент</h1>
             {% endblock %}
         </main>
 
         <footer class="Footer">
-            <h1>Footer<h1>
+            <h1>Footer</h1>
         </footer>
     {% endblock %}
 
