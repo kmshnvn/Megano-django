@@ -13,6 +13,7 @@ class Product(models.Model):
     image = models.ImageField(blank=True, upload_to="products/image")
     # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
 
+
 class Detail(models.Model):
     """Свойство продукта"""
 
