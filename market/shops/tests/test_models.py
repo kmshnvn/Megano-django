@@ -1,7 +1,6 @@
 from django.test import TestCase
 from shops.models import Shop, Offer
 from products.models import Product, Detail
-from django.db import transaction
 
 
 class ShopModelTest(TestCase):
@@ -10,23 +9,21 @@ class ShopModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        with transaction.atomic():
-            cls.detail = Detail.objects.create(name="тестовая характеристика")
-            cls.product = Product.objects.create(
-                name="тестовый продукт",
-            )
-            cls.product.details.set([cls.detail])
-            cls.shop = Shop.objects.create(name="тестовый магазин")
-            cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
+        cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.product = Product.objects.create(
+            name="тестовый продукт",
+        )
+        cls.product.details.set([cls.detail])
+        cls.shop = Shop.objects.create(name="тестовый магазин")
+        cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        with transaction.atomic():
-            ShopModelTest.detail.delete()
-            ShopModelTest.product.delete()
-            ShopModelTest.shop.delete()
-            ShopModelTest.offer.delete()
+        ShopModelTest.detail.delete()
+        ShopModelTest.product.delete()
+        ShopModelTest.shop.delete()
+        ShopModelTest.offer.delete()
 
     def test_verbose_name(self):
         shop = ShopModelTest.shop
@@ -50,20 +47,18 @@ class OfferModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        with transaction.atomic():
-            cls.product = Product.objects.create(
-                name="тестовый продукт",
-            )
-            cls.shop = Shop.objects.create(name="тестовый магазин")
-            cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
+        cls.product = Product.objects.create(
+            name="тестовый продукт",
+        )
+        cls.shop = Shop.objects.create(name="тестовый магазин")
+        cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        with transaction.atomic():
-            OfferModelTest.product.delete()
-            OfferModelTest.shop.delete()
-            OfferModelTest.offer.delete()
+        OfferModelTest.product.delete()
+        OfferModelTest.shop.delete()
+        OfferModelTest.offer.delete()
 
     def test_verbose_name(self):
         offer = OfferModelTest.offer

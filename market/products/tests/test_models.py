@@ -1,6 +1,5 @@
 from django.test import TestCase
 from products.models import Product, Detail, ProductDetail
-from django.db import transaction
 
 
 class ProductModelTest(TestCase):
@@ -9,28 +8,23 @@ class ProductModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        with transaction.atomic():
-            cls.detail = Detail.objects.create(name="тестовая характеристика")
-            cls.product = Product.objects.create(
-                name="Тестовый продукт",
-                description="Тестовое описание",
-                count=1
-            )
-            cls.product.details.set([cls.detail])
+        cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.product = Product.objects.create(
+            name="Тестовый продукт",
+        )
+        cls.product.details.set([cls.detail])
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        with transaction.atomic():
-            ProductModelTest.detail.delete()
-            ProductModelTest.product.delete()
+        ProductModelTest.detail.delete()
+        ProductModelTest.product.delete()
 
     def test_verbose_name(self):
         product = ProductModelTest.product
         field_verboses = {
             "name": "наименование",
             "details": "характеристики",
-            "count": "количество"
         }
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
@@ -48,14 +42,12 @@ class DetailModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        with transaction.atomic():
-            cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.detail = Detail.objects.create(name="тестовая характеристика")
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        with transaction.atomic():
-            DetailModelTest.detail.delete()
+        DetailModelTest.detail.delete()
 
     def test_verbose_name(self):
         detail = DetailModelTest.detail
@@ -78,24 +70,22 @@ class ProductDetailModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        with transaction.atomic():
-            cls.detail = Detail.objects.create(name="тестовая характеристика")
-            cls.product = Product.objects.create(
-                name="Тестовый продукт",
-            )
-            cls.product_detail = ProductDetail.objects.create(
-                product=cls.product,
-                detail=cls.detail,
-                value="тестовое значение характеристики",
-            )
+        cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.product = Product.objects.create(
+            name="Тестовый продукт",
+        )
+        cls.product_detail = ProductDetail.objects.create(
+            product=cls.product,
+            detail=cls.detail,
+            value="тестовое значение характеристики",
+        )
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        with transaction.atomic():
-            ProductDetailModelTest.product.delete()
-            ProductDetailModelTest.detail.delete()
-            ProductDetailModelTest.product_detail.delete()
+        ProductDetailModelTest.product.delete()
+        ProductDetailModelTest.detail.delete()
+        ProductDetailModelTest.product_detail.delete()
 
     def test_verbose_name(self):
         product_detail = ProductDetailModelTest.product_detail
