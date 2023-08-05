@@ -6,11 +6,10 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView
 
 from .forms import RegisterUserForm, EmailAuthenticationForm
 from .models import Profile
@@ -46,30 +45,25 @@ class ResetPasswordCompleteView(PasswordResetCompleteView):
     template_name = "profiles/password-reset-complete.jinja2"
 
 
-def email_login_view(request: HttpRequest) -> HttpResponse:
+class LoginEmailView(FormView):
     """Представление авторизации пользователя."""
 
-    if request.method == "GET":
-        if request.user.is_authenticated:
-            return redirect("/admin/")
-        return render(request,
-                      "profiles/login.jinja2",
-                      {"form": EmailAuthenticationForm()}
-                      )
+    form_class = EmailAuthenticationForm
+    template_name = "profiles/login.jinja2"
+    success_url = "/admin/"
 
-    form = EmailAuthenticationForm(request.POST)
+    def dispatch(self, request, *args, **kwargs):
+        """Если пользователь авторизован, делаем редирект"""
 
-    if request.method == "POST" and form.is_valid():
+        if self.request.user.is_authenticated:
+            return redirect("/")
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
         user = form.authenticate_user()
-        login(request, user)  # авторизация
+        login(self.request, user)  # авторизация
 
-        return HttpResponseRedirect("/admin/")
-
-    return render(
-        request,
-        "profiles/login.jinja2",
-        {"form": form}
-    )
+        return super().form_valid(form)
 
 
 class RegisterView(CreateView):
