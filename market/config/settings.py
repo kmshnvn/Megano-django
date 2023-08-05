@@ -135,6 +135,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# EMAIl AUTHENTICATION
+AUTHENTICATION_BACKENDS = [
+    "profiles.backends.EmailBackend",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
