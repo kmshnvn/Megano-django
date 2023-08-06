@@ -24,6 +24,7 @@ class Detail(models.Model):
     def __str__(self) -> str:
         return f"Detail(pk={self.pk}, name={self.name!r})"
 
+
 class ProductDetail(models.Model):
     """Значение свойства продукта"""
 
