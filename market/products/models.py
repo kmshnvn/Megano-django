@@ -8,7 +8,7 @@ class Product(models.Model):
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     details = models.ManyToManyField("Detail", through="ProductDetail", verbose_name=_("характеристики"))
     description = models.CharField(blank=True, max_length=512, verbose_name=_("описание"))
-    count = models.IntegerField(blank=True, verbose_name=_("количество"))
+    count = models.IntegerField(blank=True, default=0, verbose_name=_("количество"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
     # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
