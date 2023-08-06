@@ -2,9 +2,15 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 
+phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
+
 
 class Shop(models.Model):
     """Магазин"""
+
+    class Meta:
+        verbose_name = _("магазин")
+        verbose_name_plural = _("магазины")
 
     name = models.CharField(max_length=512, verbose_name=_("название"))
     products = models.ManyToManyField(
@@ -13,15 +19,18 @@ class Shop(models.Model):
         related_name="shops",
         verbose_name=_("товары в магазине"),
     )
-    phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
     phoneNumber = models.CharField(validators=[phoneNumberIsValid], max_length=16, blank=True, unique=True)
-    adress = models.CharField(max_length=512, blank=True, verbose_name=_("адресс"))
-    email = models.EmailField(max_length=127, blank=True, verbose_name=_("почта"))
-    legal_adress = models.CharField(max_length=512, blank=True, verbose_name=_("юридический адресс"))
+    adress = models.CharField(max_length=512, verbose_name=_("адресс"))
+    email = models.EmailField(max_length=127, verbose_name=_("почта"))
+    legal_adress = models.CharField(max_length=512, verbose_name=_("юридический адресс"))
 
 
 class Offer(models.Model):
     """Предложение магазина"""
+
+    class Meta:
+        verbose_name = _("предложение")
+        verbose_name_plural = _("предложения")
 
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT)
     product = models.ForeignKey("products.Product", on_delete=models.PROTECT)
