@@ -24,6 +24,9 @@ class Shop(models.Model):
     email = models.EmailField(max_length=127, verbose_name=_("почта"))
     legal_adress = models.CharField(max_length=512, verbose_name=_("юридический адресс"))
 
+    def __str__(self) -> str:
+        return f"Shop(pk={self.pk}, name={self.name!r})"
+
 
 class Offer(models.Model):
     """Предложение магазина"""

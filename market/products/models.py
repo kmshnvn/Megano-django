@@ -8,10 +8,12 @@ class Product(models.Model):
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     details = models.ManyToManyField("Detail", through="ProductDetail", verbose_name=_("характеристики"))
     description = models.CharField(max_length=512, verbose_name=_("описание"))
-    count = models.IntegerField(default=0, verbose_name=_("количество"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
     # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
+
+    def __str__(self) -> str:
+        return f"Product(pk={self.pk}, name={self.name!r})"
 
 
 class Detail(models.Model):
@@ -19,6 +21,8 @@ class Detail(models.Model):
 
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
 
+    def __str__(self) -> str:
+        return f"Detail(pk={self.pk}, name={self.name!r})"
 
 class ProductDetail(models.Model):
     """Значение свойства продукта"""
