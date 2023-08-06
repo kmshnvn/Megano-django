@@ -11,7 +11,6 @@ class ProductModelTest(TestCase):
         cls.detail = Detail.objects.create(name="тестовая характеристика")
         cls.product = Product.objects.create(
             name="Тестовый продукт",
-            count=10
         )
         cls.product.details.set([cls.detail])
 
