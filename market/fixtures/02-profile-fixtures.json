@@ -1,11 +1,21 @@
 [
 {
     "model": "profiles.profile",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "address": "Москва, ул. Большая 2",
+        "phone": "+77868938442",
+        "balance": "0.00"
+    }
+},
+{
+    "model": "profiles.profile",
     "pk": 2,
     "fields": {
-        "user": 10,
-        "address": "",
-        "phone": "",
+        "user": 3,
+        "address": "Тула, ул. Серп д.34",
+        "phone": "+71803342891",
         "balance": "0.00"
     }
 },
@@ -13,9 +23,29 @@
     "model": "profiles.profile",
     "pk": 3,
     "fields": {
-        "user": 11,
-        "address": "",
-        "phone": "",
+        "user": 4,
+        "address": "Маями, ул. Советская 2",
+        "phone": "+71773068447",
+        "balance": "0.00"
+    }
+},
+{
+    "model": "profiles.profile",
+    "pk": 4,
+    "fields": {
+        "user": 5,
+        "address": "Париж, ул. Простая 143",
+        "phone": "+75157346069",
+        "balance": "0.00"
+    }
+},
+{
+    "model": "profiles.profile",
+    "pk": 5,
+    "fields": {
+        "user": 6,
+        "address": "Берлин, ул. Берлин 9",
+        "phone": "+73958248083",
         "balance": "0.00"
     }
 }
