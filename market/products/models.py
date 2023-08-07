@@ -12,12 +12,20 @@ class Product(models.Model):
     image = models.ImageField(blank=True, upload_to="products/image")
     # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
 
+    class Meta:
+        verbose_name = _("продукт")
+        verbose_name_plural = _("продукты")
+
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
 
 
 class Detail(models.Model):
     """Свойство продукта"""
+
+    class Meta:
+        verbose_name = _("характеристика")
+        verbose_name_plural = _("характеристики")
 
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
 
@@ -27,6 +35,10 @@ class Detail(models.Model):
 
 class ProductDetail(models.Model):
     """Значение свойства продукта"""
+
+    class Meta:
+        verbose_name = _("свойство продукта")
+        verbose_name_plural = _("свойства продукта")
 
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
