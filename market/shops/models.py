@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
+
+phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
 
 
 class Shop(models.Model):
@@ -16,6 +19,10 @@ class Shop(models.Model):
         related_name="shops",
         verbose_name=_("товары в магазине"),
     )
+    phoneNumber = models.CharField(validators=[phoneNumberIsValid], max_length=16, blank=True, unique=True)
+    adress = models.CharField(max_length=512, verbose_name=_("адресс"))
+    email = models.EmailField(max_length=127, verbose_name=_("почта"))
+    legal_adress = models.CharField(max_length=512, verbose_name=_("юридический адресс"))
 
     def __str__(self) -> str:
         return f"Shop(pk={self.pk}, name={self.name!r})"
