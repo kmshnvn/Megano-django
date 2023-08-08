@@ -9,8 +9,6 @@ from django.utils.translation import gettext_lazy as _
 #         return Product.image
 
 
-
-
 class Product(models.Model):
     """Продукт"""
 

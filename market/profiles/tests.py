@@ -31,14 +31,12 @@ class ProfileViewTestCase(TestCase):
         self.client = Client()
 
     def test_get_login_page(self):
-
         response: TemplateResponse = self.client.get(self.log_page)
 
         self.assertEqual(200, response.status_code)
-        self.assertIn('profiles/login.jinja2', response.template_name)
+        self.assertIn("profiles/login.jinja2", response.template_name)
 
     def test_login_redirect(self):
-
         data = {
             "email": self.user.email,
             "password": self.user_password,
@@ -49,7 +47,6 @@ class ProfileViewTestCase(TestCase):
         self.assertEqual("/admin/", response.url)
 
     def test_login_with_username(self):
-
         data = {
             "email": self.user.username,
             "password": self.user_password,
@@ -60,14 +57,12 @@ class ProfileViewTestCase(TestCase):
         self.assertFalse(response.context_data["form"].is_valid())
 
     def test_get_register_user_page(self):
-
         response: TemplateResponse = self.client.get(self.reg_page)
 
         self.assertEqual(200, response.status_code)
         self.assertIn("profiles/registr.jinja2", response.template_name)
 
     def test_register_user_profile(self):
-
         response: HttpResponseRedirect = self.client.post(self.reg_page, data=self.register_data)
 
         self.assertEqual(302, response.status_code)
@@ -77,7 +72,6 @@ class ProfileViewTestCase(TestCase):
         self.assertTrue(Profile.objects.filter(user__username="test_name").exists())
 
     def test_register_not_correct_email(self):
-
         self.register_data["email"] = "test_email@email"
         response: TemplateResponse = self.client.post(self.reg_page, data=self.register_data)
 
@@ -85,7 +79,6 @@ class ProfileViewTestCase(TestCase):
         self.assertFalse(response.context_data["form"].is_valid())
 
     def test_register_not_correct_password(self):
-
         self.register_data["password2"] = "password2test"
         response: TemplateResponse = self.client.post(self.reg_page, data=self.register_data)
 
@@ -93,7 +86,6 @@ class ProfileViewTestCase(TestCase):
         self.assertFalse(response.context_data["form"].is_valid())
 
     def test_register_without_group_password(self):
-
         self.register_data["group"] = ""
         response: TemplateResponse = self.client.post(self.reg_page, data=self.register_data)
 
@@ -118,7 +110,6 @@ class ProfileModelTestCase(TestCase):
         }
 
     def test_create_profile(self):
-
         profile = Profile.objects.create(**self.data)
 
         self.assertEqual(profile.user, self.user)
