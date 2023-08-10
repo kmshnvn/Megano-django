@@ -27,8 +27,10 @@
 <body class="Site">
     {% block body %}
         <header class="Header">
-            {% include 'general/header.jinja2' %}
-            {% include 'general/banner.jinja2' %}
+            {% block header %}
+            {% endblock %}
+            {% block banner %}
+            {% endblock %}
         </header>
 
         <main class="Main">
@@ -38,7 +40,8 @@
         </main>
 
         <footer class="Footer">
-            {% include 'general/footer.jinja2' %}
+            {% block footer %}
+            {% endblock %}
         </footer>
     {% endblock %}
 
