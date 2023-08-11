@@ -19,7 +19,7 @@ class Shop(models.Model):
         related_name="shops",
         verbose_name=_("товары в магазине"),
     )
-    phoneNumber = models.CharField(validators=[phoneNumberIsValid], max_length=16, blank=True, unique=True)
+    phoneNumber = models.CharField(validators=[phoneNumberIsValid], max_length=16)
     adress = models.CharField(max_length=512, verbose_name=_("адресс"))
     email = models.EmailField(max_length=127, verbose_name=_("почта"))
     legal_adress = models.CharField(max_length=512, verbose_name=_("юридический адресс"))
