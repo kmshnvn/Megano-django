@@ -14,7 +14,7 @@ class Product(models.Model):
 
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     details = models.ManyToManyField("Detail", through="ProductDetail", verbose_name=_("характеристики"))
-    description = models.CharField(max_length=512, verbose_name=_("описание"), null=True, blank=True)
+    description = models.CharField(max_length=512, verbose_name=_("описание"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
     # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
