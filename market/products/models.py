@@ -30,7 +30,9 @@ class Product(models.Model):
     description = models.CharField(max_length=512, verbose_name=_("описание"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
-    category = models.ForeignKey(Category, verbose_name=_("категория"), on_delete=models.PROTECT)
+    category = models.ForeignKey(
+        Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
+    )
 
     class Meta:
         verbose_name = _("продукт")
