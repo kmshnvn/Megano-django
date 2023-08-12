@@ -1,6 +1,6 @@
 from django.test import TestCase
 from shops.models import Shop, Offer
-from products.models import Product, Detail
+from products.models import Product, Detail, Category
 
 
 class ShopModelTest(TestCase):
@@ -10,10 +10,15 @@ class ShopModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="тестовый продукт",
         )
-        cls.product.details.set([cls.detail])
+
+        def set_needest(*args, **kwargs):
+            cls.product.category.set([cls.category])
+            cls.product.details.set([cls.detail])
+
         cls.shop = Shop.objects.create(name="тестовый магазин")
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 

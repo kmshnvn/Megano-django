@@ -1,5 +1,5 @@
 from django.test import TestCase
-from products.models import Product, Detail, ProductDetail
+from products.models import Product, Detail, ProductDetail, Category
 
 
 class ProductModelTest(TestCase):
@@ -9,15 +9,20 @@ class ProductModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="Тестовый продукт",
         )
-        cls.product.details.set([cls.detail])
+
+        def set_needest(*args, **kwargs):
+            cls.product.category.set([cls.category])
+            cls.product.details.set([cls.detail])
 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
         ProductModelTest.detail.delete()
+        ProductModelTest.category.delete()
         ProductModelTest.product.delete()
 
     def test_verbose_name(self):
@@ -74,10 +79,12 @@ class ProductDetailModelTest(TestCase):
         cls.product = Product.objects.create(
             name="Тестовый продукт",
         )
+        cls.category = Category.objects.create(name="test_category")
         cls.product_detail = ProductDetail.objects.create(
             product=cls.product,
             detail=cls.detail,
             value="тестовое значение характеристики",
+            category_id=cls.category.pk,
         )
 
     @classmethod
