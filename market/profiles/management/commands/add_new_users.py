@@ -10,7 +10,7 @@ from profiles.models import Profile
 
 
 class Command(BaseCommand):
-    """Класс реализует добавления данных в таблицу User и Profile """
+    """Класс реализует добавления данных в таблицу User и Profile"""
 
     def __init__(self):
         super(Command, self).__init__()
@@ -31,7 +31,7 @@ class Command(BaseCommand):
             "Тула, ул. Серп д.34",
             "Маями, ул. Советская 2",
             "Париж, ул. Простая 143",
-            "Берлин, ул. Берлин 9"
+            "Берлин, ул. Берлин 9",
         ]
 
     def handle(self, *args, **options):
@@ -41,11 +41,9 @@ class Command(BaseCommand):
     @transaction.atomic
     def register_profile(self):
         try:
-
             for num in range(self.get_count):
                 user = User.objects.create_user(
-                    username=self.get_user_name[num],
-                    password=self.get_password
+                    username=self.get_user_name[num], password=self.get_password
                 )  # получаем User
                 user.first_name = self.get_first_name[num]
                 user.last_name = self.get_last_name[num]
@@ -53,11 +51,7 @@ class Command(BaseCommand):
                 user.save()
 
                 profile = Profile.objects.create(
-                    user=user,
-                    phone=self.get_phone,
-                    address=self.get_address[num]
-
-
+                    user=user, phone=self.get_phone, address=self.get_address[num]
                 )  # создаем и получаем профиль пользователя
 
                 sys.stdout.write(f"Успешно добавлен профиль > {profile} в БД.\n")

@@ -1,6 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+# class Banner(models.Model):
+#     def get_absolute_url(self):
+#         return reverse('product', args=[Product.pk])
+#
+#     def get_product_image(self):
+#         return Product.image
+
 
 class Product(models.Model):
     """Продукт"""
@@ -18,6 +25,9 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
+
+    # def get_absolute_url(self):
+    #     return f'/product/{self.pk}'
 
 
 class Detail(models.Model):
