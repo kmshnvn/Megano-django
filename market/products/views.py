@@ -1,24 +1,23 @@
-from django.shortcuts import render  # noqa F401
+from django.shortcuts import render
 from django.views import View
 from django.http import HttpRequest, HttpResponse
+from django.db.models import Min
 from shops.models import (
     Offer,
 )
 from .models import (
-    Product,
     ProductDetail,
 )
 
 
 class ProductDetailViev(View):
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        offer = Offer.objects.filter(product_id=pk)
-        product = Product.objects.get(pk=pk)
-        product_detail = ProductDetail.objects.get(product_id=pk)
+        offers = Offer.objects.prefetch_related("shop").filter(product_id=pk)
+        product_details = ProductDetail.objects.prefetch_related("detail", "product").get(product_id=pk)
         context = {
-            "offers": offer,
-            "product": product,
-            "product_detail": product_detail,
-            "min_price": min([off.price for off in offer]),
+            "offers": offers,
+            "product": product_details.product,
+            "product_detail": product_details,
+            "min_price": offers.aggregate(Min("price"))["price__min"],
         }
         return render(request, "products/product-detail.jinja2", context=context)

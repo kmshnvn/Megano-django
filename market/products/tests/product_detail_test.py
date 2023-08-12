@@ -12,23 +12,25 @@ from products.models import (
 
 
 class ProductDetailTestCase(TestCase):
-    def setUp(self) -> None:
-        self.product = Product.objects.create(
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.product = Product.objects.create(
             name="Product for test",
         )
-        self.detail = Detail.objects.create(name="test_detail")
-        self.product_detail = ProductDetail.objects.create(
-            value="Test_detail", detail_id=self.detail.pk, product_id=self.product.pk
+        cls.detail = Detail.objects.create(name="test_detail")
+        cls.product_detail = ProductDetail.objects.create(
+            value="Test_detail", detail_id=cls.detail.pk, product_id=cls.product.pk
         )
-        self.shop = Shop.objects.create(name="Test_shop")
-        self.offer = Offer.objects.create(price=1200, product_id=self.product.pk, shop_id=self.shop.pk)
+        cls.shop = Shop.objects.create(name="Test_shop")
+        cls.offer = Offer.objects.create(price=1200, product_id=cls.product.pk, shop_id=cls.shop.pk)
 
-    def tearDown(self) -> None:
-        self.product_detail.delete()
-        self.offer.delete()
-        self.shop.delete()
-        self.detail.delete()
-        self.product.delete()
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.product_detail.delete()
+        cls.offer.delete()
+        cls.shop.delete()
+        cls.detail.delete()
+        cls.product.delete()
 
     def test_product_detail(self) -> None:
         response = self.client.get(reverse("products:product_detail", kwargs={"pk": self.product.pk}))
