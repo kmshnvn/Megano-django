@@ -13,6 +13,7 @@ class ShopModelTest(TestCase):
         cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="тестовый продукт",
+            category_id=cls.category.pk,
         )
 
         def set_needest(*args, **kwargs):
@@ -52,8 +53,10 @@ class OfferModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="тестовый продукт",
+            category_id=cls.category.pk,
         )
         cls.shop = Shop.objects.create(name="тестовый магазин")
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)

@@ -12,6 +12,7 @@ class ProductModelTest(TestCase):
         cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="Тестовый продукт",
+            category_id=cls.category.pk,
         )
 
         def set_needest(*args, **kwargs):
@@ -76,10 +77,11 @@ class ProductDetailModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.detail = Detail.objects.create(name="тестовая характеристика")
+        cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="Тестовый продукт",
+            category_id=cls.category.pk,
         )
-        cls.category = Category.objects.create(name="test_category")
         cls.product_detail = ProductDetail.objects.create(
             product=cls.product,
             detail=cls.detail,
