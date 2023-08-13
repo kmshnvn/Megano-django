@@ -1,200 +1,200 @@
 [
-{
-  "model": "products.product",
-  "pk": 1,
-  "fields": {
-    "name": "Лопата обыкновенная",
-    "description": "Вряд ли удивит",
-    "preview": "",
-    "image": "",
-    "category": 11
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Р›РѕРїР°С‚Р° РѕР±С‹РєРЅРѕРІРµРЅРЅР°СЏ",
+      "description": "Р’СЂСЏРґ Р»Рё СѓРґРёРІРёС‚",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Р›РѕРїР°С‚Р° Р°СЂРјРµР№СЃРєР°СЏ",
+      "description": "РљР°Рє РѕР±С‹С‡РЅР°СЏ Р»РѕРїР°С‚Р°, С‚РѕР»СЊРєРѕ СЃС‚СЂРѕР¶Рµ",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Р›РѕРїР°С‚Р° Р±РѕРіР°С‚С‹СЂСЃРєР°СЏ",
+      "description": "РљР°Рє РѕР±С‹С‡РЅР°СЏ, РЅРѕРѕРѕ Р±РѕР¶Рµ РјРѕР№, РѕРЅР° РІС‹СЂРІР°Р»Р° РґРµСЂРµРІРѕ!",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "РџРёР»Р°",
+      "description": "Р’С‹РїСЊРµС‚ РїРёР»Р° Рё РЅР° СЃРїРёР» РїРѕРїР»РµР»Р°",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "РџРёР»Р° Р±РѕР»СЊС€Р°СЏ",
+      "description": "Р”Р»СЏ РѕС‡РµРЅСЊ Р¶Р°РґРЅРѕРіРѕ РґРµСЂРµРІР°",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "РџРёР»Р° РёР·РѕРіРЅСѓС‚Р°СЏ",
+      "description": "Р§С‚Рѕ Р±С‹ РїРёР»РёС‚СЊ РёР·-Р·Р° СѓРіР»Р°",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "РќРѕР¶РЅРёС†С‹ РєСЂРµСЃС‚РѕРІРёРґРЅС‹Рµ",
+      "description": "РџРѕРєРѕСЃРёР» РєСѓСЃС‚С‹ - РїРѕРјРѕР»РёСЃСЊ Р·Р° РёС… СѓРїРѕРєРѕР№",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "РќРѕР¶РЅРёС†С‹ Р·Р°Р·СѓР±СЂРµРЅРЅС‹Рµ",
+      "description": "Р РІР°С‚СЊ, Р° РЅРµ СЂРµР·Р°С‚СЊ",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "РќРѕР¶РЅРёС†С‹ 25 СЃРј",
+      "description": "РџРѕС‡С‚Рё РєР°Рє РїРёС†С†Р°",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "РўРµР»РµС„РѕРЅ",
+      "description": "Р›СЋР±РёРјС‹Р№ РіР°РґР¶РµС‚ РјРµР»РёРЅРёР°Р»Р°",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "IPear",
+      "description": "РўРѕР¶Рµ РЅР°РґРєСѓСЃР°РЅР° СЃ РґРІСѓС… СЃС‚РѕСЂРѕРЅ",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "РўСЂСѓР±РєР°",
+      "description": "Р”Р»СЏ РєР°Р¶РґРѕРіРѕ С‡С‘С‚РєРѕРіРѕ РїР°С†Р°РЅР° РёР· 2000",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "РџР»Р°РЅС€РµС‚ С‚СѓР°Р»РµС‚РЅС‹Р№",
+      "description": "Р’Р»Р°РіРѕРѕС‚С‚Р°Р»РєРёРІР°СЋС‰РёР№",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "РџР»Р°РЅС€РµС‚ РґР°Р№РІРµСЂР°",
+      "description": "Р‘СЂР°С‚ РІРѕРґРѕРѕС‚Р°Р»РєРёРІР°СЋС‰РµРіРѕ РїР»Р°РЅС€РµС‚Р°",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "РџР»Р°РЅС€РµС‚-РґРѕСЃРєР°",
+      "description": "Р РµР¶СЊ РєРѕР»Р±Р°СЃРєСѓ Рё СЃРјРѕС‚СЂРё РІ РёРЅС‚РµСЂРЅРµС‚Рµ РєР°Рє СЌС‚Рѕ РґРµР»Р°С‚СЊ РїСЂР°РІРёР»СЊРЅРѕ",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "name": "РљР»Р°РІРёР°С‚СѓСЂР° РіРµР№РјРµСЂР°",
+      "description": "РџРѕРґСЃРІРµС‚РєРѕР№ РјРѕР¶РЅРѕ СЃР±РёРІР°С‚СЊ СЃР°РјРѕР»С‘С‚С‹",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "РљР»Р°РІРёР°С‚СѓСЂР° СѓРЅРёРІРµСЂСЃР°Р»СЊРЅР°СЏ",
+      "description": "РЈР»РѕР¶РёС‚ РґРµС‚РµР№ СЃРїР°С‚СЊ, РїРѕРґСЃС‚СЂР°С…СѓРµС‚ РЅР° Р¶РёРјРµ Р»С‘Р¶Р°, Р·Р°РјРµС‡Р°С‚РµР»СЊРЅС‹Р№ СЃРѕР±СѓС‚С‹Р»СЊРЅРёРє",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "РљР»Р°РІРёР°С‚СѓСЂР° Р±РµСЃРїСЂРѕРІРѕРґРЅР°СЏ",
+      "description": "РџСЂРё РµС‘ РІРёРґРµ РєСЂРµСЃС‚СЏС‚СЃСЏ",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
   }
-},
-{
-  "model": "products.product",
-  "pk": 2,
-  "fields": {
-    "name": "Лопата армейская",
-    "description": "Как обычная лопата, только строже",
-    "preview": "",
-    "image": "",
-    "category": 11
-  }
-},
-{
-  "model": "products.product",
-  "pk": 3,
-  "fields": {
-    "name": "Лопата богатырская",
-    "description": "Как обычная, нооо боже мой, она вырвала дерево!",
-    "preview": "",
-    "image": "",
-    "category": 11
-  }
-},
-{
-  "model": "products.product",
-  "pk": 4,
-  "fields": {
-    "name": "Пила",
-    "description": "Выпьет пила и на спил поплела",
-    "preview": "",
-    "image": "",
-    "category": 9
-  }
-},
-{
-  "model": "products.product",
-  "pk": 5,
-  "fields": {
-    "name": "Пила большая",
-    "description": "Для очень жадного дерева",
-    "preview": "",
-    "image": "",
-    "category": 9
-  }
-},
-{
-  "model": "products.product",
-  "pk": 6,
-  "fields": {
-    "name": "Пила изогнутая",
-    "description": "Что бы пилить из-за угла",
-    "preview": "",
-    "image": "",
-    "category": 9
-  }
-},
-{
-  "model": "products.product",
-  "pk": 7,
-  "fields": {
-    "name": "Ножницы крестовидные",
-    "description": "Покосил кусты - помолись за их упокой",
-    "preview": "",
-    "image": "",
-    "category": 10
-  }
-},
-{
-  "model": "products.product",
-  "pk": 8,
-  "fields": {
-    "name": "Ножницы зазубренные",
-    "description": "Рвать, а не резать",
-    "preview": "",
-    "image": "",
-    "category": 10
-  }
-},
-{
-  "model": "products.product",
-  "pk": 9,
-  "fields": {
-    "name": "Ножницы 25 см",
-    "description": "Почти как пицца",
-    "preview": "",
-    "image": "",
-    "category": 10
-  }
-},
-{
-  "model": "products.product",
-  "pk": 10,
-  "fields": {
-    "name": "Телефон",
-    "description": "Любимый гаджет мелиниала",
-    "preview": "",
-    "image": "",
-    "category": 6
-  }
-},
-{
-  "model": "products.product",
-  "pk": 11,
-  "fields": {
-    "name": "IPear",
-    "description": "Тоже надкусана с двух сторон",
-    "preview": "",
-    "image": "",
-    "category": 6
-  }
-},
-{
-  "model": "products.product",
-  "pk": 12,
-  "fields": {
-    "name": "Трубка",
-    "description": "Для каждого чёткого пацана из 2000",
-    "preview": "",
-    "image": "",
-    "category": 6
-  }
-},
-{
-  "model": "products.product",
-  "pk": 13,
-  "fields": {
-    "name": "Планшет туалетный",
-    "description": "Влагоотталкивающий",
-    "preview": "",
-    "image": "",
-    "category": 7
-  }
-},
-{
-  "model": "products.product",
-  "pk": 14,
-  "fields": {
-    "name": "Планшет дайвера",
-    "description": "Брат водооталкивающего планшета",
-    "preview": "",
-    "image": "",
-    "category": 7
-  }
-},
-{
-  "model": "products.product",
-  "pk": 15,
-  "fields": {
-    "name": "Планшет-доска",
-    "description": "Режь колбаску и смотри в интернете как это делать правильно",
-    "preview": "",
-    "image": "",
-    "category": 7
-  }
-},
-{
-  "model": "products.product",
-  "pk": 16,
-  "fields": {
-    "name": "Клавиатура геймера",
-    "description": "Подсветкой можно сбивать самолёты",
-    "preview": "",
-    "image": "",
-    "category": 8
-  }
-},
-{
-  "model": "products.product",
-  "pk": 17,
-  "fields": {
-    "name": "Клавиатура универсальная",
-    "description": "Уложит детей спать, подстрахует на жиме лёжа, замечательный собутыльник",
-    "preview": "",
-    "image": "",
-    "category": 8
-  }
-},
-{
-  "model": "products.product",
-  "pk": 18,
-  "fields": {
-    "name": "Клавиатура беспроводная",
-    "description": "При её виде крестятся",
-    "preview": "",
-    "image": "",
-    "category": 8
-  }
-}
 ]

@@ -1,74 +1,74 @@
 [
-{
-  "model": "products.category",
-  "pk": 4,
-  "fields": {
-    "name": "Электроника",
-    "description": "Товары из дружественного Китая",
-    "parent": null
+  {
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+      "name": "Р­Р»РµРєС‚СЂРѕРЅРёРєР°",
+      "description": "РўРѕРІР°СЂС‹ РёР· РґСЂСѓР¶РµСЃС‚РІРµРЅРЅРѕРіРѕ РљРёС‚Р°СЏ",
+      "parent": null
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 5,
+    "fields": {
+      "name": "РЎР°РґРѕРІС‹Р№ РёРЅРІРµРЅС‚Р°СЂСЊ",
+      "description": "Р’СЃС‘ С‡С‚Рѕ РЅСѓР¶РЅРѕ РѕРіРѕСЂРѕРґРЅРёРєСѓ!",
+      "parent": null
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 6,
+    "fields": {
+      "name": "РўРµР»РµС„РѕРЅС‹",
+      "description": "Р›СЋР±РёРјС‹Р№ РіР°РґР¶РµС‚ РјРµР»РёРЅРёР°Р»Р°",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 7,
+    "fields": {
+      "name": "РџР»Р°РЅС€РµС‚С‹",
+      "description": "РљР°Рє С‚РµР»РµС„РѕРЅ, РЅРѕ С‚РѕР»С‰Рµ",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 8,
+    "fields": {
+      "name": "РљР»Р°РІРёР°С‚СѓСЂС‹",
+      "description": "РРіСЂРѕРІС‹Рµ, РґР»СЏ РїРµС‡Р°С‚Рё Рё РјРЅРѕРіРѕ РµС‰С‘ РєР°РєРёРµ",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 9,
+    "fields": {
+      "name": "РџРёР»С‹",
+      "description": "Р’Р¶СѓС… РІР¶СѓС… Рё РґРµСЂРµРІРѕ РїР°РґР°РµС‚",
+      "parent": 5
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 10,
+    "fields": {
+      "name": "РЎР°РґРѕРІС‹Рµ РЅРѕР¶РЅРёС†С‹",
+      "description": "Р”СѓРјР°СЋ РІС‹ РґРѕРіР°РґС‹РІР°РµС‚РµСЃСЊ С‡С‚Рѕ РѕРЅРё РґРµР»Р°СЋС‚",
+      "parent": 5
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 11,
+    "fields": {
+      "name": "Р›РѕРїР°С‚С‹",
+      "description": "РќСѓ РєСѓРґР° Р¶Рµ РјС‹ Р±РµР· Р»РѕРїР°С‚",
+      "parent": 5
+    }
   }
-},
-{
-  "model": "products.category",
-  "pk": 5,
-  "fields": {
-    "name": "Садовый инвентарь",
-    "description": "Всё что нужно огороднику!",
-    "parent": null
-  }
-},
-{
-  "model": "products.category",
-  "pk": 6,
-  "fields": {
-    "name": "Телефоны",
-    "description": "Любимый гаджет мелиниала",
-    "parent": 4
-  }
-},
-{
-  "model": "products.category",
-  "pk": 7,
-  "fields": {
-    "name": "Планшеты",
-    "description": "Как телефон, но толще",
-    "parent": 4
-  }
-},
-{
-  "model": "products.category",
-  "pk": 8,
-  "fields": {
-    "name": "Клавиатуры",
-    "description": "Игровые, для печати и много ещё какие",
-    "parent": 4
-  }
-},
-{
-  "model": "products.category",
-  "pk": 9,
-  "fields": {
-    "name": "Пилы",
-    "description": "Вжух вжух и дерево падает",
-    "parent": 5
-  }
-},
-{
-  "model": "products.category",
-  "pk": 10,
-  "fields": {
-    "name": "Садовые ножницы",
-    "description": "Думаю вы догадываетесь что они делают",
-    "parent": 5
-  }
-},
-{
-  "model": "products.category",
-  "pk": 11,
-  "fields": {
-    "name": "Лопаты",
-    "description": "Ну куда же мы без лопат",
-    "parent": 5
-  }
-}
 ]
