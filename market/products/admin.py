@@ -8,15 +8,9 @@ class DetailsInline(admin.TabularInline):
 
 
 @admin.register(Category)
-class CategoryAdmin(DraggableMPTTAdmin):
-    list_display = ("tree_actions", "indented_title", "id", "name", "slug")
-    list_display_links = ("name", "slug")
-    prepopulated_fields = {"slug": ("name",)}
-
-    fieldsets = (
-        ("Основная информация", {"fields": ("name", "slug", "parent")}),
-        ("Описание", {"fields": ("description",)})
-    )
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = "pk", "name"
+    list_display_links = "pk", "name"
 
 
 @admin.register(Product)

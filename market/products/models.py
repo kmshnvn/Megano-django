@@ -1,5 +1,4 @@
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import gettext_lazy as _
 
 # class Banner(models.Model):
@@ -10,27 +9,14 @@ from django.utils.translation import gettext_lazy as _
 #         return Product.image
 
 
-class Category(MPTTModel):
+class Category(models.Model):
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
-    slug = models.SlugField(max_length=255, verbose_name='URL категории', blank=True)
     description = models.CharField(max_length=512, verbose_name=_("описание"))
-    parent = TreeForeignKey(
-        "self",
-        null=True,
-        blank=True,
-        db_index=True,
-        verbose_name='Родительская категория',
-        related_name="children",
-        on_delete=models.PROTECT,
-    )
-
-    class MPTTMeta:
-        order_insertion_by = ("name",)
+    parent = models.ForeignKey("self", null=True, blank=True, related_name="children", on_delete=models.PROTECT)
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
-        db_table = 'products_categories'
+        verbose_name = _("категория")
+        verbose_name_plural = _("категории")
 
     def __str__(self) -> str:
         return f"Category(pk={self.pk}, name={self.name!r})"
@@ -45,9 +31,7 @@ class Product(models.Model):
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
     category = models.ForeignKey(
-        Category, verbose_name=_("категория"),
-        related_name="products",
-        on_delete=models.PROTECT
+        Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
     )
 
     class Meta:
@@ -84,4 +68,4 @@ class ProductDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
     value = models.CharField(max_length=128, verbose_name=_("значение"))
-    category = TreeForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
