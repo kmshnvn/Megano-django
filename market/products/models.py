@@ -1,12 +1,15 @@
 from django.db import models
 from market.shops.models import Shop
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
 
 class Banner(models.Model):
 
     class Meta:
         verbose_name = _("баннер")
         verbose_name_plural = _("баннеры")
+
     def get_absolute_url_to_product(self):
         return reverse('products:product', args=[Product.pk])
 
