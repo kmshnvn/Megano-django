@@ -224,40 +224,6 @@ django = ">=2.2"
 jinja2 = ">=3"
 
 [[package]]
-name = "django-js-asset"
-version = "2.1.0"
-description = "script tag with additional attributes for django.forms.Media"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "django_js_asset-2.1.0-py3-none-any.whl", hash = "sha256:36a3a4dd6e9efc895fb127d13126020f6ec1ec9469ad42878d42143f22495d90"},
-    {file = "django_js_asset-2.1.0.tar.gz", hash = "sha256:be6f69ae5c4865617aa7726c48eddb64089a1e7d4ea7d22a35a3beb8282020f6"},
-]
-
-[package.dependencies]
-django = ">=3.2"
-
-[package.extras]
-tests = ["coverage"]
-
-[[package]]
-name = "django-mptt"
-version = "0.14.0"
-description = "Utilities for implementing Modified Preorder Tree Traversal with your Django Models and working with trees of Model instances."
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "django-mptt-0.14.0.tar.gz", hash = "sha256:2c92a2b1614c53086278795ccf50580cf1f9b8564f3ff03055dd62bab5987711"},
-    {file = "django_mptt-0.14.0-py3-none-any.whl", hash = "sha256:d9a87433ab0e4f35247c6f6d5a93ace6990860a4ba8796f815d185f773b9acfc"},
-]
-
-[package.dependencies]
-django-js-asset = "*"
-
-[package.extras]
-tests = ["coverage", "mock-django"]
-
-[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -991,4 +957,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8f2e14eaa6623a40a11549c044aa1059a62d7a75fc097b27c17d83aa0035b5d4"
+content-hash = "8014062bdcf0b00f85398714eed173684929bb900d07a59a7b20cb36e20bbe70"
