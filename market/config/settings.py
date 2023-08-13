@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "shops",
     "django_jinja",
     "django_extensions",
+    "mptt",
 ]
 
 # email configs

@@ -1,9 +1,22 @@
 from django.contrib import admin
-from .models import Product, Detail, ProductDetail
+from mptt.admin import DraggableMPTTAdmin
+from .models import Category, Product, Detail, ProductDetail
 
 
 class DetailsInline(admin.TabularInline):
     model = Product.details.through
+
+
+@admin.register(Category)
+class CategoryAdmin(DraggableMPTTAdmin):
+    list_display = ("tree_actions", "indented_title", "id", "name", "slug")
+    list_display_links = ("name", "slug")
+    prepopulated_fields = {"slug": ("name",)}
+
+    fieldsets = (
+        ("Основная информация", {"fields": ("name", "slug", "parent")}),
+        ("Описание", {"fields": ("description",)})
+    )
 
 
 @admin.register(Product)
