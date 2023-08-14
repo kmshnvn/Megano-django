@@ -5,5 +5,5 @@ from .views import ShopDetailView
 app_name = "shops"
 
 urlpatterns = [
-    path("shop--detail-<int:pk>/", ShopDetailView.as_view(), name="shop_detail"),
+    path("<int:pk>/", ShopDetailView.as_view(), name="shop_detail"),
 ]

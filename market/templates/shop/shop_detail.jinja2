@@ -11,57 +11,116 @@
 
 {% block content %}
     <div class="Middle Middle_top">
-            <div class="wrap">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Подробнее "{{ shop.name }}"
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnLeft Section_columnWide">
+      <div class="wrap">
+        <div class="Section-column">
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+                <div class="media-image">
+                    <img src="{% static "assets/img/icons/advantages/mail.svg" %}" alt="quality.svg"/>
+                </div>
+              <div class="media-content">
+                <strong class="media-title">Электронная почта:
+                </strong>
+                <p class="media-text">{{ shop.email }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+                <div class="media-image">
+                    <img src="{% static "assets/img/icons/advantages/phone.svg" %}" alt="quality.svg"/>
+                </div>
+              <div class="media-content">
+                <strong class="media-title">Номер телефона:
+                </strong>
+                <p class="media-text">{{ shop.phoneNumber }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+                <div class="media-image">
+                    <img src="{% static "assets/img/icons/advantages/home.svg" %}" alt="quality.svg"/>
+                </div>
+              <div class="media-content">
+                <strong class="media-title">Адрес:
+                </strong>
+                <p class="media-text">{{ shop.adress }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+              <div class="media-image"><img src="{% static "assets/img/icons/advantages/office.svg" %}" alt="quality.svg"/>
+              </div>
+              <div class="media-content">
+                <strong class="media-title">Юридический адрес:
+                </strong>
+                <p class="media-text">{{ shop.legal_adress }}
+                </p>
+              </div>
+            </div>
+          </div>
 
-                <div class="Section-content">
-
-                    <div class="Cards">
-
-                        {% for item in offer %}
-                            <div class="Card"><a class="Card-picture" href="#"><img src="{% static "assets/img/content/home/card.jpg" %}" alt="card.jpg" /></a>
-                                <div class="Card-content">
-                                    <strong class="Card-title"><a href="">{{ item.product.name }}</a>
-                                    </strong>
-                                    <div class="Card-description">
-                                        <div class="Card-cost"><span class="Card-price">{{ item.price }}</span>
-                                        </div>
-                                        <br>
-                                        <div class="Card-hover"><a class="Card-btn" href="#modal_open">
-                                            <img src="{% static "assets/img/icons/card/cart.svg" %}" alt="cart.svg" /></a>
-                                        </div>
-                                        <div id="modal_open" class="my_modal">
-                                            <div class="my_modal-dialog">
-                                                <div class="my_modal-content">
-                                                    <div class="my_modal-header">
-                                                        <p class="my_modal-title">Поздравляем!</p>
-                                                        <a href="#" title="Закрыть модальное окно" class="close">×</a>
-                                                    </div>
-                                                    <div class="my_modal-body">
-                                                        <p>Товар успешно добавлен в корзину!</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+        </div>
+        <div class="Section-content">
+          <article class="Article">
+            <div class="Article-section">
+              <div class="row row_verticalCenter row_maxHalf">
+                <div class="row-block">
+                  <h2>Немного о нас:
+                  </h2>
+                  <p>Тестовое описание магазина, но я даже не знаю что можно тут написать. У нас много чего возможно. Главное верить в себя и своё описание, а ещё не быть слишком самоуверенным.
+                  </p>
+                  <p>Да-да, тут может быть вообще что угодно, но надеюсь это будет что-то приличное, а не как обычно. Хотя обычно прилично. Однако как-то решил подстраховаться. Ну, а нужную информацию вы видите слева или сверху, в зависимости от размера вашего экрна.
+                  </p>
+                  <div><a class="btn btn_primary" href="#">Наш ассортимент</a>
+                  </div>
+                </div>
+                <div class="row-block">
+                  <div class="pict"><img src="{% static "assets/img/content/home/info.png" %}" alt="slider.png"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="Article-section">
+                <div class="Cards">
+                  {% for item in offer %}
+                      <div class="Card">
+                          <a class="Card-picture" href="#">
+                            <img src="{% static "assets/img/content/home/card.jpg" %}" alt="card.jpg" />
+                          </a>
+                        <div class="Card-content">
+                            <strong class="Card-title"><a href="">{{ item.product.name }}</a>
+                            </strong>
+                            <div class="Card-description">
+                                <div class="Card-cost"><span class="Card-price">{{ item.price }}$</span>
+                                </div>
+                                <br>
+                                <div class="Card-hover"><a class="Card-btn" href="#modal_open">
+                                    <img src="{% static "assets/img/icons/card/cart.svg" %}" alt="cart.svg" /></a>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
-                    <div class="Pagination">
-                        <div class="Pagination-ins">
-                            <a class="Pagination-element Pagination-element_prev" href="#">
-                                <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg" /></a>
-                            <a class="Pagination-element Pagination-element_current" href="#">
-                                <span class="Pagination-text">1</span>
-                            </a><a class="Pagination-element" href="#">
-                            <span class="Pagination-text">2</span></a><a class="Pagination-element" href="#">
-                            <span class="Pagination-text">3</span></a><a class="Pagination-element Pagination-element_prev" href="#">
-                            <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg" /></a>
                         </div>
-                    </div>
+                      </div>
+                  {% endfor %}
                 </div>
             </div>
+          </article>
         </div>
+      </div>
     </div>
+  </div>
 {% endblock %}
