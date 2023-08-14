@@ -1,0 +1,20 @@
+[
+{
+  "model": "products.banner",
+  "pk": 1,
+  "fields": {
+    "image": "banners/image/shovel_hHlrhSx.png",
+    "link": null,
+    "description": "Just a simple shovel"
+  }
+},
+{
+  "model": "products.banner",
+  "pk": 2,
+  "fields": {
+    "image": "banners/image/pngwing.com.png",
+    "link": null,
+    "description": "Rare shovel"
+  }
+}
+]
