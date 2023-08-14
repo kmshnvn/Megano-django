@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Product, Detail, ProductDetail, Banner
 
 
-
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = "pk", "image", "link", "description"

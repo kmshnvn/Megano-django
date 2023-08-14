@@ -9,11 +9,9 @@ class Banner(models.Model):
     link = models.URLField(max_length=200, blank=True, null=True)
     description = models.TextField(max_length=200, blank=True, null=True)
 
-
     class Meta:
         verbose_name = _("баннер")
         verbose_name_plural = _("баннеры")
-
 
 
 class Product(models.Model):
