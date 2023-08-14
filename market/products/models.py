@@ -6,7 +6,7 @@ class Banner(models.Model):
     """Баннер"""
 
     image = models.ImageField(blank=True, upload_to="banners/image")
-    link = models.URLField(max_length=200)
+    link = models.URLField(max_length=200, blank=True, null=True)
     description = models.TextField(max_length=200, blank=True, null=True)
 
 
