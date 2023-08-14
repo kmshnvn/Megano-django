@@ -1,0 +1,74 @@
+[
+  {
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+      "name": "Электроника",
+      "description": "Товары из дружественного Китая",
+      "parent": null
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 5,
+    "fields": {
+      "name": "Садовый инвентарь",
+      "description": "Всё что нужно огороднику!",
+      "parent": null
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 6,
+    "fields": {
+      "name": "Телефоны",
+      "description": "Любимый гаджет мелиниала",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 7,
+    "fields": {
+      "name": "Планшеты",
+      "description": "Как телефон, но толще",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 8,
+    "fields": {
+      "name": "Клавиатуры",
+      "description": "Игровые, для печати и много ещё какие",
+      "parent": 4
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 9,
+    "fields": {
+      "name": "Пилы",
+      "description": "Вжух вжух и дерево падает",
+      "parent": 5
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 10,
+    "fields": {
+      "name": "Садовые ножницы",
+      "description": "Думаю вы догадываетесь что они делают",
+      "parent": 5
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 11,
+    "fields": {
+      "name": "Лопаты",
+      "description": "Ну куда же мы без лопат",
+      "parent": 5
+    }
+  }
+]
