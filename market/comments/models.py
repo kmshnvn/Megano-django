@@ -51,5 +51,5 @@ class Comment(models.Model):
         :return: QuerySet, Список отзывов о товаре.
         """
 
-        comments = cls.objects.select_related("user", "product").filter(product_id=product_pk)[offset:limit]
+        comments = cls.objects.select_related("author", "product").filter(product_id=product_pk)[offset:limit]
         return comments
