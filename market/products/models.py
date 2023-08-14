@@ -1,23 +1,19 @@
 from django.db import models
-from market.shops.models import Shop
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
 class Banner(models.Model):
+    """Баннер"""
+
+    image = models.ImageField(blank=True, upload_to="banners/image")
+    link = models.URLField(max_length=200)
+    description = models.TextField(max_length=200, blank=True, null=True)
+
 
     class Meta:
         verbose_name = _("баннер")
         verbose_name_plural = _("баннеры")
 
-    def get_absolute_url_to_product(self):
-        return reverse('products:product', args=[Product.pk])
-
-    def get_absolute_url_to_shop(self):
-        return reverse('shop', args=[Shop.pk])
-
-    def get_product_image(self):
-        return Product.image
 
 
 class Product(models.Model):
