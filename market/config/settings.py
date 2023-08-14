@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "profiles",
     "products",
     "shops",
+    "comments",
     "django_jinja",
     "django_extensions",
 ]
