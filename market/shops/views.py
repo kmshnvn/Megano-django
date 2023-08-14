@@ -6,5 +6,6 @@ from .models import Shop
 class ShopDetailView(DetailView):
     """View детального представления магазина"""
 
+    context_object_name = "shop"
     template_name = "shop/shop_detail.jinja2"
     model = Shop
