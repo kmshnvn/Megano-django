@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 class Category(models.Model):
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     description = models.CharField(max_length=512, verbose_name=_("описание"))
-    parent = models.ForeignKey("self", null=True, related_name="children", on_delete=models.PROTECT)
+    parent = models.ForeignKey("self", null=True, blank=True, related_name="children", on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = _("категория")

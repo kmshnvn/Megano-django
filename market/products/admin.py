@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import Product, Detail, ProductDetail
+from .models import Category, Product, Detail, ProductDetail
 
 
 class DetailsInline(admin.TabularInline):
     model = Product.details.through
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = "pk", "name"
+    list_display_links = "pk", "name"
 
 
 @admin.register(Product)

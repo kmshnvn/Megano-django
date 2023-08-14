@@ -1,0 +1,200 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Лопата обыкновенная",
+      "description": "Вряд ли удивит",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Лопата армейская",
+      "description": "Как обычная лопата, только строже",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Лопата богатырская",
+      "description": "Как обычная, нооо боже мой, она вырвала дерево!",
+      "preview": "",
+      "image": "",
+      "category": 11
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Пила",
+      "description": "Выпьет пила и на спил поплела",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Пила большая",
+      "description": "Для очень жадного дерева",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Пила изогнутая",
+      "description": "Что бы пилить из-за угла",
+      "preview": "",
+      "image": "",
+      "category": 9
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Ножницы крестовидные",
+      "description": "Покосил кусты - помолись за их упокой",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Ножницы зазубренные",
+      "description": "Рвать, а не резать",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Ножницы 25 см",
+      "description": "Почти как пицца",
+      "preview": "",
+      "image": "",
+      "category": 10
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Телефон",
+      "description": "Любимый гаджет мелиниала",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "IPear",
+      "description": "Тоже надкусана с двух сторон",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Трубка",
+      "description": "Для каждого чёткого пацана из 2000",
+      "preview": "",
+      "image": "",
+      "category": 6
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "Планшет туалетный",
+      "description": "Влагоотталкивающий",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "Планшет дайвера",
+      "description": "Брат водооталкивающего планшета",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "Планшет-доска",
+      "description": "Режь колбаску и смотри в интернете как это делать правильно",
+      "preview": "",
+      "image": "",
+      "category": 7
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "name": "Клавиатура геймера",
+      "description": "Подсветкой можно сбивать самолёты",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "Клавиатура универсальная",
+      "description": "Уложит детей спать, подстрахует на жиме лёжа, замечательный собутыльник",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Клавиатура беспроводная",
+      "description": "При её виде крестятся",
+      "preview": "",
+      "image": "",
+      "category": 8
+    }
+  }
+]
