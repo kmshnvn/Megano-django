@@ -95,29 +95,6 @@
                 </div>
               </div>
             </div>
-            <div class="Article-section">
-                <div class="Cards">
-                  {% for item in offer %}
-                      <div class="Card">
-                          <a class="Card-picture" href="#">
-                            <img src="{% static "assets/img/content/home/card.jpg" %}" alt="card.jpg" />
-                          </a>
-                        <div class="Card-content">
-                            <strong class="Card-title"><a href="">{{ item.product.name }}</a>
-                            </strong>
-                            <div class="Card-description">
-                                <div class="Card-cost"><span class="Card-price">{{ item.price }}$</span>
-                                </div>
-                                <br>
-                                <div class="Card-hover"><a class="Card-btn" href="#modal_open">
-                                    <img src="{% static "assets/img/icons/card/cart.svg" %}" alt="cart.svg" /></a>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-                  {% endfor %}
-                </div>
-            </div>
           </article>
         </div>
       </div>
