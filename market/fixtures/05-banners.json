@@ -4,7 +4,8 @@
   "pk": 1,
   "fields": {
     "image": "banners/image/shovel_hHlrhSx.png",
-    "description": "Just a simple shovel"
+    "description": "Just a simple shovel",
+    "link": null
   }
 },
 {
@@ -12,7 +13,8 @@
   "pk": 2,
   "fields": {
     "image": "banners/image/pngwing.com.png",
-    "description": "Rare shovel"
+    "description": "Rare shovel",
+    "link": null
   }
 },
 {
@@ -20,7 +22,8 @@
   "pk": 3,
   "fields": {
     "image": "banners/image/kisspng-snow-shovel-handle-rake-shovel-5acc9f509207c3.7344064515233595685982.png",
-    "description": "Snow shovel"
+    "description": "Snow shovel",
+    "link": null
   }
 },
 {
@@ -28,7 +31,8 @@
   "pk": 4,
   "fields": {
     "image": "banners/image/pngwing.com-2.png",
-    "description": "Сlam shovel"
+    "description": "Сlam shovel",
+    "link": null
   }
 },
 {
@@ -36,7 +40,8 @@
   "pk": 5,
   "fields": {
     "image": "",
-    "description": ""
+    "description": "",
+    "link": null
   }
 }
 ]
