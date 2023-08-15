@@ -14,6 +14,19 @@ class Banner(models.Model):
         verbose_name_plural = _("баннеры")
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=512, verbose_name=_("наименование"))
+    description = models.CharField(max_length=512, verbose_name=_("описание"))
+    parent = models.ForeignKey("self", null=True, blank=True, related_name="children", on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = _("категория")
+        verbose_name_plural = _("категории")
+
+    def __str__(self) -> str:
+        return f"Category(pk={self.pk}, name={self.name!r})"
+
+
 class Product(models.Model):
     """Продукт"""
 
@@ -22,7 +35,9 @@ class Product(models.Model):
     description = models.CharField(max_length=512, verbose_name=_("описание"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
-    # category = models.ManyToManyField("Category", null=True, verbose_name=_("категория"))
+    category = models.ForeignKey(
+        Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
+    )
 
     class Meta:
         verbose_name = _("продукт")
@@ -58,4 +73,4 @@ class ProductDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
     value = models.CharField(max_length=128, verbose_name=_("значение"))
-    # category = models.ForeignKey("Category", null=True, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
