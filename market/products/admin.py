@@ -4,8 +4,8 @@ from .models import Category, Product, Detail, ProductDetail, Banner
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
-    list_display = "pk", "image", "description"
-    list_display_links = "pk", "image", "description"
+    list_display = "pk", "image", "description", "link"
+    list_display_links = "pk", "image", "description", "link"
 
 
 class DetailsInline(admin.TabularInline):
