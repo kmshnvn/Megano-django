@@ -1,12 +1,17 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# class Banner(models.Model):
-#     def get_absolute_url(self):
-#         return reverse('product', args=[Product.pk])
-#
-#     def get_product_image(self):
-#         return Product.image
+
+class Banner(models.Model):
+    """Баннер"""
+
+    image = models.ImageField(blank=True, upload_to="banners/image")
+    description = models.TextField(max_length=200, blank=True, null=True)
+    link = models.URLField(max_length=200)
+
+    class Meta:
+        verbose_name = _("баннер")
+        verbose_name_plural = _("баннеры")
 
 
 class Category(models.Model):
