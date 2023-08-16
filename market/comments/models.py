@@ -17,9 +17,7 @@ class Comment(models.Model):
         verbose_name = _("отзыв")
         verbose_name_plural = _("отзывы")
 
-    author: User = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments", verbose_name=_("пользователь")
-    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments", verbose_name=_("пользователь"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="comments", verbose_name=_("продукт"))
     text = models.TextField(max_length=600, blank=True, verbose_name=_("текст отзыва"))
     date_publish = models.DateTimeField(auto_now=True, verbose_name=_("дата публикации"))
