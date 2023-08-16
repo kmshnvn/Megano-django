@@ -21,10 +21,6 @@ class CommentModelTestCase(TestCase):
 
         cls.text = "Хороший товар"
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.comment.delete()
-
     def test_correct_add_comment(self):
         """Проверяем работу добавления записи в таблицу отзывов о продукте."""
 
