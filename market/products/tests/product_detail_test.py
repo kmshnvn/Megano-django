@@ -4,12 +4,7 @@ from shops.models import (
     Offer,
     Shop,
 )
-from products.models import (
-    Product,
-    ProductDetail,
-    Detail,
-    Category
-)
+from products.models import Product, ProductDetail, Detail, Category
 
 
 class ProductDetailTestCase(TestCase):
