@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "comments",
     "django_jinja",
     "django_extensions",
+    "basket"
 ]
 
 # email configs
@@ -180,3 +181,5 @@ LOGIN_REDIRECT_URL = "/admin/"
 
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
+
+BASKET_SESSION_ID = 'basket'
