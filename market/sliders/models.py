@@ -16,7 +16,7 @@ class Slider(models.Model):
 
     title = models.CharField(max_length=200, verbose_name=_("заголовок"))
     description = models.CharField(max_length=400, verbose_name=_("описание"))
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="slider", verbose_name=_("продукт"))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="sliders", verbose_name=_("продукт"))
     image = models.ImageField(upload_to=slider_upload_path, verbose_name=_("изображение слайдера"))
 
     def __str__(self):
