@@ -1,17 +1,6 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-
-class Banner(models.Model):
-    """Баннер"""
-
-    image = models.ImageField(blank=True, upload_to="banners/image")
-    description = models.TextField(max_length=200, blank=True, null=True)
-    link = models.URLField(max_length=200, null=True)
-
-    class Meta:
-        verbose_name = _("баннер")
-        verbose_name_plural = _("баннеры")
 
 
 class Category(models.Model):
@@ -46,8 +35,8 @@ class Product(models.Model):
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
 
-    # def get_absolute_url(self):
-    #     return f'/product/{self.pk}'
+    def get_absolute_url(self):
+        return reverse("products:product_detail", kwargs={"pk": self.pk})
 
 
 class Detail(models.Model):

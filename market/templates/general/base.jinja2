@@ -25,75 +25,44 @@
 </head>
 
 <body class="Site">
+
     {% block body %}
+
         <header class="Header">
-            {% include 'general/header.jinja2' %}
+
+            {% block header %}
+                {% include 'general/header.jinja2' %}
+            {% endblock %}
+
+            {% block slider %}
+            {% endblock %}
+
         </header>
 
-        {% block banner %}
-            <div class="Header-slider">
-                <div class="Slider Slider_main">
-                  <div class="Slider-box">
-                    <div class="Slider-item">
-                      <div class="Slider-content">
-                        <div class="row">
-                          <div class="row-block">
-                            <strong class="Slider-title">Rare Shovel<span class="text_primary"></span> It's Amazing!
-                            </strong>
-                            <div class="Slider-text">Incredible promotion! Buy two Rare Shovels and then buy a third one!
-                            </div>
-                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
-                            </div>
-                          </div>
-                          <div class="row-block">
-                            <div class="Slider-img"><img src="{% static 'assets/img/content/home/rare shovel.png' %}" alt="slider.png"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="Slider-item">
-                      <div class="Slider-content">
-                        <div class="row">
-                          <div class="row-block">
-                            <strong class="Slider-title">Shovel<span class="text_primary"></span> The must have one!
-                            </strong>
-                            <div class="Slider-text">Just buy it and use it with 70% Off this summer.
-                            </div>
-                            <div class="Slider-footer"><a class="btn btn_primary" href="#">Get Started</a>
-                            </div>
-                          </div>
-                          <div class="row-block">
-                            <div class="Slider-img"><img src="{% static 'assets/img/content/home/shovel.png' %}" alt="slider.png"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="Slider-navigateWrap">
-                    <div class="Slider-navigate">
-                    </div>
-                  </div>
-                </div>
-            </div>
-        {% endblock %}
-
         <main class="Main">
+
             {% block content %}
                 <h1>Ваш контент</h1>
             {% endblock %}
+
         </main>
 
         <footer class="Footer">
-            {% include 'general/footer.jinja2' %}
+
+            {% block footer %}
+                {% include 'general/footer.jinja2' %}
+            {% endblock %}
+
         </footer>
+
     {% endblock %}
-    <script src="{% static "assets/plg/jQuery/jquery-3.5.0.slim.min.js" %}"></script>
-    <script src="{% static "assets/plg/form/jquery.form.js" %}"></script>
-    <script src="{% static "assets/plg/form/jquery.maskedinput.min.js" %}"></script>
-    <script src="{% static "assets/plg/range/ion.rangeSlider.min.js" %}"></script>
-    <script src="{% static "assets/plg/Slider/slick.min.js" %}"></script>
-    <script src="{% static "assets/js/scripts.js" %}"></script>
+
+    <script src="{% static 'assets/plg/jQuery/jquery-3.5.0.slim.min.js' %}"></script>
+    <script src="{% static 'assets/plg/form/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/plg/form/jquery.maskedinput.min.js' %}"></script>
+    <script src="{% static 'assets/plg/range/ion.rangeSlider.min.js' %}"></script>
+    <script src="{% static 'assets/plg/Slider/slick.min.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+
 </body>
 </html>
