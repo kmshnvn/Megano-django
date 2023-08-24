@@ -1,90 +1,167 @@
-from decimal import Decimal
-from products.models import Product
 from shops.models import Offer
-from django.http import HttpRequest
 from .models import Basket
+from django.http import HttpRequest, Http404
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from decimal import Decimal
 import random
-from copy import deepcopy
 
 
 class BasketObject(object):
     """Инициализируем работу корзины для добавления товаров"""
 
     def __init__(self, request: HttpRequest) -> None:
-        """Инициализация корзины в сессии"""
+        """
+        Инициализация корзины в сессии
+        :param: request - WSGI request
+        :return: None
+        """
         self.session = request.session
         self.user = request.user
         basket = self.session.get(settings.BASKET_SESSION_ID)
         if not basket:
-            basket = self.create_basket_for_user() if self.user.is_authenticated else {}
+            basket = self.get_basket_for_user() if self.user.is_authenticated else {}
             self.session[settings.BASKET_SESSION_ID] = basket
         self.basket = basket
 
-    def create_basket_for_user(self):
-        basket = {}
-        users_basket = Basket.objects.filter(user=self.user).prefetch_related("offers")
-        for user_basket in users_basket:
-            basket[user_basket.offers.pk] = {
-                "product": user_basket.offers.product,
-                "amount":   user_basket.amount,
-                "price": str(user_basket.offers.price)
-            }
-        return basket
-
-    def add_product_in_basket(self,request: HttpRequest, product_pk, offer_pk, amount: int) -> None:
-        """Метод для добавления продукта в корзину"""
-        if offer_pk is None:
-            offers_ids = Offer.objects.filter(product_id=int(product_pk))
-            offer_pk = random.choice([o_i.pk for o_i in offers_ids])
-        if offer_pk in self.basket:
-            self.update_product_in_basket(amount=amount, offer_pk=offer_pk)
-        else:
-            self.add_new_product_in_basket(offer_pk=offer_pk, amount=amount)
-
-    def update_product_in_basket(self, amount: int, offer_pk):
-        if Basket.objects.filter(user=self.user, offers=offer_pk).exist():
-            user_basket = Basket.objects.only("amount").get(user=self.user, offers=offer_pk)
-            user_basket.amount += amount
-            user_basket.save()
-        self.basket[offer_pk]["amount"] += amount
-
-    def add_new_product_in_basket(self, offer_pk, amount):
-        offer = Offer.objects.get(pk=offer_pk)
-        self.basket[offer_pk] = {
-            "product": offer.product,
-            "amount": amount,
-            "price": str(offer.price)
-        }
-        print(self.basket)
-        self.save()
-
-
-    def __iter__(self):
-        print(self.basket)
+    def __iter__(self) -> dict:
+        """
+        Метод для перебора элементов в корзине
+        """
         offers_pk = [key for key in self.basket.keys()]
         offers = Offer.objects.prefetch_related("product").filter(pk__in=offers_pk)
-
-        basket = self.basket.deepcopy()
+        basket = self.basket.copy()
+        for offer in offers:
+            basket[str(offer.pk)]["product"] = offer.product
+            basket[str(offer.pk)]["offer_pk"] = offer.pk
         for item in basket.values():
             yield item
 
-    def remove_product(self, offer:Offer):
-        """Метод для удаления продукта из корзины"""
-        if offer.pk in self.basket:
-            del self.basket[offer.pk]
-            self.save()
+    def __len__(self) -> int:
+        """
+        Подсчет всех товаров в корзине
+        :return: сумма товаров в корзине
+        """
+        return sum(item["amount"] for item in self.basket.values())
 
-    def remove_data_basket(self, request:HttpRequest):
-        """Метод для удаления корзины из сессии"""
+    def get_basket_for_user(self) -> dict:
+        """
+        Метод для получения корзины для аутентифицированного пользователя из базы данных
+        :return: словарь с данными корзины конкретного пользователя из базы данных
+        """
+        basket = {}
+        users_basket = Basket.objects.filter(user=self.user).prefetch_related("offer")
+        for user_basket in users_basket:
+            basket[str(user_basket.offers.pk)] = {
+                "product": user_basket.offer.product.pk,
+                "amount":   user_basket.amount,
+                "price": str(user_basket.offer.price)
+            }
+        return basket
+
+    def add_product_in_basket(self,request: HttpRequest, product_pk: int, offer_pk: int, amount: int) -> None:
+        """
+        Метод для добавления продукта в корзину
+        :param: request - WSGI request
+        :param: product_pk - первичный ключ продукта
+        :param: offer_pk - первичный ключ предложения
+        :param: amount - количество продуктов, желаемых для добавления в корзину
+        :return: None
+        """
+        if offer_pk == None:
+            offers_ids = Offer.objects.filter(product_id=product_pk)
+            offer_pk = random.choice([o_i.pk for o_i in offers_ids])
+        if str(offer_pk) in self.basket:
+            self.update_product_in_basket(offer_pk=offer_pk, amount=amount)
+        else:
+            self.add_new_product_in_basket(offer_pk=offer_pk, amount=amount)
+
+    def add_new_product_in_basket(self, offer_pk: int, amount: int) -> None:
+        """
+        Метод для добавления нового продукта в корзину
+        :param: offer_pk - первичный ключ предложения
+        :param: amount - количество продуктов, желаемых для добавления в корзину
+        :return: None
+        """
+        offer = Offer.objects.get(pk=offer_pk)
+        self.basket[str(offer_pk)] = {
+            "product": offer.product.pk,
+            "amount": amount,
+            "price": str(offer.price)
+        }
+        self.save(offer_pk=offer_pk)
+        self.update_or_create_basket(offer_pk=offer_pk, amount=amount)
+
+
+    def update_product_in_basket(self, offer_pk: int, amount) -> None:
+        """
+        Метод для обновления полей продукта в корзине или создания нового продукта в ней
+        :param: offer_pk - первичный ключ предложения
+        :param: amount - количество продуктов, желаемых для добавления в корзину
+        :return: None
+        """
+        if str(offer_pk) in self.basket:
+            self.basket[str(offer_pk)]["amount"] += amount
+            if self.basket[str(offer_pk)]["amount"] <= 0:
+                self.remove_product(offer_pk=offer_pk)
+            self.save(offer_pk=offer_pk)
+            self.update_or_create_basket(offer_pk=offer_pk, amount=self.basket[str(offer_pk)]["amount"])
+        else:
+            raise Http404
+
+
+    def update_or_create_basket(self, offer_pk:int, amount: int):
+        """
+        Метод для обновления полей или создания нового продукта в корзине
+        :param: offer_pk - первичный ключ предложения
+        :param: amount - количество продуктов, желаемых для добавления в корзину
+        :return: None
+        """
+        if self.user.is_authenticated:
+            offer = Offer.objects.prefetch_related("product").get(pk=offer_pk)
+            Basket.objects.update_or_create(
+                user=self.user,
+                offer=offer,
+                product=offer.product,
+                amount=amount,
+            )
+
+    def remove_product(self, offer_pk:int) -> None:
+        """
+        Метод для удаления продукта из корзины
+        :param: offer_pk - первичный ключ предложения
+        :return: None
+        """
+        if str(offer_pk) in self.basket:
+            del self.basket[str(offer_pk)]
+            self.save(offer_pk=offer_pk)
+            if self.user.is_authenticated:
+                users_basket = get_object_or_404(klass=Basket, user=self.user, offer=offer_pk)
+                users_basket.delete()
+        else:
+            raise  Http404
+
+    def remove_data_basket(self, request:HttpRequest)-> None:
+        """
+        Метод для удаления корзины из сессии
+        :param: request - WSGI request
+        :return: None
+        """
         del self.session[request.user]
 
+    def get_total_price(self) -> int:
+        """
+        Подсчет стоимости всех продуктов в корзине
+        :return: сумма цен всех товаров в корзине
+        """
+        return sum([Decimal(item["price"]) * item ["amount"] for item in self.basket.values()])
 
-    def get_total_price(self):
-        """Подсчет стоимости всех продуктов в корзине"""
-        return sum([price["price"]for price in self.basket.values()])
-
-    def save(self):
-        """Метод для сохранения корзины в сессии"""
+    def save(self, offer_pk:int)-> None:
+        """
+        Метод для сохранения корзины в сессии
+        :param: offer_pk - первичный ключ предложения
+        :return: None
+        """
         self.session[settings.BASKET_SESSION_ID] = self.basket
         self.session.modified = True
+
