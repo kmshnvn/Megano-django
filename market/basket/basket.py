@@ -104,6 +104,8 @@ class BasketObject(object):
             self.basket[str(offer_pk)]["amount"] += amount
             if self.basket[str(offer_pk)]["amount"] <= 0:
                 self.remove_product(offer_pk=offer_pk)
+                self.save(offer_pk=offer_pk)
+                return
             self.save(offer_pk=offer_pk)
             self.update_or_create_basket(offer_pk=offer_pk, amount=self.basket[str(offer_pk)]["amount"])
         else:
