@@ -1,22 +1,28 @@
 {% extends "general/base.jinja2" %}
 {% load static %}
+{% block title %}
+    Корзина
+{% endblock %}
+{% block basket_item %}
+    <span class="CartBlock-amount"> {{basket|length}} </span>
+{% endblock %}
 {% block content %}
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
             {% if basket %}
                 {% for item in basket %}
-                    {% with product=item.offer.product offer=item.offer %}
+                    {% with product=item.product amount=item.amount price=item.price offer_pk=item.offer_pk %}
                         <div class="Cart-product">
                             <div class="Cart-block Cart-block_row">
                                 <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src="assets/img/content/home/card.jpg" alt="card.jpg" /></a>
                                 </div>
-                                <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#"> {{product.name}}</a>
+                                <div class="Cart-block Cart-block_info"><a class="Cart-title" href="{% url "products:product_detail" product.pk %}"> {{product.name}}</a>
                                     <div class="Cart-desc">{{product.description}}
                                     </div>
                                 </div>
                                 <div class="Cart-block Cart-block_price">
-                                    <div class="Cart-price"> {{item.price}}
+                                    <div class="Cart-price"> {{price}}&nbsp;$
                                     </div>
                                 </div>
                             </div>
@@ -27,15 +33,14 @@
                                 <div class="Cart-block Cart-block_amount">
                                     <div class="Cart-amount">
                                         <div class="Amount">
-                                            <button class="Amount-remove" type="button">
-                                            </button>
-                                            <span class="Amount-input form-input> {{item.amount}} </span>
-                                            <button class="Amount-add" type="button">
-                                            </button>
+                                            <a class="Amount-remove" href="{% url "basket:change_amount" offer_pk "-1" %}" ></a>
+                                                <span class="Amount-input form-input"> {{amount}} </span>
+                                            <a class="Amount-add" href="{% url "basket:change_amount" offer_pk "+1" %}" ></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="Cart-block Cart-block_delete"><a class="Cart-delete" href="#"><img src="{% static "assets/img/icons/card/delete.svg" %}" alt="delete.svg" /></a>
+                                <div class="Cart-block Cart-block_delete">
+                                    <a class="Cart-delete" href="{% url "basket:remove_product" offer_pk %}"><img src="{% static "assets/img/icons/card/delete.svg" %}" alt="delete.svg" /></a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +49,7 @@
                     <div class="Cart-total">
                         <div class="Cart-block Cart-block_total">
                             <strong class="Cart-title">Итого:
-                            </strong><span class="Cart-price">{{cart.get_total_price}}</span>
+                            </strong><span class="Cart-price">{{basket.get_total_price}}&nbsp;$</span>
                         </div>
                         <div class="Cart-block"><a class="btn btn_success btn_lg" href="order.html">Оформить заказ</a>
                         </div>
