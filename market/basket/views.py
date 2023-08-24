@@ -8,38 +8,40 @@ from django.views.generic import TemplateView, ListView
 from .forms import BasketAddProductForm
 
 
+class BasketView(View):
+    def get(self, request: HttpRequest):
+        basket = BasketObject(request=request)
+        return render(request, "basket/basket-view.jinja2", {"basket": basket})
 
-class BasketView(ListView):
-    model = Basket
-    template_name = "basket/basket-view.jinja2"
-    context_object_name = "basket"
 
-def add_product(request: HttpRequest, product_pk: int, offer_pk: int=None):
-    form = BasketAddProductForm(request.POST)
-    if request.method == "POST" and form.is_valid():
+def add_product(request: HttpRequest, product_pk: int, offer_pk=None):
+    if request.method == "POST":
+        form = BasketAddProductForm(request.POST)
+        if form.is_valid():
             cd = form.cleaned_data
-            basket = BasketObject(request=request)
-            basket.add_product_in_basket(
-                request=request,
-                product_pk=product_pk,
-                offer_pk= offer_pk,
-                amount=cd["amount"],
-            )
+            amount = cd["amount"]
+    else:
+        amount = 1
+    basket = BasketObject(request=request)
+    basket.add_product_in_basket(
+        request=request,
+        product_pk=product_pk,
+        offer_pk= offer_pk,
+        amount=amount,
+    )
     return   redirect(to='products:product_detail', pk=product_pk)
 
 
-    # def get(self, request: HttpRequest) -> HttpResponse:
-    #         basket = BasketObject(request)
-    #
-    #         return render(request, "basket/basket-view.jinja2", context={"basket":basket})
-    #
-    # def post(self, request: HttpRequest) -> HttpResponse:
-    #     postdata = request.POST.copy()
-    #     if postdata["submit"] == "add":
-    #         print()
-    #     return render(request, "basket/basket-view.jinja2")
+def remove_product(request: HttpRequest, offer_pk: int):
+    if request.method == "GET":
+        basket = BasketObject(request=request)
+        basket.remove_product(offer_pk=offer_pk)
+    return redirect(to="basket:basket_view")
 
-    # if request.method == "POST" and 'edit' in request.POST:
-    #     / Do /
-    # if request.method == "POST" and 'delete' in request.POST:
-    #     / Do /
+
+def change_amount_for_product_in_basket(request: HttpRequest, offer_pk: int,amount: str):
+    if request.method == "GET":
+        amount = int(amount)
+        basket = BasketObject(request=request)
+        basket.update_product_in_basket(offer_pk=offer_pk, amount=amount)
+    return  redirect(to="basket:basket_view")
