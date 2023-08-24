@@ -119,11 +119,14 @@ class BasketObject(object):
         """
         if self.user.is_authenticated:
             offer = Offer.objects.prefetch_related("product").get(pk=offer_pk)
-            Basket.objects.update_or_create(
+            obj, created = Basket.objects.update_or_create(
                 user=self.user,
-                offer=offer,
-                product=offer.product,
-                amount=amount,
+                defaults={
+                    "user": self.user,
+                    "offer": offer,
+                    "product": offer.product,
+                    "amount": amount,
+                }
             )
 
     def remove_product(self, offer_pk:int) -> None:
