@@ -7,13 +7,14 @@ from services_for_test.services_for_test import (
     create_product,
     create_detail,
     crerate_product_detail,
-    create_category
+    create_category,
 )
 from basket.models import Basket
 
 
 class BasketViewTestCase(TestCase):
     """Тест представления корзины"""
+
     def setUp(self) -> None:
         self.get_response = self.client.get(reverse(viewname="basket:basket_view"))
 
@@ -40,12 +41,10 @@ class BasketAddProductTestCase(TestCase):
         cls.user = create_user()
 
         cls.page_add_product_in_basket = reverse(
-            viewname="basket:add_product",
-            kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
+            viewname="basket:add_product", kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
         )
         cls.page_add_random_product_in_basket = reverse(
-            viewname="basket:add_random_product",
-            kwargs={"product_pk": cls.product.pk}
+            viewname="basket:add_random_product", kwargs={"product_pk": cls.product.pk}
         )
 
     def test_basket_added(self):
@@ -57,24 +56,19 @@ class BasketAddProductTestCase(TestCase):
             amount=1,
         )
 
-        response = self.client.post(self.page_add_product_in_basket, data={"amount":1})
+        response = self.client.post(self.page_add_product_in_basket, data={"amount": 1})
         self.assertRedirects(
-            response=response,
-            expected_url=reverse(
-                viewname="products:product_detail",
-                                 kwargs={"pk": self.product.pk}
-                                 )
+            response=response, expected_url=reverse(viewname="products:product_detail", kwargs={"pk": self.product.pk})
         )
 
-        self.client.post(path=reverse(viewname='profiles:login'), data={'email': 'test@mail.ru', 'password': 'test_1'})
+        self.client.post(path=reverse(viewname="profiles:login"), data={"email": "test@mail.ru", "password": "test_1"})
         self.assertEqual(basket.amount, 1)
 
     def test_added_random_product(self):
         """Тест на добавления продукта без выбора магазина"""
         self.client.force_login(user=self.user)
         self.client.post(
-            path=self.page_add_random_product_in_basket,
-            data={"product_pk": self.product.pk, "amount": 1}
+            path=self.page_add_random_product_in_basket, data={"product_pk": self.product.pk, "amount": 1}
         )
         basket = Basket.objects.filter(user=self.user)
         self.assertEqual(basket.count(), 1)
@@ -84,7 +78,7 @@ class BasketAddProductTestCase(TestCase):
         self.client.force_login(user=self.user)
         self.client.post(
             path=self.page_add_product_in_basket,
-            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk, "amount": 3}
+            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk, "amount": 3},
         )
         basket = Basket.objects.get(user=self.user)
         self.assertEqual(basket.amount, 3)
@@ -92,6 +86,7 @@ class BasketAddProductTestCase(TestCase):
 
 class RemoveProductTestCase(TestCase):
     """Тест на удаление продукта из корзины"""
+
     @classmethod
     def setUpTestData(cls):
         cls.product = create_product()
@@ -100,13 +95,11 @@ class RemoveProductTestCase(TestCase):
         cls.user = create_user()
 
         cls.page_add_product_in_basket = reverse(
-            viewname="basket:add_product",
-            kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
+            viewname="basket:add_product", kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
         )
 
         cls.page_remove_product_in_basket = reverse(
-            viewname="basket:remove_product",
-            kwargs={"offer_pk": cls.offer.pk}
+            viewname="basket:remove_product", kwargs={"offer_pk": cls.offer.pk}
         )
 
     def test_remove_product(self):
@@ -114,36 +107,32 @@ class RemoveProductTestCase(TestCase):
         self.client.force_login(user=self.user)
         self.client.post(
             path=self.page_add_product_in_basket,
-            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk,"amount": 10}
+            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk, "amount": 10},
         )
         basket = Basket.objects.get(user=self.user)
         self.assertEqual(basket.amount, 10)
-        self.assertEqual(len(self.client.session['basket']), 1)
+        self.assertEqual(len(self.client.session["basket"]), 1)
 
-        response = self.client.get(
-            path=self.page_remove_product_in_basket,
-                                   data={"offer_pk": self.offer.pk}
-        )
+        response = self.client.get(path=self.page_remove_product_in_basket, data={"offer_pk": self.offer.pk})
         self.assertRedirects(
             response=response,
             expected_url=reverse(
                 viewname="basket:basket_view",
-            )
+            ),
         )
-        self.assertEqual(len(self.client.session['basket']), 0)
+        self.assertEqual(len(self.client.session["basket"]), 0)
 
     def test_basket_remove_product_if_not_in_basket(self):
         """Тест который выводит ошибку 404 при попытке удалить товар, которого нет в корзине у пользователя"""
         self.client.force_login(user=self.user)
-        response = self.client.get(
-            path=self.page_remove_product_in_basket,
-            data={"offer_pk": self.offer.pk}
-        )
+        response = self.client.get(path=self.page_remove_product_in_basket, data={"offer_pk": self.offer.pk})
 
         self.assertEqual(response.status_code, 404)
 
+
 class ChangeAmountProductTestCase(TestCase):
     """Тест для изменения количество продукта в корзине пользователя"""
+
     @classmethod
     def setUpTestData(cls):
         cls.product = create_product()
@@ -152,18 +141,15 @@ class ChangeAmountProductTestCase(TestCase):
         cls.user = create_user()
 
         cls.page_add_product_in_basket = reverse(
-            viewname="basket:add_product",
-            kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
+            viewname="basket:add_product", kwargs={"product_pk": cls.product.pk, "offer_pk": cls.offer.pk}
         )
 
         cls.page_change_positive_ammount_product = reverse(
-            viewname="basket:change_amount",
-            kwargs={"offer_pk": cls.offer.pk, "amount": "+1"}
+            viewname="basket:change_amount", kwargs={"offer_pk": cls.offer.pk, "amount": "+1"}
         )
 
         cls.page_change_negative_ammount_product = reverse(
-            viewname="basket:change_amount",
-            kwargs={"offer_pk": cls.offer.pk, "amount": "-1"}
+            viewname="basket:change_amount", kwargs={"offer_pk": cls.offer.pk, "amount": "-1"}
         )
 
     def test_change_amount_product(self):
@@ -171,7 +157,7 @@ class ChangeAmountProductTestCase(TestCase):
         self.client.force_login(user=self.user)
         self.client.post(
             path=self.page_add_product_in_basket,
-            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk, "amount": 5}
+            data={"product_pk": self.product.pk, "offer_pk": self.offer.pk, "amount": 5},
         )
         basket = Basket.objects.get(user=self.user)
         self.assertEqual(basket.amount, 5)
@@ -182,7 +168,7 @@ class ChangeAmountProductTestCase(TestCase):
                 kwargs={"offer_pk": self.offer.pk, "amount": "+1"},
             )
         )
-        self.assertRedirects(response, expected_url=reverse('basket:basket_view'))
+        self.assertRedirects(response, expected_url=reverse("basket:basket_view"))
         self.assertEqual(self.client.session["basket"][str(self.offer.pk)]["amount"], 6)
 
         response = self.client.get(
@@ -191,9 +177,8 @@ class ChangeAmountProductTestCase(TestCase):
                 kwargs={"offer_pk": self.offer.pk, "amount": "-1"},
             )
         )
-        self.assertRedirects(response, expected_url=reverse('basket:basket_view'))
+        self.assertRedirects(response, expected_url=reverse("basket:basket_view"))
         self.assertEqual(self.client.session["basket"][str(self.offer.pk)]["amount"], 5)
-
 
     def test_change_amount_product_if_not_in_basket(self):
         """Тест выдает ошибку при попытке изменить количество товара, которого нет в корзине у пользователя"""

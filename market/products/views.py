@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.db.models import Min
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
-from django.http import HttpRequest
 from shops.models import (
     Offer,
 )
