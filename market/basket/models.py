@@ -9,22 +9,22 @@ class Basket(models.Model):
     """Корзина"""
 
     class Meta:
-        verbose_name = _("Корзина пользователя")
+        verbose_name = _("корзина пользователя")
 
     user = models.ForeignKey(
         User,
-        related_name="Пользователь",
-        verbose_name=_("Пользователь корзины"),
+        related_name="users",
+        verbose_name=_("пользователь корзины"),
         null=True,
         blank=True,
         on_delete=models.PROTECT,
     )
     offer = models.ForeignKey(
-        Offer, related_name="Предложение", verbose_name=_("Предложения магазинов"), null=True, on_delete=models.PROTECT
+        Offer, related_name="offers", verbose_name=_("предложения магазинов"), null=True, on_delete=models.PROTECT
     )
 
     product = models.ForeignKey(
-        Product, related_name="Продукт", verbose_name=_("Продукт магазина"), null=True, on_delete=models.PROTECT
+        Product, related_name="products", verbose_name=_("продукт магазина"), null=True, on_delete=models.PROTECT
     )
 
-    amount = models.PositiveIntegerField(verbose_name=_("Количество"), default=0)
+    amount = models.PositiveIntegerField(verbose_name=_("количество"), default=0)
