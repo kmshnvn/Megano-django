@@ -22,7 +22,7 @@ def create_offer(shop: Shop, product: Product):
     return Offer.objects.create(price=1200, product=product, shop=shop)
 
 
-def create_shop(product: Product):
+def create_shop():
     """Функция для создания магазина продукта в БД для тестов"""
 
     return Shop.objects.create(

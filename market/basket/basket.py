@@ -37,13 +37,6 @@ class BasketObject():
         for item in basket.values():
             yield item
 
-    def __len__(self) -> int:
-        """
-        Подсчет всех товаров в корзине
-        :return: сумма товаров в корзине
-        """
-        return sum(item["amount"] for item in self.basket.values())
-
     def get_basket_for_user(self) -> dict:
         """
         Метод для получения корзины для аутентифицированного пользователя из базы данных

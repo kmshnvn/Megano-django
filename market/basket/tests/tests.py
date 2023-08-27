@@ -34,7 +34,7 @@ class BasketAddProductTestCase(TestCase):
     def setUpTestData(cls):
         cls.product = create_product()
         cls.category = create_category()
-        cls.shop = create_shop(product=cls.product)
+        cls.shop = create_shop()
         cls.offer = create_offer(shop=cls.shop, product=cls.product)
         cls.detail = create_detail()
         cls.product_detail = crerate_product_detail(product=cls.product, detail=cls.detail, category=cls.category)
@@ -90,7 +90,7 @@ class RemoveProductTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.product = create_product()
-        cls.shop = create_shop(product=cls.product)
+        cls.shop = create_shop()
         cls.offer = create_offer(shop=cls.shop, product=cls.product)
         cls.user = create_user()
 
@@ -136,7 +136,7 @@ class ChangeAmountProductTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.product = create_product()
-        cls.shop = create_shop(product=cls.product)
+        cls.shop = create_shop()
         cls.offer = create_offer(shop=cls.shop, product=cls.product)
         cls.user = create_user()
 
