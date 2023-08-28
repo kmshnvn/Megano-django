@@ -13,7 +13,7 @@ class Basket(models.Model):
 
     user = models.ForeignKey(
         User,
-        related_name="users",
+        related_name="baskets",
         verbose_name=_("пользователь корзины"),
         null=True,
         blank=True,
