@@ -24,7 +24,7 @@ class ProductDetailView(FormMixin, DetailView):
 
         offers = Offer.objects.prefetch_related("shop").filter(product=self.object)
         try:
-            product_details = ProductDetail.objects.prefetch_related("detail", "product").get(product=self.object)
+            product_details = ProductDetail.objects.prefetch_related("detail", "product").filter(product=self.object)
         except ProductDetail.DoesNotExist:
             raise Http404(f"Продукт под номером {self.object.id}, отсутствует в базе данных")
 
