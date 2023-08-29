@@ -51,7 +51,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <form method="post" enctype="multipart/form-data" action="{% url "basket:add_random_product" product.pk %}">
+                            <form method="post" enctype="multipart/form-data" action="{% url "basket:add_product" offers.0.product.pk offers.0.pk %}">
                                 {% csrf_token %}
                                 <div class="ProductCard-cart">
                                     <div class="ProductCard-cartElement ProductCard-cartElement_amount">

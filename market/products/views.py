@@ -23,13 +23,13 @@ class ProductDetailView(FormMixin, DetailView):
         data = super().get_context_data(**kwargs)
 
         offers = Offer.objects.prefetch_related("shop").filter(product_id=self.object.pk)
-        product_details = ProductDetail.objects.prefetch_related("detail", "product").get(product_id=self.object.pk)
+        product_details = ProductDetail.objects.prefetch_related("detail", "product").filter(product=self.object)
         comments = Comment.objects.select_related("author", "product").filter(product_id=self.object.pk)[:10]
         comment_count = Comment.objects.filter(product_id=self.object.pk).count()
         form_basket = BasketAddProductForm
 
         data["offers"] = offers
-        data["product"] = product_details.product
+        data["product"] = product_details
         data["product_detail"] = product_details
         data["min_price"] = offers.aggregate(Min("price"))["price__min"]
         data["comments_list"] = comments
