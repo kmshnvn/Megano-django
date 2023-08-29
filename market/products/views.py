@@ -1,6 +1,5 @@
 from comments.forms import CommentAddForm
 from comments.models import Comment
-from django.http import Http404
 from django.urls import reverse
 from django.db.models import Min
 from django.views.generic import DetailView
@@ -12,6 +11,7 @@ from .models import (
     ProductDetail,
     Product,
 )
+from basket.forms import BasketAddProductForm
 
 
 class ProductDetailView(FormMixin, DetailView):
@@ -22,20 +22,19 @@ class ProductDetailView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        offers = Offer.objects.prefetch_related("shop").filter(product=self.object)
-        try:
-            product_details = ProductDetail.objects.prefetch_related("detail", "product").filter(product=self.object)
-        except ProductDetail.DoesNotExist:
-            raise Http404(f"Продукт под номером {self.object.id}, отсутствует в базе данных")
-
-        comments = Comment.objects.select_related("author", "product").filter(product=self.object)[:10]
-        comment_count = Comment.objects.filter(product=self.object).count()
+        offers = Offer.objects.prefetch_related("shop").filter(product_id=self.object.pk)
+        product_details = ProductDetail.objects.prefetch_related("detail", "product").get(product_id=self.object.pk)
+        comments = Comment.objects.select_related("author", "product").filter(product_id=self.object.pk)[:10]
+        comment_count = Comment.objects.filter(product_id=self.object.pk).count()
+        form_basket = BasketAddProductForm
 
         data["offers"] = offers
-        data["product"] = product_details
+        data["product"] = product_details.product
+        data["product_detail"] = product_details
         data["min_price"] = offers.aggregate(Min("price"))["price__min"]
         data["comments_list"] = comments
         data["comment_count"] = comment_count
+        data["form_basket"] = form_basket
 
         return data
 
@@ -56,4 +55,4 @@ class ProductDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("products:product_detail", kwargs={"pk": self.object.id})
+        return reverse("products:product_detail", kwargs={"pk": self.object.pk})
