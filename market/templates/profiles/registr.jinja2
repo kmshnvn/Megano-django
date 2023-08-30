@@ -1,59 +1,51 @@
-{% extends "general/base.jinja2" %}
+{% extends "profiles/login.jinja2" %}
 {% load static %}
+{% load i18n %}
 
-<head>
-    <title>
-        {% block title %}
-            Страница регистрации пользователя
-        {% endblock %}
-    </title>
-</head>
+{% block title %}
+    Страница регистрации пользователя
+{% endblock %}
 
-<body class="Site">
-    <!--if lt IE 8
-  p.error-browser
-      | Ваш браузер&nbsp;
-      em устарел!&nbsp;
-      a(href="http://browsehappy.com/") Выберите новую версию
-          +s
-          | браузера здесь&nbsp;
-      | для правильного отображения сайта.
-  -->
-        {% block content %}
-            <div class="wrapper">
+{% block content %}
+        <div class="wrapper">
+            <div class="header">
+                <h3 class="sign-in">Регистрация</h3>
+
+            </div>
+            <div class="clear"></div>
+
+            <form action="#" method="post">
+                {% csrf_token %}
+
+                <div>
+                    <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />
+                    {{ form.username.errors }}
+                </div>
+                <div>
+                    <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
+                    {{ form.email.errors }}
+                </div>
+                <div>
+
+                    <input type="password" name="password1" id="name" placeholder="Пароль" />
+                    {{ form.password1.errors }}
+                </div>
+                <div>
+
+                    <input type="password" name="password2" id="name" placeholder="Повторите пароль" />
+                    {{ form.password1.errors }}
+                </div>
+                <div class="user-input">
+                    {{ form.group }}
+                    {{ form.group.errors }}
+                </div>
+
+                <input type="submit" value="Зарегистрироваться" />
+                <a class="registr" href="{% url 'profiles:login' %}">
+                    Вход
+                </a>
                 <div class="clear"></div>
-                <form action="#" method="post">
-                    {% csrf_token %}
+            </form>
 
-                    <div>
-                        <input class="user-input" type="text" name="username" id="name" placeholder="Имя" />
-                        {{ form.username.errors }}
-                    </div>
-                    <div>
-                        <input class="user-input" type="email" name="email" id="name" placeholder="E-mail" />
-                        {{ form.email.errors }}
-                    </div>
-                    <div>
-
-                        <input type="password" name="password1" id="name" placeholder="Пароль" />
-                        {{ form.password1.errors }}
-                    </div>
-                    <div>
-
-                        <input type="password" name="password2" id="name" placeholder="Повторите пароль" />
-                        {{ form.password1.errors }}
-                    </div>
-                    <div class="user-input">
-                        {{ form.group }}
-                        {{ form.group.errors }}
-                    </div>
-
-                    <input type="submit" value="Зарегистрироваться" />
-                    <a class="registr" href="{% url 'profiles:login' %}">
-                        Вход
-                    </a>
-                    <div class="clear"></div>
-                </form>
-            </div>>
-        {% endblock %}
-</body>
+        </div>
+{% endblock %}
