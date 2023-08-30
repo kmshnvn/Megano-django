@@ -1,3 +1,8 @@
-# from django.contrib import admin
+from django.contrib import admin
+from .models import BrowsingHistory, Profile
 
-# Register your models here.
+
+@admin.register(BrowsingHistory)
+class HistoryAdmin(admin.ModelAdmin):
+    list_display = "pk", "date"
+    list_display_links = "pk", "date"

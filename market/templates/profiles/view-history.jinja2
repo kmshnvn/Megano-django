@@ -1,0 +1,32 @@
+﻿{% extends "general/base.jinja2" %}
+{% load static %}
+
+<head>
+    {% block title %}
+        История просмотров
+    {% endblock %}
+</head>
+
+{% block content %}
+    <div class="Section-content">
+        {% if viewed_products %}
+            <div class="Cards">
+                {% for product in viewed_goods %}
+                    <div class="Card-content">
+                        <strong class="Card-title"><a href="#">{{ product.name }}</a></strong>
+                        <div class="Card-description">
+                            <div class="Card-cost">
+                                <span class="Card-price">{{ product.price }}</span>
+                            </div>
+                            <div class="Card-category">{{ product.category }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>История просмотров пуста </p>
+        {% endif %}
+    </div>
+
+{% endblock %}

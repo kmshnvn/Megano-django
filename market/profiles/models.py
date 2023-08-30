@@ -3,6 +3,10 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+from django.db.utils import IntegrityError
+
 
 class Profile(models.Model):
     """Профиль пользователя"""
@@ -23,3 +27,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class BrowsingHistory(models.Model):
+    """История просмотров пользователя"""
+
+    profile = models.ForeignKey(Profile, verbose_name=_("профиль"), related_name="goods", on_delete=models.PROTECT)
+    goods = models.ManyToManyField("products.Product", related_name="goods", verbose_name=_("товары в истории"))
+    date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("история просмотров")

@@ -1,3 +1,4 @@
+from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import (
     PasswordResetView,
@@ -6,14 +7,17 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.db import transaction
-from django.shortcuts import redirect
+from django.db import models
+from django.shortcuts import redirect, render
 
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 
 from .forms import RegisterUserForm, EmailAuthenticationForm
-from .models import Profile
+from .models import Profile, BrowsingHistory
 from market.config import settings
+
+from .services import HistoryService
 
 
 class ResetPasswordView(PasswordResetView):
@@ -84,3 +88,23 @@ class RegisterView(CreateView):
             login(request=self.request, user=user)
 
         return response
+
+
+class HistoryView(View):
+    def get(self, request):
+        viewed_goods = HistoryService.get_last_viewed(request.user.id)
+        context = {
+            'viewed_goods': viewed_goods
+        }
+        return render(request, 'profiles/view-history.jinja2', context)
+
+
+def clean_history(request, pk: int):
+    """
+    Представление удаления товара из списка просмотренных
+    :param request:
+    :param pk:
+    :return:
+    """
+
+    HistoryService.delete_viewed_product(request.user.id, int(pk))
