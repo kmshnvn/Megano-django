@@ -1,5 +1,8 @@
 {% extends "general/base.jinja2" %}
 {% load static %}
+{% block title %}
+    {{product.name}}
+{% endblock %}
 {% block content %}
     <div class="Middle Middle_top">
         <div class="Section">
@@ -8,7 +11,7 @@
                     <div class="ProductCard">
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{product.preview}}" alt="Product preview" />
+                                <img src="{{product.preview}}" alt="{{product.name}}" />
                             </div>
                             <div class="ProductCard-picts">
                                 <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png">
@@ -48,36 +51,41 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="ProductCard-cart">
-                                <div class="ProductCard-cartElement ProductCard-cartElement_amount">
-                                    <div class="Amount Amount_product">
-                                        <button class="Amount-remove" type="button">
-                                        </button>
-                                        <input class="Amount-input form-input" name="amount" type="text" value="1" />
-                                        <button class="Amount-add" type="button">
-                                        </button>
+                            <form method="post" enctype="multipart/form-data" action="{% url "basket:add_product" offers.0.product.pk offers.0.pk %}">
+                                {% csrf_token %}
+                                <div class="ProductCard-cart">
+                                    <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                                        <div class="Amount Amount_product">
+                                            <button class="Amount-remove" type="button">
+                                            </button>
+                                                {{ form_basket.amount }}
+                                            <button class="Amount-add" type="button">
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="ProductCard-cartElement">
-                                    <a class="btn btn_primary" href="#modal_open">
-                                        <img class="btn-icon" src="{% static "assets/img/icons/card/cart_white.svg" %}" alt="cart_white.svg" />
-                                        <span class="btn-content">Купить</span>
-                                    </a>
-                                </div>
-                                <div id="modal_open" class="my_modal">
-                                    <div class="my_modal-dialog">
-                                        <div class="my_modal-content">
-                                            <div class="my_modal-header">
-                                                <p class="my_modal-title">Поздравляем!</p>
-                                                <a href="#" title="Закрыть модальное окно" class="close">×</a>
-                                            </div>
-                                            <div class="my_modal-body">
-                                                <p>Товар успешно добавлен в корзину!</p>
+                                    <div class="ProductCard-cartElement">
+                                        <a href="#modal_open">
+                                            <button class="btn btn_primary"  type="submit" value="add">
+                                                <img class="btn-icon" src="{% static "assets/img/icons/card/cart_white.svg" %}" alt="cart_white.svg" />
+                                                <span class="btn-content">Купить</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div id="modal_open" class="my_modal">
+                                        <div class="my_modal-dialog">
+                                            <div class="my_modal-content">
+                                                <div class="my_modal-header">
+                                                    <p class="my_modal-title">Поздравляем!</p>
+                                                    <a href="#" title="Закрыть модальное окно" class="close">×</a>
+                                                </div>
+                                                <div class="my_modal-body">
+                                                    <p>Товар успешно добавлен в корзину!</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             <div class="ProductCard-footer">
                                 <div class="ProductCard-tags">
                                     <strong class="ProductCard-tagsTitle">Тэги:
@@ -138,7 +146,7 @@
                                                 Характеристика
                                             </th>
                                             <th>
-                                                {{product_detail.value}}
+                                                {{product.description}}
                                             </th>
                                         </tr>
                                         <tr>
@@ -146,7 +154,7 @@
                                                 Тип устройства
                                             </td>
                                             <td>
-                                                {{product_detail.detail.name}}
+                                                {{product_detail.value}}
                                             </td>
                                         </tr>
                                     </table>
@@ -160,15 +168,15 @@
                                                 <div class="Order-personal">
                                                     <div class="row">
                                                         <div class="row-block">
-                                                            <a class="Order-title" href="oneorder.html">
-                                                                    {{offer.shop.name}}
+                                                            <a class="Order-title" href="#">
+                                                                {{offer.shop.name}}
                                                             </a>
-                                                            <div class="ProductCard-cartElement" style="margin-top: 10px;">
-                                                                <a class="btn btn_primary" href="#modal_open">
-                                                                    <img class="btn-icon" src="{% static "assets/img/icons/card/cart_white.svg" %}" alt="cart_white.svg" />
-                                                                    <span class="btn-content">Купить</span>
-                                                                </a>
-                                                            </div>
+                                                                <div class="ProductCard-cartElement" style="margin-top: 10px;">
+                                                                    <a class="btn btn_primary" href="{% url "basket:add_product" offer.product.pk offer.pk %}">
+                                                                        <img class="btn-icon" src="{% static "assets/img/icons/card/cart_white.svg" %}" alt="cart_white.svg" />
+                                                                        <span class="btn-content">Купить</span>
+                                                                    </a>
+                                                                </div>
                                                         </div>
                                                         <div class="row-block">
                                                             <div class="Order-info Order-info_delivery">
@@ -200,8 +208,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
 
                             <div class="Tabs-block" id="addit">
                                 <div class="Product-props">
@@ -239,9 +245,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
 
                             <div class="Tabs-block" id="reviews">
                                 <header class="Section-header">
