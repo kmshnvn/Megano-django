@@ -10,7 +10,7 @@ class ShopModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create(pk=1)
+        cls.user = User.objects.create()
         cls.detail = Detail.objects.create(name="тестовая характеристика")
         cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
@@ -23,7 +23,7 @@ class ShopModelTest(TestCase):
             cls.product.category.set([cls.category])
             cls.product.details.set([cls.detail])
 
-        cls.shop = Shop.objects.create(name="тестовый магазин", user_id=1)
+        cls.shop = Shop.objects.create(name="тестовый магазин", user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=25)
 
     @classmethod
@@ -57,13 +57,13 @@ class OfferModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create(id=1)
+        cls.user = User.objects.create()
         cls.category = Category.objects.create(name="test_category")
         cls.product = Product.objects.create(
             name="тестовый продукт",
             category_id=cls.category.pk,
         )
-        cls.shop = Shop.objects.create(name="тестовый магазин", user_id=1)
+        cls.shop = Shop.objects.create(name="тестовый магазин", user=cls.user)
         cls.offer = Offer.objects.create(shop=cls.shop, product=cls.product, price=35)
 
     @classmethod
