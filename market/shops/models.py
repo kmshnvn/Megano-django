@@ -12,6 +12,7 @@ class Shop(models.Model):
         verbose_name = _("магазин")
         verbose_name_plural = _("магазины")
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=512, verbose_name=_("название"))
     products = models.ManyToManyField(
         "products.Product",
