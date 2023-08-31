@@ -8,4 +8,4 @@ register = Library()
 def query_set():
     """Тег для возвращения данных модели Category в шаблон jinja2."""
 
-    return Category.objects.prefetch_related("parent")
+    return Category.objects.prefetch_related("parent").order_by("pk")
