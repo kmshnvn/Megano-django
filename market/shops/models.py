@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+from profiles.models import User
 
 phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
 
