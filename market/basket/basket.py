@@ -7,7 +7,7 @@ from decimal import Decimal
 import random
 
 
-class BasketObject():
+class BasketObject:
     """Инициализируем работу корзины для добавления товаров"""
 
     def __init__(self, request: HttpRequest) -> None:
