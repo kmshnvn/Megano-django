@@ -21,48 +21,67 @@ class CatalogListView(FormMixin, ListView):
         if self.kwargs.get("cat", None):
             context["cat"] = self.kwargs["cat"]
 
-        if self.kwargs.get("sort", None):
-            context["products"] = self.sort_products(product=context["products"], key=self.kwargs["sort"])
-
         return context
 
     def get_queryset(self):
-        print(self.kwargs)
         product = Product.objects.prefetch_related("category", "offers")
 
         if self.kwargs.get("cat", None) and self.request.method == "GET":  # возвращаем товары по категориям
             product = product.filter(category__name=self.kwargs["cat"])
+            # self.request.session["form"] = None
 
-        # if self.request.method == "POST":  # фильтрация товаров
-        form = CatalogFiltersForm(self.request.POST)
+        if self.kwargs.get("sort", None):  # сортировка товара
+            if self.request.session.get("form", None):  # если ранее фильтрация была определена
+                product = self.filter_products(products=product, filter_data=self.request.session["form"])
+            product = self.sort_products(products=product, key=self.kwargs["sort"])
 
-        if form.is_valid():
-            price_from, price_to = form.cleaned_data.get("price")
-            name = form.cleaned_data.get("title", "")
+        if self.request.method == "POST":  # фильтрация товаров
+            form = CatalogFiltersForm(self.request.POST)
 
-            product = product.filter(offers__price__range=(price_from, price_to)).filter(name__icontains=name)
+            if form.is_valid():
+                data = {
+                    "price": form.cleaned_data.get("price"),
+                    "name": form.cleaned_data.get("title", ""),
+                    "available": form.cleaned_data.get("available", None),
+                }
+                product = self.filter_products(products=product, filter_data=data)
 
-            if form.cleaned_data.get("available", None):
-                product = product.filter(offers__remainder__gt=0)
+                if self.kwargs.get("cat", None):  # возвращаем товары по категориям
+                    product = product.filter(category__name=self.kwargs["cat"])
 
-            if self.kwargs.get("cat", None):  # возвращаем товары по категориям
-                product = product.filter(category__name=self.kwargs["cat"])
+                if self.kwargs.get("sort", None):  # сортировка товарок
+                    product = self.sort_products(products=product, key=self.kwargs["sort"])
 
         return product
 
-    def sort_products(self, product: QuerySet, key: str) -> QuerySet:
+    def sort_products(self, products: QuerySet, key: str) -> QuerySet:
         """Метод сортировки товаров по заданному ключу"""
 
         if key == "price":
-            return product.order_by("offers__price")
+            return products.order_by("offers__price")
 
         if key == "comments":
-            return product.annotate(count=Count("comments")).order_by("count")
+            return products.annotate(count=Count("comments")).order_by("count")
 
         if key == "date":
-            return product.order_by("date_added")
+            return products.order_by("date_added")
 
         if key == "popular":
             pass
 
+        return products
+
+    def filter_products(self, products: QuerySet, filter_data: dict) -> QuerySet:
+        """Метод фильтрации товаров по ключам переданных из формы."""
+
+        price_from, price_to = filter_data.get("price")
+        name = filter_data.get("name")
+
+        product = products.filter(offers__price__range=(price_from, price_to)).filter(name__icontains=name)
+
+        if filter_data.get("available"):
+            product = products.filter(offers__remainder__gt=0)
+
+        self.request.session.set_expiry(300)
+        self.request.session["form"] = filter_data  # добавляем ключи фильтрации в сессию
         return product
