@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+from profiles.models import User
 
 phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
 
@@ -12,6 +13,7 @@ class Shop(models.Model):
         verbose_name = _("магазин")
         verbose_name_plural = _("магазины")
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=512, verbose_name=_("название"))
     products = models.ManyToManyField(
         "products.Product",

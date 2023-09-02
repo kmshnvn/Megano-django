@@ -1,8 +1,10 @@
 from django.db.models import Count, QuerySet
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from products.models import Product
 from shops.forms import CatalogFiltersForm
+from django.shortcuts import render  # noqa F401
+from .models import Shop
 
 
 class CatalogListView(FormMixin, ListView):
@@ -85,3 +87,11 @@ class CatalogListView(FormMixin, ListView):
         self.request.session.set_expiry(300)
         self.request.session["form"] = filter_data  # добавляем ключи фильтрации в сессию
         return product
+
+
+class ShopDetailView(DetailView):
+    """View детального представления магазина"""
+
+    context_object_name = "shop"
+    template_name = "shop/shop_detail.jinja2"
+    model = Shop
