@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <div>{{ form.price.errors }}</div>
                                     <div class="range Section-columnRange">
-                                        <input class="range-line" id="price" name="price" type="text" data-type="double" data-min="5" data-max="5000" data-from="5" data-to="500" />
+                                        <input class="range-line" id="price" name="price" type="text" data-type="double" data-min="5" data-max="50000" data-from="500" data-to="3000" />
                                         <div class="range-price">Цена:&#32;
                                             <div class="rangePrice">
                                             </div>
@@ -96,9 +96,9 @@
                         {%for product in products %}
                             {% for offer in product.offers.all %}
 
-                                <div class="Card"><a class="Card-picture" href="#">
+                                <div class="Card"><a class="Card-picture" href="{{ product.get_absolute_url }}">
 
-                                    <img src="{{ product.preview.name }}" alt="{{ product.preview.name }}" /></a>
+                                    <img src="{{ product.preview.url }}" alt="{{ product.preview.name }}" /></a>
                                     <div class="Card-content">
                                         <strong class="Card-title">
                                             <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
@@ -111,7 +111,7 @@
                                             </div>
 
                                             <div class="Card-hover">
-                                                <a class="Card-btn" href="#">
+                                                <a class="Card-btn" href="{% url 'basket:add_product' product_pk=product.pk offer_pk=offer.pk %}">
                                                     <img src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg" />
                                                 </a>
                                             </div>
