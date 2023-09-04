@@ -63,3 +63,14 @@ class ProductDetail(models.Model):
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
     value = models.CharField(max_length=128, verbose_name=_("значение"))
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+
+
+class UploadedFile(models.Model):
+    """
+    Модель загрузки фала
+    """
+
+    file = models.FileField(upload_to="import_data/to_import")
+
+    def __str__(self):
+        return self.file.name
