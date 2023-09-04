@@ -19,7 +19,6 @@ class ShopModelTest(TestCase):
         )
 
         def set_needest(*args, **kwargs):
-
             cls.product.category.set([cls.category])
             cls.product.details.set([cls.detail])
 
