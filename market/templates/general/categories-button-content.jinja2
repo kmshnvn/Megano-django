@@ -1,0 +1,38 @@
+{% load static %}
+{% load i18n %}
+{% load catalog_data %}
+
+{% query_set as categories %}
+
+{% for category in categories %}
+
+    {% if not category.parent %}
+
+        <div class="CategoriesButton-link">
+            <a href="{% url 'shops:shops-catalog' cat=category.name %}">
+                <div class="CategoriesButton-icon">
+                    <img src="{% static 'assets/img/icons/departments/7.svg' %}" alt="7.svg" />
+                </div>
+                <span class="CategoriesButton-text">{{ category.name }}</span>
+            </a>
+
+            <a class="CategoriesButton-arrow" href="#"></a>
+
+            <div class="CategoriesButton-submenu">
+                {% for subCat in categories %}
+                    {% if subCat.parent.pk == category.pk %}
+                        <a class="CategoriesButton-link" href="{% url 'shops:shops-catalog' cat=subCat.name %}">
+                            <div class="CategoriesButton-icon">
+                                <img src="{% static 'assets/img/icons/departments/1.svg' %}" alt="1.svg" />
+                            </div>
+                            <span class="CategoriesButton-text">{{ subCat.name }}</span>
+                        </a>
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+        </div>
+    {% endif %}
+
+{% endfor %}

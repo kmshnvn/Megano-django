@@ -17,20 +17,21 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """Продукт"""
+    """Модель продукт"""
+
+    class Meta:
+        verbose_name = _("продукт")
+        verbose_name_plural = _("продукты")
 
     name = models.CharField(max_length=512, verbose_name=_("наименование"))
     details = models.ManyToManyField("Detail", through="ProductDetail", verbose_name=_("характеристики"))
     description = models.CharField(max_length=512, verbose_name=_("описание"))
     preview = models.ImageField(blank=True, upload_to="products/preview")
     image = models.ImageField(blank=True, upload_to="products/image")
+    date_added = models.DateTimeField(auto_now=True, verbose_name=_("дата добавления"))
     category = models.ForeignKey(
         Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
     )
-
-    class Meta:
-        verbose_name = _("продукт")
-        verbose_name_plural = _("продукты")
 
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
