@@ -13,6 +13,7 @@ class CatalogListView(FormMixin, ListView):
     form_class = CatalogFiltersForm
     template_name = "shops/catalog.jinja2"
     context_object_name = "products"
+    # paginate_by = 3
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
