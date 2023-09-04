@@ -5,17 +5,8 @@
 
 <body class="Site">
 {% block body %}
-    <!--if lt IE 8
-  p.error-browser
-      | Ваш браузер&nbsp;
-      em устарел!&nbsp;
-      a(href="http://browsehappy.com/") Выберите новую версию
-          +s
-          | браузера здесь&nbsp;
-      | для правильного отображения сайта.
-  -->
     <main class="Middle">
-        {% block content %}
+
             <div class="ControlPanel">
                 <div class="wrap">
                     <div class="row ControlPanel-row">
@@ -65,33 +56,32 @@
 
 
 
-
-                <div class="wrapper">
-                    <div class="header">
-                        <h3 class="sign-in">Вход</h3>
+                {% block content %}
+                    <div class="wrapper">
+                        <div class="header">
+                            <h3 class="sign-in">Вход</h3>
+                        </div>
+                        <div class="clear"></div>
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <div>
+                                {{ form.non_field_errors }}
+                                <input class="user-input" type="text" name="email" id="name" placeholder="E-mail" />
+                            </div>
+                            <div>
+                                <input type="password" name="password" id="name" placeholder="*********" />
+                            </div>
+                            <div>
+                                <input type="submit" value="Войти" />
+                            </div>
+                            <a class="forgot-label" href="{% url 'profiles:password_reset' %}">Забыли пароль?</a>
+                            <a class="registr" href="{% url 'profiles:registration_user' %}">
+                                Регистрация
+                            </a>
+                        </form>
                     </div>
-                    <div class="clear"></div>
-                    <form action="#" method="post">
-                        {% csrf_token %}
-                        <div>
-                            {{ form.non_field_errors }}
-                            <input class="user-input" type="text" name="email" id="name" placeholder="E-mail" />
-                        </div>
-                        <div>
-                            <input type="password" name="password" id="name" placeholder="*********" />
-                        </div>
-                        <div>
-                            <input type="submit" value="Войти" />
-                        </div>
-                        <a class="forgot-label" href="{% url 'profiles:password_reset' %}">Забыли пароль?</a>
-                        <a class="registr" href="{% url 'profiles:registration_user' %}">
-                            Регистрация
-                        </a>
-                    </form>
-                </div>
-
+                {% endblock %}
             </div>
-        {% endblock %}
     </main>
 
     <footer class="Footer">
