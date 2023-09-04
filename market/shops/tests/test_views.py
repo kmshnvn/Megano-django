@@ -18,7 +18,7 @@ class CatalogListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
-        cls.page_url = "http://127.0.0.1:8000/shops/catalog/"
+        cls.page_url = reverse("shops:shops-catalog")
         cls.products = Product.objects.prefetch_related("category", "offers")
         cls.cat_name = Category.objects.get(pk=10).name
         cls.data = {"price": "500;50000"}
@@ -26,7 +26,7 @@ class CatalogListViewTest(TestCase):
     def test_get_method(self):
         """Тест ответа GET-запроса страницы."""
 
-        response = self.client.get((reverse("shops:shops-catalog")))
+        response = self.client.get(self.page_url)
 
         self.assertEqual(200, response.status_code),
         self.assertIn("shops/catalog.jinja2", response.template_name)
@@ -97,6 +97,14 @@ class CatalogListViewTest(TestCase):
 
         self.assertQuerySetEqual(query, response.context_data["products"])
 
+    # def test_sort_by_date_available(self):
+    #     """Тест фильтра товара -только в наличии."""
+    #
+    #     response = self.client.get((reverse("shops:shops-catalog", kwargs={"sort": "available"})))
+    #     query = self.products.filter(offers__remainder__gt=0)
+    #
+    # self.assertQuerySetEqual(query, response.context_data["products"])
+
     def test_sort_with_category_page(self):
         """Тест сортировка определенной категории товаров"""
 
@@ -123,6 +131,7 @@ class CatalogListViewTest(TestCase):
 
     def test_sort_with_filter_form_category_page(self):
         """Тест сортировки определенной категории товаров, которые были заранее отфильтрованные."""
+
         session = self.client.session
         session["form"] = {"price": (500, 20000), "name": "", "available": False}
         session.save()
