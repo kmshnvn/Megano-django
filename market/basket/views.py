@@ -31,7 +31,7 @@ def add_product(request: HttpRequest, product_pk: int, offer_pk=None) -> HttpRes
         offer_pk=offer_pk,
         amount=amount,
     )
-    return redirect(to="products:product_detail", pk=product_pk)
+    return redirect(to="basket:basket_view")
 
 
 def remove_product(request: HttpRequest, offer_pk: int) -> HttpResponse:

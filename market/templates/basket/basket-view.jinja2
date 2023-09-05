@@ -12,7 +12,7 @@
                     {% with product=item.product amount=item.amount price=item.price offer_pk=item.offer_pk %}
                         <div class="Cart-product">
                             <div class="Cart-block Cart-block_row">
-                                <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src="{{product.preview}}" alt="{{product.name}}" /></a>
+                                <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src="{{product.preview.url}}" alt="{{product.name}}" /></a>
                                 </div>
                                 <div class="Cart-block Cart-block_info"><a class="Cart-title" href="{% url "products:product_detail" product.pk %}"> {{product.name}}</a>
                                     <div class="Cart-desc">{{product.description}}
