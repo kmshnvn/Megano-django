@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="2023-09-01T14:00:00+03:00">
+  <shop>
+    <shopID>5</name>
+    <categories>
+      <category>Электроника</category>
+    </categories>
+    <offers>
+      <offer>
+        <name>Новый товар импорта</name>
+        <description>Описания товара</description>
+        <image>Ссылка на изображение</image>
+        <category>21</category>
+        <price>1200</price>
+        <count>345</count>
+        <params>
+          <param name="Цвет">Красный</param>
+        </params>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>
