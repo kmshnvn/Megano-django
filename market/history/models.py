@@ -10,12 +10,12 @@ class BrowsingHistory(models.Model):
     user = models.ForeignKey(
         User,
         verbose_name=_("пользователь"),
-        related_name="user",
+        related_name="histories",
         on_delete=models.PROTECT
     )
-    products = models.ForeignKey(
+    product = models.ForeignKey(
         "products.Product",
-        related_name="product",
+        related_name="histories",
         verbose_name=_("товары в истории"),
         on_delete=models.PROTECT
     )

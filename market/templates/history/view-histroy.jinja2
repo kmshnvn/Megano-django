@@ -12,12 +12,10 @@
                 <div class="Card">
                     <a class="Card-picture" href="assets/img/content/home/bigGoods.png"><img src="{% static "assets/img/content/home/bigGoods.png" %}" alt="bigGoods.png" /></a>
                     <div class="Card-content">
-                        <strong class="Card-title"><a href=/products/{{ obj.products.id }}/>{{ obj.products.name }}</a>
+                        <strong class="Card-title"><a href=/products/{{ obj.product.id }}/>{{ obj.product.name }}</a>
                         </strong>
                         <div class="Card-description">
-                            <div class="Card-cost"><span class="Card-price">{{ obj.products.price }}</span>
-                            </div>
-                            <div class="Card-category">{{ obj.products.category.name }}
+                            <div class="Card-category">{{ obj.product.category.name }}
                             </div>
                         </div>
                     </div>

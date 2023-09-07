@@ -31,11 +31,11 @@ class ProductDetailView(FormMixin, DetailView):
 
         if self.request.user.is_authenticated:
             history_object, created = BrowsingHistory.objects.update_or_create(
-                user_id=self.request.user.id,
-                products_id=self.get_object().id,
+                user=self.request.user,
+                product=self.get_object(),
                 defaults={
-                    "user_id": self.request.user.id,
-                    "products_id": self.get_object().id,
+                    "user": self.request.user,
+                    "product": self.get_object(),
                 }
             )
             data["history"] = history_object

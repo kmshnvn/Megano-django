@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "user": 7,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:04:56.547Z"
     }
   },
@@ -13,7 +13,7 @@
     "pk": 2,
     "fields": {
       "user": 7,
-      "products": 2,
+      "product": 2,
       "date": "2023-09-07T10:04:23.377Z"
     }
   },
@@ -22,7 +22,7 @@
     "pk": 3,
     "fields": {
       "user": 7,
-      "products": 3,
+      "product": 3,
       "date": "2023-09-07T10:00:37.116Z"
     }
   },
@@ -31,7 +31,7 @@
     "pk": 4,
     "fields": {
       "user": 7,
-      "products": 13,
+      "product": 13,
       "date": "2023-09-07T10:04:37.473Z"
     }
   },
@@ -40,7 +40,7 @@
     "pk": 5,
     "fields": {
       "user": 7,
-      "products": 11,
+      "product": 11,
       "date": "2023-09-07T10:04:18.198Z"
     }
   },
@@ -49,7 +49,7 @@
     "pk": 6,
     "fields": {
       "user": 4,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:05:12.336Z"
     }
   },
@@ -58,7 +58,7 @@
     "pk": 7,
     "fields": {
       "user": 4,
-      "products": 7,
+      "product": 7,
       "date": "2023-09-07T10:05:16.547Z"
     }
   },
@@ -67,7 +67,7 @@
     "pk": 8,
     "fields": {
       "user": 4,
-      "products": 16,
+      "product": 16,
       "date": "2023-09-07T10:05:26.739Z"
     }
   },
@@ -76,7 +76,7 @@
     "pk": 9,
     "fields": {
       "user": 5,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:05:31.279Z"
     }
   },
@@ -85,7 +85,7 @@
     "pk": 10,
     "fields": {
       "user": 5,
-      "products": 2,
+      "product": 2,
       "date": "2023-09-07T10:05:35.600Z"
     }
   },
@@ -94,7 +94,7 @@
     "pk": 11,
     "fields": {
       "user": 5,
-      "products": 4,
+      "product": 4,
       "date": "2023-09-07T10:05:41.434Z"
     }
   },
@@ -103,7 +103,7 @@
     "pk": 12,
     "fields": {
       "user": 5,
-      "products": 3,
+      "product": 3,
       "date": "2023-09-07T10:05:51.155Z"
     }
   },
@@ -112,7 +112,7 @@
     "pk": 13,
     "fields": {
       "user": 5,
-      "products": 5,
+      "product": 5,
       "date": "2023-09-07T10:06:00.695Z"
     }
   },
@@ -121,7 +121,7 @@
     "pk": 14,
     "fields": {
       "user": 5,
-      "products": 6,
+      "product": 6,
       "date": "2023-09-07T10:06:05.521Z"
     }
   },
@@ -130,7 +130,7 @@
     "pk": 15,
     "fields": {
       "user": 5,
-      "products": 8,
+      "product": 8,
       "date": "2023-09-07T10:06:16.851Z"
     }
   },
@@ -139,7 +139,7 @@
     "pk": 16,
     "fields": {
       "user": 5,
-      "products": 9,
+      "product": 9,
       "date": "2023-09-07T10:06:22.486Z"
     }
   },
@@ -148,7 +148,7 @@
     "pk": 17,
     "fields": {
       "user": 6,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:06:27.262Z"
     }
   },
@@ -157,7 +157,7 @@
     "pk": 18,
     "fields": {
       "user": 6,
-      "products": 4,
+      "product": 4,
       "date": "2023-09-07T10:06:35.815Z"
     }
   },
@@ -166,7 +166,7 @@
     "pk": 19,
     "fields": {
       "user": 6,
-      "products": 11,
+      "product": 11,
       "date": "2023-09-07T10:06:59.657Z"
     }
   },
@@ -175,7 +175,7 @@
     "pk": 20,
     "fields": {
       "user": 2,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:07:11.728Z"
     }
   },
@@ -184,7 +184,7 @@
     "pk": 21,
     "fields": {
       "user": 2,
-      "products": 5,
+      "product": 5,
       "date": "2023-09-07T10:07:24.583Z"
     }
   },
@@ -193,7 +193,7 @@
     "pk": 22,
     "fields": {
       "user": 2,
-      "products": 12,
+      "product": 12,
       "date": "2023-09-07T10:07:29.254Z"
     }
   },
@@ -202,7 +202,7 @@
     "pk": 23,
     "fields": {
       "user": 2,
-      "products": 18,
+      "product": 18,
       "date": "2023-09-07T10:07:34.111Z"
     }
   },
@@ -211,7 +211,7 @@
     "pk": 24,
     "fields": {
       "user": 3,
-      "products": 1,
+      "product": 1,
       "date": "2023-09-07T10:07:37.885Z"
     }
   },
@@ -220,7 +220,7 @@
     "pk": 25,
     "fields": {
       "user": 3,
-      "products": 4,
+      "product": 4,
       "date": "2023-09-07T10:07:46.055Z"
     }
   }
