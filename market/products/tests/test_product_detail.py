@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from products.models import Product, ProductDetail, Detail, Category
+from history.models import BrowsingHistory
 from shops.models import Offer, Shop
 from comments.models import Comment
 from django.contrib.auth.models import User
@@ -18,6 +19,7 @@ class ProductDetailTestCase(TestCase):
         "fixtures/08-details-fixtures.json",
         "fixtures/09-products-detail-fixtures.json",
         "fixtures/011-offers-fixtures.json",
+        "fixtures/012-history-products-fixtures.json",
     ]
 
     @classmethod
@@ -30,6 +32,7 @@ class ProductDetailTestCase(TestCase):
         cls.category = Category.objects.get(pk=4)
         cls.comment = Comment.objects.get(pk=1)
         cls.shop = Shop.objects.get(pk=1)
+        cls.history = BrowsingHistory.objects.get(pk=1)
 
     def test_product_detail(self) -> None:
         """Тест представления product-detail"""
@@ -43,4 +46,5 @@ class ProductDetailTestCase(TestCase):
         self.assertContains(response, self.detail.pk)
         self.assertContains(response, self.category.pk)
         self.assertContains(response, self.comment.pk)
+        self.assertContains(response, self.history.pk)
         self.assertFalse(response.context_data["form"].is_valid())

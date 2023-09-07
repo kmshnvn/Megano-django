@@ -12,6 +12,7 @@ from .models import (
     Product,
 )
 from basket.forms import BasketAddProductForm
+from history.models import BrowsingHistory
 
 
 class ProductDetailView(FormMixin, DetailView):
@@ -27,6 +28,17 @@ class ProductDetailView(FormMixin, DetailView):
         comments = Comment.objects.select_related("author", "product").filter(product_id=self.object.pk)[:10]
         comment_count = Comment.objects.filter(product_id=self.object.pk).count()
         form_basket = BasketAddProductForm
+
+        if self.request.user.is_authenticated:
+            history_object, created = BrowsingHistory.objects.update_or_create(
+                user_id=self.request.user.id,
+                products_id=self.get_object().id,
+                defaults={
+                    "user_id": self.request.user.id,
+                    "products_id": self.get_object().id,
+                }
+            )
+            data["history"] = history_object
 
         data["offers"] = offers
         data["product"] = product_details
