@@ -1,14 +1,15 @@
 import datetime
 import random
 
-from django.db.models import Count, QuerySet
+from django.core.cache import cache
+from django.db.models import QuerySet, Count
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from products.models import Product
 from shops.forms import CatalogFiltersForm
 from django.shortcuts import render  # noqa F401
 
-from .models import Shop
+from .models import Shop, LimitedOffer
 
 
 class MainPageView(ListView):
@@ -18,7 +19,7 @@ class MainPageView(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        products = Product.objects.prefetch_related("category", "offers")[2:5]  # ПОПУЛЯРНЫЕ ТОВАРЫ
+        products = Product.objects.prefetch_related("category", "offers")[2:5]  # ПОПУЛЯРНЫЕ ТОВАРЫ - заглушка
         return products
 
     def get_context_data(self, *args, **kwargs):
@@ -30,8 +31,15 @@ class MainPageView(ListView):
             offers_time = datetime.datetime.today() + datetime.timedelta(days=1)
 
             context["offers_time"] = offers_time.strftime("%d.%m.%Y %H:%M:%S")
-            context["limited_offer"] = random.choice(limited_products)
             context["limited_offers"] = limited_products
+
+            limited_offer = cache.get("limited_offer")
+            if not limited_offer:
+                # рандомный выбор огранич. товара
+                limited_offer = random.choice(LimitedOffer.objects.prefetch_related("product"))
+                cache.set("limited_offer", limited_offer, 86400)  # сохраняем ограненное предложения на сутки
+
+            context["limited_offer"] = limited_offer
 
         return context
 
