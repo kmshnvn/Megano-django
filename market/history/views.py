@@ -8,7 +8,5 @@ class HistoryView(ListView):
     context_object_name = "history"
 
     def get_context_data(self, **kwargs):
-        context = {
-            "user_histroy": BrowsingHistory.objects.filter(user=self.request.user)
-        }
+        context = {"user_histroy": BrowsingHistory.objects.filter(user=self.request.user)}
         return context

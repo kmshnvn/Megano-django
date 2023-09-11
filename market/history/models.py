@@ -7,17 +7,9 @@ from django.utils.translation import gettext_lazy as _
 class BrowsingHistory(models.Model):
     """История просмотров пользователя"""
 
-    user = models.ForeignKey(
-        User,
-        verbose_name=_("пользователь"),
-        related_name="histories",
-        on_delete=models.PROTECT
-    )
+    user = models.ForeignKey(User, verbose_name=_("пользователь"), related_name="histories", on_delete=models.PROTECT)
     product = models.ForeignKey(
-        "products.Product",
-        related_name="histories",
-        verbose_name=_("товары в истории"),
-        on_delete=models.PROTECT
+        "products.Product", related_name="histories", verbose_name=_("товары в истории"), on_delete=models.PROTECT
     )
     date = models.DateTimeField(auto_now=True)
 
