@@ -45,12 +45,12 @@
     </div>
     <div class="wrap">
         <div class="row Header-rowMain">
-        <div class="row-block Header-logo"><a class="logo" href=""><img class="logo-image" src="{% static 'assets/img/logo.png'%}" alt="logo.png"/></a>
+        <div class="row-block Header-logo"><a class="logo" href="{% url 'shops:main-page' %}"><img class="logo-image" src="{% static 'assets/img/logo.png'%}" alt="logo.png"/></a>
         </div>
         <nav class="row-block row-block_right Header-menu">
           <div class="menuModal" id="navigate">
             <ul class="menu menu_main">
-              <li class="menu-item"><a class="menu-link" href="#">Главная</a>
+              <li class="menu-item"><a class="menu-link" href="{% url 'shops:main-page' %}">Главная</a>
               </li>
 
               <li class="menu-item"><a class="menu-link" href="#">Блог</a>
@@ -63,43 +63,20 @@
             </ul>
           </div>
         </nav>
+
         {% block basket %}
-                {% include 'general/basket-header.jinja2' %}
+            {% include 'general/basket-header.jinja2' %}
         {% endblock %}
+
         <div class="row-block Header-trigger"><a class="menuTrigger" href="#navigate">
             <div class="menuTrigger-content">Показать навигацию
             </div><span></span><span></span><span></span></a>
         </div>
         </div>
     </div>
+
     <div class="Header-searchWrap">
-        <div class="wrap">
-            <div class="Header-categories">
-              <div class="CategoriesButton">
-                <div class="CategoriesButton-title">
-                  <div class="CategoriesButton-icon"><img src="{% static 'assets/img/icons/allDep.svg' %}" alt="allDep.svg"/>
-                  </div><span class="CategoriesButton-text">Все категории</span>
-                  <div class="CategoriesButton-arrow">
-                  </div>
-                </div>
-
-                <div class="CategoriesButton-content">
-                    {% include 'general/categories-button-content.jinja2' %}
-                </div>
-
-              </div>
-            </div>
-            <div class="Header-searchLink"><img src="{% static 'assets/img/icons/search.svg' %}" alt="search.svg"/>
-            </div>
-            <div class="Header-search">
-                <div class="search">
-                    <form class="form form_search" action="#" method="post">
-                        <input class="search-input" id="query" name="query" type="text" placeholder="NVIDIA GeForce RTX 3060"/>
-                        <button class="search-button" type="submit" name="search" id="search"><img src="{% static 'assets/img/icons/search.svg' %}" alt="search.svg"/>Поиск
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {% include 'general/categories-button-content.jinja2' %}
     </div>
+
 </div>
