@@ -37,7 +37,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -188,7 +187,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = "/admin/"
+LOGIN_REDIRECT_URL = "/"
 
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True

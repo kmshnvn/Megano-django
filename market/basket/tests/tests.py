@@ -57,9 +57,7 @@ class BasketAddProductTestCase(TestCase):
         )
 
         response = self.client.post(self.page_add_product_in_basket, data={"amount": 1})
-        self.assertRedirects(
-            response=response, expected_url=reverse(viewname="basket:basket_view")
-        )
+        self.assertRedirects(response=response, expected_url=reverse(viewname="basket:basket_view"))
 
         self.client.post(path=reverse(viewname="profiles:login"), data={"email": "test@mail.ru", "password": "test_1"})
         self.assertEqual(basket.amount, 1)

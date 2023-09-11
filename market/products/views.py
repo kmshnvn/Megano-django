@@ -36,7 +36,7 @@ class ProductDetailView(FormMixin, DetailView):
                 defaults={
                     "user": self.request.user,
                     "product": self.get_object(),
-                }
+                },
             )
             data["history"] = history_object
 
