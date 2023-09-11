@@ -1,10 +1,39 @@
+import datetime
+import random
+
 from django.db.models import Count, QuerySet
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from products.models import Product
 from shops.forms import CatalogFiltersForm
 from django.shortcuts import render  # noqa F401
+
 from .models import Shop
+
+
+class MainPageView(ListView):
+    """Класс представления главной страницы"""
+
+    template_name = "main/index.jinja2"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        products = Product.objects.prefetch_related("category", "offers")[2:5]  # ПОПУЛЯРНЫЕ ТОВАРЫ
+        return products
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        limited_products = Product.objects.filter(limited=True)  # ограниченные предложения
+
+        if limited_products:
+            offers_time = datetime.datetime.today() + datetime.timedelta(days=1)
+
+            context["offers_time"] = offers_time.strftime("%d.%m.%Y %H:%M:%S")
+            context["limited_offer"] = random.choice(limited_products)
+            context["limited_offers"] = limited_products
+
+        return context
 
 
 class CatalogListView(FormMixin, ListView):
@@ -13,7 +42,7 @@ class CatalogListView(FormMixin, ListView):
     form_class = CatalogFiltersForm
     template_name = "shops/catalog.jinja2"
     context_object_name = "products"
-    # paginate_by = 3
+    paginate_by = 3
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
@@ -94,5 +123,5 @@ class ShopDetailView(DetailView):
     """View детального представления магазина"""
 
     context_object_name = "shop"
-    template_name = "shop/shop_detail.jinja2"
+    template_name = "shops/shop_detail.jinja2"
     model = Shop
