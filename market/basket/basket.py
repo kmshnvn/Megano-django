@@ -45,7 +45,7 @@ class BasketObject:
         basket = {}
         users_basket = Basket.objects.filter(user=self.user).prefetch_related("offer")
         for user_basket in users_basket:
-            basket[str(user_basket.offers.pk)] = {
+            basket[str(user_basket.offer.pk)] = {
                 "product": user_basket.offer.product.pk,
                 "amount": user_basket.amount,
                 "price": str(user_basket.offer.price),
@@ -78,7 +78,7 @@ class BasketObject:
         """
         offer = Offer.objects.get(pk=offer_pk)
         self.basket[str(offer_pk)] = {"product": offer.product.pk, "amount": amount, "price": str(offer.price)}
-        self.save(offer_pk=offer_pk)
+        self.save()
         self.update_or_create_basket(offer_pk=offer_pk, amount=amount)
 
     def update_product_in_basket(self, offer_pk: int, amount) -> None:
@@ -92,9 +92,9 @@ class BasketObject:
             self.basket[str(offer_pk)]["amount"] += amount
             if self.basket[str(offer_pk)]["amount"] <= 0:
                 self.remove_product(offer_pk=offer_pk)
-                self.save(offer_pk=offer_pk)
+                self.save()
                 return
-            self.save(offer_pk=offer_pk)
+            self.save()
             self.update_or_create_basket(offer_pk=offer_pk, amount=self.basket[str(offer_pk)]["amount"])
         else:
             raise Http404
@@ -109,7 +109,7 @@ class BasketObject:
         if self.user.is_authenticated:
             offer = Offer.objects.prefetch_related("product").get(pk=offer_pk)
             obj, created = Basket.objects.update_or_create(
-                user=self.user,
+                offer=offer,
                 defaults={
                     "user": self.user,
                     "offer": offer,
@@ -126,20 +126,12 @@ class BasketObject:
         """
         if str(offer_pk) in self.basket:
             del self.basket[str(offer_pk)]
-            self.save(offer_pk=offer_pk)
+            self.save()
             if self.user.is_authenticated:
                 users_basket = get_object_or_404(klass=Basket, user=self.user, offer=offer_pk)
                 users_basket.delete()
         else:
             raise Http404
-
-    def remove_data_basket(self, request: HttpRequest) -> None:
-        """
-        Метод для удаления корзины из сессии
-        :param: request - WSGI request
-        :return: None
-        """
-        del self.session[request.user]
 
     def get_total_price(self) -> int:
         """
@@ -148,10 +140,19 @@ class BasketObject:
         """
         return sum([Decimal(item["price"]) * item["amount"] for item in self.basket.values()])
 
-    def save(self, offer_pk: int) -> None:
+    def clear(self) -> None:
+        """
+        Удаление корзины из сессии и БД
+        :return: None
+        """
+
+        del self.session[settings.BASKET_SESSION_ID]
+        Basket.objects.filter(user=self.user).delete()
+        self.session.modified = True
+
+    def save(self) -> None:
         """
         Метод для сохранения корзины в сессии
-        :param: offer_pk - первичный ключ предложения
         :return: None
         """
         self.session[settings.BASKET_SESSION_ID] = self.basket
