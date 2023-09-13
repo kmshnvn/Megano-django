@@ -8,7 +8,8 @@
         "preview": "products/preview/1.webp",
         "image": "products/image/1.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 21
+        "category": 21,
+        "limited": false
     }
 },
 {
@@ -20,7 +21,8 @@
         "preview": "products/preview/1_fGZnE7w.webp",
         "image": "products/image/1_0BSUSel.webp",
         "date_added": "2022-08-30T08:02:27.935Z",
-        "category": 21
+        "category": 21,
+        "limited": false
     }
 },
 {
@@ -31,8 +33,9 @@
         "description": "Культиватор электрический ЕМС-1600",
         "preview": "products/preview/2.webp",
         "image": "products/image/2.webp",
-        "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 21
+        "date_added": "2023-09-10T12:17:15.234Z",
+        "category": 21,
+        "limited": true
     }
 },
 {
@@ -44,7 +47,8 @@
         "preview": "products/preview/3.webp",
         "image": "products/image/3.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 21
+        "category": 21,
+        "limited": false
     }
 },
 {
@@ -56,7 +60,8 @@
         "preview": "products/preview/1_wFO8s62.webp",
         "image": "products/image/1_7WCX5jK.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 21
+        "category": 21,
+        "limited": false
     }
 },
 {
@@ -68,7 +73,8 @@
         "preview": "products/preview/1_IGDaeVk.webp",
         "image": "products/image/1_zwHGvhK.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 23
+        "category": 23,
+        "limited": false
     }
 },
 {
@@ -80,7 +86,8 @@
         "preview": "products/preview/1_CfU5tgS.webp",
         "image": "products/image/1_Z0O4GcI.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 23
+        "category": 23,
+        "limited": false
     }
 },
 {
@@ -92,7 +99,8 @@
         "preview": "products/preview/лопата.webp",
         "image": "products/image/лопата.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 23
+        "category": 23,
+        "limited": false
     }
 },
 {
@@ -104,7 +112,8 @@
         "preview": "products/preview/топор1.webp",
         "image": "products/image/топор1.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 23
+        "category": 23,
+        "limited": false
     }
 },
 {
@@ -116,7 +125,8 @@
         "preview": "products/preview/топор2.webp",
         "image": "products/image/топор2.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 23
+        "category": 23,
+        "limited": false
     }
 },
 {
@@ -128,7 +138,8 @@
         "preview": "products/preview/качели.webp",
         "image": "products/image/качели.webp",
         "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 22
+        "category": 22,
+        "limited": false
     }
 },
 {
@@ -140,7 +151,8 @@
         "preview": "products/preview/качели2.webp",
         "image": "products/image/качели2.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 22
+        "category": 22,
+        "limited": false
     }
 },
 {
@@ -152,7 +164,8 @@
         "preview": "products/preview/гамак.webp",
         "image": "products/image/гамак.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 22
+        "category": 22,
+        "limited": false
     }
 },
 {
@@ -164,7 +177,8 @@
         "preview": "products/preview/кресло-качели.webp",
         "image": "products/image/кресло-качели.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 22
+        "category": 22,
+        "limited": false
     }
 },
 {
@@ -176,7 +190,8 @@
         "preview": "products/preview/скамейка.webp",
         "image": "products/image/скамейка.webp",
         "date_added": "2022-08-30T08:02:27.935Z",
-        "category": 22
+        "category": 22,
+        "limited": false
     }
 },
 {
@@ -188,7 +203,8 @@
         "preview": "products/preview/обои1.webp",
         "image": "products/image/обои1.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 20
+        "category": 20,
+        "limited": false
     }
 },
 {
@@ -200,7 +216,8 @@
         "preview": "products/preview/обои2.webp",
         "image": "products/image/обои2.webp",
         "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 20
+        "category": 20,
+        "limited": false
     }
 },
 {
@@ -212,7 +229,8 @@
         "preview": "products/preview/обои3.webp",
         "image": "products/image/обои3.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 20
+        "category": 20,
+        "limited": false
     }
 },
 {
@@ -224,7 +242,8 @@
         "preview": "products/preview/ламинат.webp",
         "image": "products/image/ламинат.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 20
+        "category": 20,
+        "limited": false
     }
 },
 {
@@ -235,8 +254,9 @@
         "description": "Коллекция включает в себя декоры, стилизованные под различные породы древесины от светлых до тёмных оттенков. Типичные древесные структуры поверхности подчёркивают натуральный характер всех декоров. Ламинированные напольные покрытия предназначены для жилых помещений с любой нагрузкой и коммерческих помещений со средней степенью нагрузки. С коллекцией GALAXY легко создать современный и стильный интерьер!",
         "preview": "products/preview/ламинат2_jZYpZQ7.webp",
         "image": "products/image/ламинат2_GOd6ojv.webp",
-        "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 20
+        "date_added": "2023-09-10T12:17:09.075Z",
+        "category": 20,
+        "limited": true
     }
 },
 {
@@ -248,7 +268,8 @@
         "preview": "products/preview/грунтовка.webp",
         "image": "products/image/грунтовка.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 18
+        "category": 18,
+        "limited": false
     }
 },
 {
@@ -259,8 +280,9 @@
         "description": "Грунтовка CT 17 PRO предназначена для обработки поверхностей перед нанесением штукатурных и напольных смесей, плиточных клеев и т. д. Применяется для обработки всех видов впитывающих оснований: цементных штукатурок и стяжек, известковых и гипсовых штукатурок, легкого и ячеистого бетона, ангидритных стяжек, кладок из кирпича и природного камня, древесностружечных и древесноволокнистых плит, гипсокартона и т. д. Обладает высокой проникающей способностью, снижает впитывающую способность оснований, связывает пы",
         "preview": "products/preview/грунтовка2.webp",
         "image": "products/image/грунтовка2.webp",
-        "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 18
+        "date_added": "2023-09-10T12:17:04.120Z",
+        "category": 18,
+        "limited": true
     }
 },
 {
@@ -272,7 +294,8 @@
         "preview": "products/preview/грунтовка3.webp",
         "image": "products/image/грунтовка3.webp",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 18
+        "category": 18,
+        "limited": false
     }
 },
 {
@@ -284,7 +307,8 @@
         "preview": "products/preview/гкл1.webp",
         "image": "products/image/гкл1.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 18
+        "category": 18,
+        "limited": false
     }
 },
 {
@@ -296,7 +320,8 @@
         "preview": "products/preview/гкл2.webp",
         "image": "products/image/гкл2.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 18
+        "category": 18,
+        "limited": false
     }
 },
 {
@@ -308,7 +333,8 @@
         "preview": "products/preview/молоток.webp",
         "image": "products/image/молоток.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 19
+        "category": 19,
+        "limited": false
     }
 },
 {
@@ -320,7 +346,8 @@
         "preview": "products/preview/биты.webp",
         "image": "products/image/биты.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 19
+        "category": 19,
+        "limited": false
     }
 },
 {
@@ -332,7 +359,8 @@
         "preview": "products/preview/шпатель.webp",
         "image": "products/image/шпатель.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 19
+        "category": 19,
+        "limited": false
     }
 },
 {
@@ -344,7 +372,8 @@
         "preview": "products/preview/валик.webp",
         "image": "products/image/валик.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 19
+        "category": 19,
+        "limited": false
     }
 },
 {
@@ -356,7 +385,8 @@
         "preview": "products/preview/Шпатель1_sIUA7Fs.webp",
         "image": "products/image/Шпатель1_VJamRLm.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 19
+        "category": 19,
+        "limited": false
     }
 },
 {
@@ -368,7 +398,8 @@
         "preview": "products/preview/1_uIvdDc1.webp",
         "image": "products/image/1_LYC5V0F.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 17
+        "category": 17,
+        "limited": false
     }
 },
 {
@@ -380,7 +411,8 @@
         "preview": "products/preview/2_4FZnomJ.webp",
         "image": "products/image/2_FAEBv6W.webp",
         "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 17
+        "category": 17,
+        "limited": false
     }
 },
 {
@@ -392,7 +424,8 @@
         "preview": "products/preview/3_qiIqmuR.webp",
         "image": "products/image/3_t3JU6JQ.webp",
         "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 17
+        "category": 17,
+        "limited": false
     }
 },
 {
@@ -404,7 +437,8 @@
         "preview": "products/preview/4.webp",
         "image": "products/image/4.webp",
         "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 17
+        "category": 17,
+        "limited": false
     }
 },
 {
@@ -415,8 +449,9 @@
         "description": "Завершите свое последнее повторение с силой и поднимите его с ревом, который оглушит пол спортзала в кроссовках Nike Air Max Alpha Trainer 5. Амортизация Max Air обеспечивает комфортную устойчивость при подъеме, будь то легкий или тяжелый день. Широкая плоская основа обеспечивает повышенную устойчивость и сцепление для всех видов тяжелых тренировок без ущерба для стиля, когда вы переходите от станции к станции и от съемочной площадки к съемочной площадке.",
         "preview": "products/preview/5.webp",
         "image": "products/image/5.webp",
-        "date_added": "2023-04-30T08:02:27.935Z",
-        "category": 17
+        "date_added": "2023-09-10T12:16:48.954Z",
+        "category": 17,
+        "limited": true
     }
 },
 {
@@ -427,8 +462,9 @@
         "description": "Базовая футболка приталенного кроя - Мягкий трикотаж из 100% хлопка - Плотность ткани: 200 гр/м2  - Короткий рукав и плотная горловина в рубчик - Для комфортных повседневных образов с подчеркнутым силуэтом",
         "preview": "products/preview/6.jpg",
         "image": "products/image/6.jpg",
-        "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 16
+        "date_added": "2023-09-10T12:16:59.423Z",
+        "category": 16,
+        "limited": true
     }
 },
 {
@@ -440,7 +476,8 @@
         "preview": "products/preview/8.jpg",
         "image": "products/image/8.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 16
+        "category": 16,
+        "limited": false
     }
 },
 {
@@ -452,7 +489,8 @@
         "preview": "products/preview/9.jpg",
         "image": "products/image/9.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 16
+        "category": 16,
+        "limited": false
     }
 },
 {
@@ -464,7 +502,8 @@
         "preview": "products/preview/10.jpg",
         "image": "products/image/10.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 16
+        "category": 16,
+        "limited": false
     }
 },
 {
@@ -476,7 +515,8 @@
         "preview": "products/preview/7.jpg",
         "image": "products/image/7.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 16
+        "category": 16,
+        "limited": false
     }
 },
 {
@@ -488,7 +528,8 @@
         "preview": "products/preview/11.jpg",
         "image": "products/image/11.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 15
+        "category": 15,
+        "limited": false
     }
 },
 {
@@ -500,7 +541,8 @@
         "preview": "products/preview/12.jpg",
         "image": "products/image/12.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 15
+        "category": 15,
+        "limited": false
     }
 },
 {
@@ -512,7 +554,8 @@
         "preview": "products/preview/13.jpg",
         "image": "products/image/13.jpg",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 15
+        "category": 15,
+        "limited": false
     }
 },
 {
@@ -524,7 +567,8 @@
         "preview": "products/preview/14.jpg",
         "image": "products/image/14.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 15
+        "category": 15,
+        "limited": false
     }
 },
 {
@@ -536,7 +580,8 @@
         "preview": "products/preview/15.jpg",
         "image": "products/image/15.jpg",
         "date_added": "2023-05-30T08:02:27.935Z",
-        "category": 15
+        "category": 15,
+        "limited": false
     }
 },
 {
@@ -548,7 +593,8 @@
         "preview": "products/preview/1_1FOYSDV.webp",
         "image": "products/image/1_ZViQSJe.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 9
+        "category": 9,
+        "limited": false
     }
 },
 {
@@ -560,7 +606,8 @@
         "preview": "products/preview/2_uI0g9QH.webp",
         "image": "products/image/2_B9wTl4m.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 9
+        "category": 9,
+        "limited": false
     }
 },
 {
@@ -572,7 +619,8 @@
         "preview": "products/preview/3_AimLZqp.webp",
         "image": "products/image/3_ALfFoBR.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 9
+        "category": 9,
+        "limited": false
     }
 },
 {
@@ -584,7 +632,8 @@
         "preview": "products/preview/4_KvO4dtQ.webp",
         "image": "products/image/4_d4GmSnH.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 9
+        "category": 9,
+        "limited": false
     }
 },
 {
@@ -596,7 +645,8 @@
         "preview": "products/preview/5_FVyFfLm.webp",
         "image": "products/image/5_u4JAa71.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 9
+        "category": 9,
+        "limited": false
     }
 },
 {
@@ -608,7 +658,8 @@
         "preview": "products/preview/6.webp",
         "image": "products/image/6.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 10
+        "category": 10,
+        "limited": false
     }
 },
 {
@@ -620,7 +671,8 @@
         "preview": "products/preview/7.webp",
         "image": "products/image/7.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 10
+        "category": 10,
+        "limited": false
     }
 },
 {
@@ -632,7 +684,8 @@
         "preview": "products/preview/8.webp",
         "image": "products/image/8.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 10
+        "category": 10,
+        "limited": false
     }
 },
 {
@@ -644,7 +697,8 @@
         "preview": "products/preview/9.webp",
         "image": "products/image/9.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 10
+        "category": 10,
+        "limited": false
     }
 },
 {
@@ -656,7 +710,8 @@
         "preview": "products/preview/10.webp",
         "image": "products/image/10.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 10
+        "category": 10,
+        "limited": false
     }
 },
 {
@@ -668,7 +723,8 @@
         "preview": "products/preview/11_NGWoHeJ.webp",
         "image": "products/image/11_cERWfUU.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 11
+        "category": 11,
+        "limited": false
     }
 },
 {
@@ -680,7 +736,8 @@
         "preview": "products/preview/12_V459ymO.webp",
         "image": "products/image/12_hRHvRwv.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 11
+        "category": 11,
+        "limited": false
     }
 },
 {
@@ -692,7 +749,8 @@
         "preview": "products/preview/13.webp",
         "image": "products/image/13.webp",
         "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 11
+        "category": 11,
+        "limited": false
     }
 },
 {
@@ -704,7 +762,8 @@
         "preview": "products/preview/14.webp",
         "image": "products/image/14.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 11
+        "category": 11,
+        "limited": false
     }
 },
 {
@@ -715,8 +774,9 @@
         "description": "HERO11 Black — это непревзойденное качество видео в 5,3К 60р, возможность замедленной съемки х8 в 2,7K, поддержка дополнительных модулей, автоматическая выгрузка в облако и водонепроницаемость до 10 метров.",
         "preview": "products/preview/15.webp",
         "image": "products/image/15.webp",
-        "date_added": "2023-07-30T08:02:27.935Z",
-        "category": 11
+        "date_added": "2023-09-10T12:16:43.642Z",
+        "category": 11,
+        "limited": true
     }
 },
 {
@@ -728,7 +788,8 @@
         "preview": "products/preview/16.webp",
         "image": "products/image/16.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 8
+        "category": 8,
+        "limited": false
     }
 },
 {
@@ -740,7 +801,8 @@
         "preview": "products/preview/17.webp",
         "image": "products/image/17.webp",
         "date_added": "2023-06-30T08:02:27.935Z",
-        "category": 8
+        "category": 8,
+        "limited": false
     }
 },
 {
@@ -752,7 +814,8 @@
         "preview": "products/preview/18.webp",
         "image": "products/image/18.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 8
+        "category": 8,
+        "limited": false
     }
 },
 {
@@ -764,7 +827,8 @@
         "preview": "products/preview/19.webp",
         "image": "products/image/19.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 8
+        "category": 8,
+        "limited": false
     }
 },
 {
@@ -776,7 +840,8 @@
         "preview": "products/preview/20.webp",
         "image": "products/image/20.webp",
         "date_added": "2023-08-30T08:02:27.935Z",
-        "category": 8
+        "category": 8,
+        "limited": false
     }
 }
 ]

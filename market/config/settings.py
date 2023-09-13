@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
-    "order",
 ]
 
 # email configs
@@ -193,4 +192,3 @@ SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
 
 BASKET_SESSION_ID = "basket"
-ORDER_SESSION_ID = "order"
