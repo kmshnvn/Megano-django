@@ -14,7 +14,7 @@ def sum_price(basket):
     try:
         return sum([Decimal(item["price"]) * item["amount"] for item in basket.values()])
     except Exception:
-        pass
+        return 0
 
 
 @register.simple_tag(name="sum_amount")
@@ -26,4 +26,4 @@ def sum_amount(basket):
     try:
         return sum([item["amount"] for item in basket.values()])
     except Exception:
-        pass
+        return 0
