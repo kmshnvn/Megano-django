@@ -28,7 +28,6 @@ class ProductDetailView(FormMixin, DetailView):
             cache.set(Product.pk, obj, Settings.load().product_cache_time)
         return obj
 
-
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
