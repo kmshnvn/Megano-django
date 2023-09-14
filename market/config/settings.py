@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
 from dotenv import dotenv_values
 
 import dj_database_url
@@ -31,7 +33,10 @@ SECRET_KEY = "django-insecure-=e-i4dlx_qq&ra7un4)u8bdr#08q)gc_*yyy4@7--kt(0(p#!(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    '127.0.0.1'
+    ]
 
 
 # Application definition
@@ -186,7 +191,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = "/admin/"
+LOGIN_REDIRECT_URL = reverse_lazy("profiles:profile")
 
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True

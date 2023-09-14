@@ -1,9 +1,12 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.forms import models
 from django.utils.translation import gettext_lazy as _
+
+from profiles.models import Profile
 
 
 class RegisterUserForm(UserCreationForm):
@@ -63,3 +66,61 @@ class EmailAuthenticationForm(forms.Form):
             except ObjectDoesNotExist:
                 return None
         return None
+
+
+class ProfileUpdateForm(models.ModelForm):
+    """
+    Форма обновления данных профиля пользователя
+    """
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+    avatar = forms.ImageField(
+        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
+                                      "id": "avatar",
+                                      "name": "avatar",
+                                      "type": "file",
+                                      "data-validate": "onlyImgAvatar"}),
+        required=False,
+    )
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "name",
+                                      "value": "",
+                                      "type": "text",
+                                      "data-validate": "require"}),
+    )
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "phone",
+                                      "name": "phone",
+                                      "type": "text",
+                                      "value": "+70000000000"}),
+        validators=[Profile.regex_phone],
+    )
+    email = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "mail",
+                                      "name": "mail",
+                                      "type": "text",
+                                      "value": "send@test.test",
+                                      "data-validate": "require"})
+    )
+    password = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "password",
+                                      "name": "password",
+                                      "type": "password",
+                                      "value": "send@test.test",
+                                      "placeholder": "Тут можно изменить пароль"}),
+        required=False,
+    )
+    password_check = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "password_check",
+                                      "name": "password_check",
+                                      "type": "password",
+                                      "placeholder": "Введите пароль повторно"}),
+        required=False,
+    )
