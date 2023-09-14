@@ -26,6 +26,7 @@ urlpatterns = [
     path("shops/", include("shops.urls")),
     path("i18n", include("django.conf.urls.i18n")),
     path("basket/", include("basket.urls")),
+    path("settings/", include("settings.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

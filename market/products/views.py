@@ -12,12 +12,22 @@ from .models import (
     Product,
 )
 from basket.forms import BasketAddProductForm
+from django.core.cache import cache
+from settings.models import Settings
 
 
 class ProductDetailView(FormMixin, DetailView):
     model = Product
     form_class = CommentAddForm
     template_name = "products/product-detail.jinja2"
+
+    def get_object(self, queryset=None):
+        obj = cache.get(Product.pk)
+        if not obj:
+            obj = super(ProductDetailView, self).get_object()
+            cache.set(Product.pk, obj, Settings.load().product_cache_time)
+        return obj
+
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)

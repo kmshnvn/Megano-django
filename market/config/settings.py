@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
+    "settings",
 ]
 
 # email configs
@@ -88,6 +89,7 @@ TEMPLATES = [
             "app_dirname": "templates",
             "environment": "jinja2_env.environment",
             "context_processors": [
+                "context_processors.shop_views_context.load_settings",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
