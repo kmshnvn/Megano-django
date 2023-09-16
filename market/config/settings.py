@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import dotenv_values
-from setting_constance.setting_constance import *
-from constance import config
+from setting_constance.setting_constance import * # noqa
+# from constance import config
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
 

@@ -17,4 +17,3 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'MAIL_SUPPORT'
     }
 }
-

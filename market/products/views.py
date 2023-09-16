@@ -12,7 +12,6 @@ from .models import (
     Product,
 )
 from basket.forms import BasketAddProductForm
-from django.core.cache import cache
 
 
 class ProductDetailView(FormMixin, DetailView):
