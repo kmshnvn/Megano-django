@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 import uuid
+import logging
 from typing import Dict, List
 
 import requests
@@ -14,11 +15,17 @@ from django.core.management.base import BaseCommand
 from products.models import Category, Product, Detail, ProductDetail
 from shops.models import Shop, Offer
 
+logger = logging.getLogger(__name__)
+
 
 class Command(BaseCommand):
     """
     Класс, реализует импорт товаров магазина из файла yaml и добавляет в БД
     """
+
+    def __init__(self, stdout=None, stderr=None, no_color=False, force_color=False):
+        super().__init__(stdout, stderr, no_color, force_color)
+        self.success_import = None
 
     def add_arguments(self, parser) -> None:
         """
@@ -27,6 +34,7 @@ class Command(BaseCommand):
         :param parser: объект парсера аргументов командной строки
         :return: None
         """
+        logger.debug("Парсим аргументы командной строки")
         parser.add_argument("--file", required=False)
 
     def create_product_and_offer(
@@ -82,13 +90,13 @@ class Command(BaseCommand):
                     price=price,
                     remainder=remainder,
                 )
-
-                self.stdout.write(f'Создал товар: Артикул {product.pk} - "{product_name}"')
-                self.stdout.write(f"{param_text}")
-                self.stdout.write(self.style.SUCCESS(f"Создал предложение товара: {product_name}"))
+                self.success_import = True
+                logger.info(f'Создал товар: Артикул {product.pk} - "{product_name}"')
+                logger.info(f"{param_text}")
+                logger.info(f"Создал предложение товара: {product_name}")
 
         except Exception as e:
-            self.stderr.write(f"Ошибка при создании товара: {e}")
+            logger.error(f"Ошибка при создании товара: {e}")
 
     def create_image_paths(self, image_url: str, shop_id: int, offer_id: str) -> str:
         """
@@ -100,6 +108,7 @@ class Command(BaseCommand):
         :return: Уникальное имя файла изображения или пустая строка, если произошла ошибка
         """
         try:
+            logger.debug("Загрузка изображения")
             response = requests.get(image_url)
 
             if response.status_code == 200:
@@ -117,11 +126,11 @@ class Command(BaseCommand):
                 return unique_filename
 
         except requests.exceptions.HTTPError as e:
-            self.stderr.write(f"Ошибка HTTP при загрузке изображения: {e}")
+            logger.error(f"Ошибка HTTP при загрузке изображения: {e}")
         except requests.exceptions.RequestException as e:
-            self.stderr.write(f"Ошибка запроса при загрузке изображения: {e}")
+            logger.error(f"Ошибка запроса по ссылке при загрузке изображения: {e}")
         except Exception as e:
-            self.stderr.write(f"Ошибка при загрузке изображения: {e}")
+            logger.error(f"Другая ошибка при загрузке изображения: {e}")
         return ""
 
     def check_required_fields(self, offer_data: Dict) -> List[str]:
@@ -131,6 +140,7 @@ class Command(BaseCommand):
         :param offer_data: Данные о товаре
         :return: Список отсутствующих обязательных полей или пустой список, если все поля присутствуют
         """
+        logger.debug("Проверка обязательных полей")
         required_fields = ["name", "description", "image", "category", "price", "count", "params"]
         missing_variables = [field for field in required_fields if not offer_data.get(field)]
         return missing_variables
@@ -143,17 +153,17 @@ class Command(BaseCommand):
         :return: Объект магазина (Shop) или None, если ID магазина отсутствует или магазин не найден
         """
         if shop_id is None:
-            self.stderr.write("Не указан ID магазина")
+            logger.error("Не указан ID магазина")
 
         try:
             shop_query = Shop.objects.get(id=shop_id)
             return shop_query
         except Shop.DoesNotExist:
-            self.stderr.write(
-                f"Магазина с ID {shop_id} еще нет в нашей базе. Создайте магазин или укажите правильный ID"
-            )
+            logger.error(f"Магазина с ID {shop_id} еще нет в нашей базе. Создайте магазин или укажите правильный ID")
+            return None
         except Exception as e:
-            self.stderr.write(f"Возникла ошибка при получении магазина: {e}")
+            logger.error(f"Возникла ошибка при получении магазина: {e}")
+            return None
 
     def import_file(self, file_path: str) -> None:
         """
@@ -169,6 +179,7 @@ class Command(BaseCommand):
         shop_id = shop.get("shopID")
 
         shop_query = self.check_shop_id(shop_id)
+        logger.info(shop_query)
         if shop_query is None:
             return
 
@@ -192,19 +203,19 @@ class Command(BaseCommand):
                         f"Нужно добавить следующие значения в импорт товара "
                         f"{offer_id}: {', '.join(missing_variables)}"
                     )
-                    self.stderr.write(error_message)
+                    logger.info(error_message)
                     continue
 
                 category_name = [elem for elem in category_list if elem.name in category.split("/")]
 
                 if len(category_name) > 1:
-                    self.stderr.write("Должна быть только 1 категория у товара")
+                    logger.error("Должна быть только 1 категория у товара")
                     continue
                 elif category_name:
                     category_name = category_name[0]
-                    self.stdout.write(f"Получил категорию товара - {category_name}")
+                    logger.info(f"Получил категорию товара - {category_name}")
                 else:
-                    self.stderr.write(f"Категория товара {offer_id} не относится к существующей")
+                    logger.error(f"Категория товара {offer_id} не относится к существующей")
                     continue
 
                 unique_filename = self.create_image_paths(image_url, shop_id, offer_id)
@@ -222,7 +233,7 @@ class Command(BaseCommand):
                         remainder=remainder,
                     )
                 else:
-                    self.stderr.write(f'Товар "{product_name}" уже есть в вашем списке')
+                    logger.error(f'Товар "{product_name}" уже есть в вашем списке')
                     continue
 
     def handle(self, *args, **options):
@@ -241,18 +252,34 @@ class Command(BaseCommand):
             args = options["file"]
 
             yaml_files = [filename for filename in os.listdir(folder_path) if filename.endswith(".yaml")]
+            if not yaml_files:
+                logger.error("Нет файлов для импорта")
+                sys.exit(1)
+
             if args:
                 if args in yaml_files:
                     yaml_files = [args]
                 else:
-                    self.stderr.write(f"Файл {args} не найден")
+                    logger.info(f"Файл {args} не найден")
                     sys.exit(1)
 
             for filename in yaml_files:
+                self.success_import = False
+                handler = logging.FileHandler(f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt")
+                handler.setFormatter(logging.Formatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
+                logger.addHandler(handler)
+
                 file_path = os.path.join(folder_path, filename)
                 self.import_file(file_path)
-                shutil.move(file_path, os.path.join(success_folder, filename))
+                if self.success_import:
+                    shutil.move(file_path, os.path.join(success_folder, filename))
+                    logger.info("Импорт выполнен успешно")
+                else:
+                    shutil.move(file_path, os.path.join(error_folder, filename))
+                    logger.error("Нет товара для импорта или возникла ошибка")
+
+                logger.removeHandler(handler)
 
         except Exception as e:
             shutil.move(file_path, os.path.join(error_folder, filename))
-            self.stderr.write(f"Ошибка при выполнении команды: {e}")
+            logger.info(f"Ошибка при выполнении команды: {e}")

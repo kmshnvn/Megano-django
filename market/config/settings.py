@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
+    # "django-celery-results",
+    # "django_celery_beat",
 ]
 
 # email configs
@@ -192,3 +194,44 @@ SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
 
 BASKET_SESSION_ID = "basket"
+
+LOGFILE_NAME_ERROR = BASE_DIR / "logs" / "error_logs.txt"
+LOGFILE_NAME = BASE_DIR / "logs" / "info_log.txt"
+LOGFILE_SIZE = 5 * 1024 * 1024
+LOGFILE_COUNT = 3
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
+        "error_logfile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGFILE_NAME_ERROR,
+            "maxBytes": LOGFILE_SIZE,
+            "backupCount": LOGFILE_COUNT,
+            "formatter": "verbose",
+            "level": "ERROR",
+        },
+        "info_logfile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGFILE_NAME,
+            "maxBytes": LOGFILE_SIZE,
+            "backupCount": LOGFILE_COUNT,
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": [
+            "console",
+            "error_logfile",
+            "info_logfile",
+        ],
+        "level": "INFO",
+    },
+}
