@@ -34,9 +34,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
-CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -115,14 +112,7 @@ TEMPLATES = [
     },
 ]
 
-CONSTANCE_REDIS_CONNECTION = {
-    'host': 'localhost',
-    'port': 6379,
-    'db': 0,
-}
-
 WSGI_APPLICATION = "config.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -130,6 +120,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {"default": dj_database_url.parse(config["DATABASE_URL"])}
 
 REDIS_URL = config["REDIS_URL"]
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_REDIS_CONNECTION = {
+    "default": {
+        "BACKEND": "constance.backends.redisd.RedisBackend",
+        "LOCATION": REDIS_URL,
+    }
+}
 
 CACHES = {
     "default": {
