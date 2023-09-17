@@ -11,9 +11,11 @@ import yaml
 from PIL import Image
 
 from django.db import transaction
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
 from products.models import Category, Product, Detail, ProductDetail
 from shops.models import Shop, Offer
+from market.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,7 @@ class Command(BaseCommand):
         """
         logger.debug("Парсим аргументы командной строки")
         parser.add_argument("--file", required=False)
+        parser.add_argument("--email", required=False)
 
     def create_product_and_offer(
         self,
@@ -165,6 +168,31 @@ class Command(BaseCommand):
             logger.error(f"Возникла ошибка при получении магазина: {e}")
             return None
 
+    def send_email(self, filename: str, log_path: str, email) -> None:
+        """
+        Отправляет email пользователю об успешном или неуспешном выполнении импорта файла
+        :param filename: Название файла импорта
+        :param log_path: Путь к файлу логов данного файла
+        :param email: email пользователя
+        :return: None
+        """
+        try:
+            subject = f"Импорт файла {filename}"
+            subject += " прошел успешно." if self.success_import else " не был проведен."
+
+            with open(log_path, "r") as log_file:
+                log_content = log_file.read()
+
+            message = f"Привет, здесь подробная информация по импорту файла.\n\n {log_content}"
+
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+
+            send_mail(subject, message, from_email, recipient_list)
+            logger.info(f"Email успешно отправлен на адрес {recipient_list}")
+        except Exception as e:
+            logger.error(f"Email не был отправлен при импорте файлов. Возникла ошибка {e}")
+
     def import_file(self, file_path: str) -> None:
         """
         Импортирует данные из файла YAML и добавляет товары и предложения в базу данных.
@@ -179,7 +207,7 @@ class Command(BaseCommand):
         shop_id = shop.get("shopID")
 
         shop_query = self.check_shop_id(shop_id)
-        logger.info(shop_query)
+        logger.debug(shop_query)
         if shop_query is None:
             return
 
@@ -197,6 +225,8 @@ class Command(BaseCommand):
                 remainder = offer_data.get("count")
                 params = offer_data.get("params")
 
+                logger.info(f'Пробуем импортировать и добавить в базу товар {offer_id} "{product_name}"')
+
                 missing_variables = self.check_required_fields(offer_data)
                 if missing_variables:
                     error_message = (
@@ -205,7 +235,6 @@ class Command(BaseCommand):
                     )
                     logger.info(error_message)
                     continue
-
                 category_name = [elem for elem in category_list if elem.name in category.split("/")]
 
                 if len(category_name) > 1:
@@ -213,9 +242,9 @@ class Command(BaseCommand):
                     continue
                 elif category_name:
                     category_name = category_name[0]
-                    logger.info(f"Получил категорию товара - {category_name}")
+                    logger.debug(f"Получил категорию товара - {category_name}")
                 else:
-                    logger.error(f"Категория товара {offer_id} не относится к существующей")
+                    logger.error(f"Категория товара {offer_id} ({category}) не относится к существующей")
                     continue
 
                 unique_filename = self.create_image_paths(image_url, shop_id, offer_id)
@@ -233,7 +262,7 @@ class Command(BaseCommand):
                         remainder=remainder,
                     )
                 else:
-                    logger.error(f'Товар "{product_name}" уже есть в вашем списке')
+                    logger.error(f'Товар "{product_name}" уже присутствует у продавца')
                     continue
 
     def handle(self, *args, **options):
@@ -249,37 +278,42 @@ class Command(BaseCommand):
             success_folder = "import_data/success"
             error_folder = "import_data/failed"
 
-            args = options["file"]
+            file_args = options["file"]
+            email_args = options["email"]
 
             yaml_files = [filename for filename in os.listdir(folder_path) if filename.endswith(".yaml")]
             if not yaml_files:
                 logger.error("Нет файлов для импорта")
                 sys.exit(1)
 
-            if args:
-                if args in yaml_files:
-                    yaml_files = [args]
+            if file_args:
+                if file_args in yaml_files:
+                    yaml_files = [file_args]
                 else:
-                    logger.info(f"Файл {args} не найден")
+                    logger.info(f"Файл {file_args} не найден")
                     sys.exit(1)
 
             for filename in yaml_files:
+                log_path = f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt"
                 self.success_import = False
-                handler = logging.FileHandler(f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt")
+                handler = logging.FileHandler(log_path)
                 handler.setFormatter(logging.Formatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
                 logger.addHandler(handler)
 
                 file_path = os.path.join(folder_path, filename)
+                logger.info(f"Начинаем импорт файла {filename}")
                 self.import_file(file_path)
+
                 if self.success_import:
                     shutil.move(file_path, os.path.join(success_folder, filename))
                     logger.info("Импорт выполнен успешно")
                 else:
                     shutil.move(file_path, os.path.join(error_folder, filename))
-                    logger.error("Нет товара для импорта или возникла ошибка")
-
+                    logger.error("В файле нет товаров для импорта или возникла ошибка")
                 logger.removeHandler(handler)
+                if email_args:
+                    self.send_email(filename, log_path, email_args)
 
         except Exception as e:
             shutil.move(file_path, os.path.join(error_folder, filename))
-            logger.info(f"Ошибка при выполнении команды: {e}")
+            logger.exception(f"Ошибка при выполнении команды: {e}")
