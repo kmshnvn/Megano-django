@@ -50,7 +50,7 @@ class LoginEmailView(FormView):
 
     form_class = EmailAuthenticationForm
     template_name = "profiles/login.jinja2"
-    success_url = "/admin/"
+    success_url = reverse_lazy("shops:main-page")
 
     def dispatch(self, request, *args, **kwargs):
         """Если пользователь авторизован, делаем редирект"""

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+from products.models import Product
 from profiles.models import User
 
 phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
@@ -37,7 +38,21 @@ class Offer(models.Model):
         verbose_name = _("предложение")
         verbose_name_plural = _("предложения")
 
-    shop = models.ForeignKey(Shop, on_delete=models.PROTECT)
-    product = models.ForeignKey("products.Product", related_name="offers", on_delete=models.PROTECT)
+    shop = models.ForeignKey(Shop, related_name="offers", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="offers", on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("цена"))
     remainder = models.IntegerField(default=0, verbose_name=_("остаток"))
+
+
+class LimitedOffer(models.Model):
+    """Модель ограниченное предложение главной страницы."""
+
+    class Meta:
+        verbose_name = _("ограниченное предложение")
+        verbose_name_plural = _("ограниченные предложения")
+
+    product = models.ForeignKey(
+        Product, related_name="limited_offers", on_delete=models.CASCADE, verbose_name=_("продукт")
+    )
+    old_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("старая цена"))
+    new_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("новая цена"))

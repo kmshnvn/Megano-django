@@ -44,7 +44,7 @@ class ProfileViewTestCase(TestCase):
         response: HttpResponseRedirect = self.client.post(self.log_page, data=data)
 
         self.assertEqual(302, response.status_code)
-        self.assertEqual("/admin/", response.url)
+        self.assertEqual("/", response.url)
 
     def test_login_with_username(self):
         data = {

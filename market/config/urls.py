@@ -20,12 +20,13 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path("", include("shops.urls")),  # главная страница
     path("admin/", admin.site.urls),
     path("profile/", include("profiles.urls")),
     path("products/", include("products.urls")),
-    path("shops/", include("shops.urls")),
     path("i18n", include("django.conf.urls.i18n")),
     path("basket/", include("basket.urls")),
+    path("history/", include("history.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

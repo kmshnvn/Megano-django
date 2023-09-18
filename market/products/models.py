@@ -32,6 +32,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
     )
+    limited = models.BooleanField(default=False, verbose_name=_("ограниченный тираж"))
 
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
