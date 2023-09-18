@@ -265,6 +265,10 @@ class Command(BaseCommand):
                     logger.error(f'Товар "{product_name}" уже присутствует у продавца')
                     continue
 
+        images = shop.get("images")
+        if images:
+            pass
+
     def handle(self, *args, **options):
         """
         Обработчик команды. Импортирует данные из файлов YAML и добавляет товары и предложения в базу данных.

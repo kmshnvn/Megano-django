@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
-    # "django-celery-results",
-    # "django_celery_beat",
+    "django-celery-results",
+    "django_celery_beat",
 ]
 
 # email configs
@@ -235,3 +235,16 @@ LOGGING = {
         "level": "INFO",
     },
 }
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_BROKER_TRANSPORT_OPTION = {"visibility_timeout": 3600}
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TASK_DEFAULT_QUEUE = "default"
