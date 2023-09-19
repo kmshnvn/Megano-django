@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
@@ -6,14 +8,16 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.db import transaction
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, FormView, TemplateView
+from django.utils.translation import gettext_lazy as _
 
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView
 
-from .forms import RegisterUserForm, EmailAuthenticationForm
+from config import settings
+from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm, ProfileForm
 from .models import Profile
-from market.config import settings
 
 
 class ResetPasswordView(PasswordResetView):
@@ -84,3 +88,67 @@ class RegisterView(CreateView):
             login(request=self.request, user=user)
 
         return response
+
+
+class ProfileDetailView(TemplateView):
+    """ Представление для редактирования страницы личного кабинета пользователя"""
+
+    # form_class = ProfileUpdateForm
+    model = User
+    template_name = "profiles/profile-update-form.jinja2"
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        profile_data = {
+            'profile': Profile.objects.get(user=self.request.user),
+            'name': User.get_full_name(self.request.user),
+            'user': User.objects.select_related('Profile')
+        }
+        for e, v in data.items():
+            print(e, v)
+
+        profile_data['user_form'] = UserForm(instance=self.request.user, initial=profile_data)
+        profile_data['profile_form'] = ProfileForm(instance=self.request.user, initial=profile_data)
+
+        return profile_data
+
+    def post(self, request):
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        with transaction.atomic():
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                # data = {
+                #     "avatar": profile_form.cleaned_data.get("avatar"),
+                #     "name": user_form.cleaned_data.get("name"),
+                #     "phone": profile_form.cleaned_data.get("phone"),
+                #     "email": user_form.cleaned_data.get("email"),
+                # }
+                messages.success(request, _('Ваш профиль был успешно обновлен!'))
+            else:
+                user_form = UserForm(instance=request.user)
+                profile_form = ProfileForm(instance=request.user.profile)
+            return render(request, 'profiles/profile-update-form.jinja2', {
+                'user_form': user_form,
+                'profile_form': profile_form
+            })
+
+        # password = form.cleaned_data.get('password', "")
+        # password_check = form.cleaned_data.get('password_check', "")
+        #
+        # if password == password_check:
+        #     username = form.cleaned_data.get('username')
+        #     user = authenticate(username=username, password=password)
+        #     login(request, user)
+        #     form.save()
+        #     messages.success(request, _('Ваш профиль был успешно обновлен!'))
+        #     return redirect('profiles:profile')
+        # else:
+        #     messages.warning(request, _('Ошибка ввода данных. Пароли не совпадают'))
+
+
+        #
+        # else:
+        #     form = ProfileUpdateForm()
+        #     return render(request, 'profiles/profile-update-form.jinja2', {'form': form})
