@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.forms import models
 from django.utils.translation import gettext_lazy as _
 
 from profiles.models import Profile
@@ -68,22 +67,15 @@ class EmailAuthenticationForm(forms.Form):
         return None
 
 
-class ProfileUpdateForm(models.ModelForm):
+class UserForm(forms.ModelForm):
     """
     Форма обновления данных профиля пользователя
     """
+
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ['first_name', 'last_name', 'email']
 
-    avatar = forms.ImageField(
-        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
-                                      "id": "avatar",
-                                      "name": "avatar",
-                                      "type": "file",
-                                      "data-validate": "onlyImgAvatar"}),
-        required=False,
-    )
     name = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
                                       "id": "name",
@@ -91,28 +83,20 @@ class ProfileUpdateForm(models.ModelForm):
                                       "type": "text",
                                       "data-validate": "require"}),
     )
-    phone = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "phone",
-                                      "name": "phone",
-                                      "type": "text",
-                                      "value": "+70000000000"}),
-        validators=[Profile.regex_phone],
-    )
     email = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "mail",
-                                      "name": "mail",
-                                      "type": "text",
-                                      "value": "send@test.test",
-                                      "data-validate": "require"})
+        widget=forms.EmailInput(attrs={"class": "form-input",
+                                       "id": "mail",
+                                       "name": "mail",
+                                       "type": "text",
+                                       "value": "send@test.test",
+                                       "data-validate": "require"})
     )
     password = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
                                       "id": "password",
                                       "name": "password",
                                       "type": "password",
-                                      "value": "send@test.test",
+                                      "default": "",
                                       "placeholder": "Тут можно изменить пароль"}),
         required=False,
     )
@@ -123,4 +107,36 @@ class ProfileUpdateForm(models.ModelForm):
                                       "type": "password",
                                       "placeholder": "Введите пароль повторно"}),
         required=False,
+    )
+
+    def clean_email(self):
+        """Проверка email на уникальность"""
+
+        email = self.cleaned_data.get("email").strip()
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError(_("Такая почта уже зарегистрированная"))
+        return email
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'phone']
+
+    avatar = forms.ImageField(
+        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
+                                      "id": "avatar",
+                                      "name": "avatar",
+                                      "type": "file",
+                                      "data-validate": "onlyImgAvatar"}),
+        required=False,
+    )
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "phone",
+                                      "name": "phone",
+                                      "type": "text",
+                                      "value": "+70000000000",
+                                      "data-validate": "require"}),
+        # validators=[Profile.regex_phone(value=Profile.phone)],
     )
