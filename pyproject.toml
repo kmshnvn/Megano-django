@@ -18,6 +18,9 @@ dj-database-url = "^2.0.0"
 django-jinja = "^2.10.2"
 pillow = "^10.0.0"
 redis-om = "^0.2.1"
+config = "^0.5.1"
+django-constance = {extras = ["database"], version = "^3.1.0"}
+gloriousprotonmanager = "^0.80.1"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"

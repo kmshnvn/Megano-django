@@ -1,13 +1,10 @@
 ﻿{% extends 'general/base.jinja2' %}
 {% load static %}
 
-<head>
+{% block title%}
+    {{ shop.name }}
+{% endblock %}
 
-    {% block title%}
-        {{ shop.name }}
-    {% endblock %}
-
-</head>
 
 {% block content %}
     <div class="Middle Middle_top">
