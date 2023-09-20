@@ -1,13 +1,12 @@
-from order.models import Order, Delivery, OrderStatus
 from django.http import HttpRequest
 from django.conf import settings
 from basket.basket import BasketObject
 from shops.models import Offer
 from profiles.models import Profile
 from decimal import Decimal
-from django.shortcuts import render, redirect
-from order.models import Order, OrderStatus, Delivery, ProductInOrder
+from order.models import Order, Delivery, ProductInOrder
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 
 
 class MakeOrder:
@@ -27,7 +26,7 @@ class MakeOrder:
         """
         Метод для перебора элементов в сессии заказа
         """
-        order  = self.order.copy()
+        order = self.order.copy()
         for item in order.values():
             yield item
 
@@ -38,11 +37,9 @@ class MakeOrder:
         :param cleaned_data: данные из формы
         :return: None
         """
-        # del self. order["pay"]
-        self.order[key] = cleaned_data
-        print(self.order)
-        self.save()
 
+        self.order[key] = cleaned_data
+        self.save()
 
     def cheking_func(self) -> bool or str:
         """
@@ -67,9 +64,7 @@ class MakeOrder:
         Метод для проверки наличия данных из всех форм в сессии
         :return: True еслии данные все, False если данные переданы не в полном обьеме
         """
-        if ("step_1" in self.order
-                and "step_2" in self.order
-                and "step_3" in self.order):
+        if "step_1" in self.order and "step_2" in self.order and "step_3" in self.order:
             return True
         return False
 
@@ -89,12 +84,8 @@ class MakeOrder:
         Метод для проверки количества товара в магазине
         :return: False если товара в магазине недостаточно, True если количество товара хватает
         """
-        users_basket = BasketObject(request=self.request)
-        print(self.session[settings.BASKET_SESSION_ID])
         offers_pk = self.session[settings.BASKET_SESSION_ID].keys()
-        print(offers_pk)
-        basket = users_basket.get_basket_for_user()
-        print("пришло",basket)
+        basket = self.session[settings.BASKET_SESSION_ID]
         for pk in offers_pk:
             offer = Offer.objects.get(pk=pk)
             if basket[pk]["amount"] > offer.remainder:
@@ -112,24 +103,22 @@ class MakeOrder:
         delivery = Delivery.objects.create(
             delivery_type=self.order["step_2"]["delivery_type"],
             city=self.order["step_2"]["city"],
-address=self.order["step_2"]["address"],
-pay=self.order["step_3"]["pay"]
-            )
+            address=self.order["step_2"]["address"],
+            pay=self.order["step_3"]["pay"],
+        )
         order = Order.objects.create(
             user=self.user,
+            customer=self.order["step_1"]["customer"],
             email=self.order["step_1"]["email"],
             phone=self.order["step_1"]["phone"],
-            # product = product_in_order,
             order_status_id=1,
-            delivery=delivery
+            delivery=delivery,
         )
         for item in basket:
-            product_in_order = ProductInOrder.objects.create(
-                product=item["product"],
-                price=item["price"],
-                amount=item["amount"],
-                order=order
-            )
+            price = Decimal(item["price"]) * item["amount"]
+            if self.order["step_2"]["delivery_type"] == _("Экспресс доставка"):
+                price += price / 100 * 5
+            ProductInOrder.objects.create(product=item["product"], price=price, amount=item["amount"], order=order)
 
     def deleting_basket_and_order(self) -> None:
         """
