@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import dotenv_values
-from setting_constance.setting_constance import * # noqa
+from setting_constance.setting_constance import *  # noqa
+
 # from constance import config
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse_lazy
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -53,6 +55,8 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
+    "history",
+    "order",
 ]
 
 # email configs
@@ -121,7 +125,7 @@ DATABASES = {"default": dj_database_url.parse(config["DATABASE_URL"])}
 
 REDIS_URL = config["REDIS_URL"]
 
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 CONSTANCE_REDIS_CONNECTION = {
     "default": {
@@ -137,7 +141,7 @@ CACHES = {
     }
 }
 
-CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
+CONSTANCE_DATABASE_CACHE_BACKEND = "default"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -198,8 +202,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/admin/"
+LOGIN_URL = reverse_lazy("profiles:login")
 
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
 
 BASKET_SESSION_ID = "basket"
+ORDER_SESSION_ID = "order"

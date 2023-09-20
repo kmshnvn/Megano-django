@@ -5,7 +5,9 @@ from django.db import transaction
 
 ORDER_STATUS_NAMES = ["создан", "оплачен", "доставляется", "завершен", "отменен"]
 
+
 class Command(BaseCommand):
+    """Команда для создания статусов заказов"""
 
     @transaction.atomic
     def handle(self, *args, **options):
