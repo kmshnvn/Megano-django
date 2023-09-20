@@ -17,6 +17,7 @@ from market.config import settings
 
 from django.contrib.auth.views import LogoutView
 
+
 class ResetPasswordView(PasswordResetView):
     """Представление формы сброса пароля."""
 
@@ -51,7 +52,7 @@ class LoginEmailView(FormView):
 
     form_class = EmailAuthenticationForm
     template_name = "profiles/login.jinja2"
-    success_url = "/products/1/"
+    success_url = reverse_lazy("shops:main-page")
 
     def dispatch(self, request, *args, **kwargs):
         """Если пользователь авторизован, делаем редирект"""
