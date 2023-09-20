@@ -5,8 +5,8 @@ from products.models import Product
 from django.core.validators import RegexValidator
 
 
-DELIVERY_TYPES = [("обычная", _("Обычная доставка")), ("экспресс", _("Экспресс доставка"))]
-PAY_TYPES = [("картой", _("Онлайн картой")), ("со счета", _("Онлайн со случайного счета"))]
+DELIVERY_TYPES = [("Обычная доставка", _("Обычная доставка")), ("Экспресс доставка", _("Экспресс доставка"))]
+PAY_TYPES = [("Онлайн картой", _("Онлайн картой")), ("Онлайн со случайного счета", _("Онлайн со случайного счета"))]
 
 
 class Order(models.Model):
@@ -20,11 +20,14 @@ class Order(models.Model):
         verbose_name = _("заказ")
         verbose_name_plural = _("заказы")
 
-    user = models.ForeignKey(User ,on_delete=models.CASCADE, verbose_name=_("пользователь"), related_name="orders")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("пользователь"), related_name="orders")
+    customer = models.CharField(max_length=52, verbose_name=_("ФИО заказчика"))
     date_added = models.DateTimeField(auto_now=True, verbose_name=_("дата добавления"))
     email = models.EmailField(verbose_name=_("email"))
     phone = models.CharField(max_length=12, validators=[regex_phone], verbose_name=_("номер телефона"))
-    products = models.ManyToManyField(Product, verbose_name=_("продукты в заказе"), through="ProductInOrder", related_name="orders")
+    products = models.ManyToManyField(
+        Product, verbose_name=_("продукты в заказе"), through="ProductInOrder", related_name="orders"
+    )
     order_status = models.ForeignKey("OrderStatus", verbose_name=_("статус заказа"), on_delete=models.CASCADE)
     delivery = models.ForeignKey("Delivery", verbose_name=_("доставка"), on_delete=models.CASCADE)
 
@@ -36,7 +39,9 @@ class OrderStatus(models.Model):
         verbose_name = _("статус заказа")
         verbose_name_plural = _("статусы заказов")
 
-    name = models.CharField(max_length=15, verbose_name=_("название статуса")) #создан, оплачен, доставляется, завершен, отменен
+    name = models.CharField(
+        max_length=15, verbose_name=_("название статуса")
+    )  # создан, оплачен, доставляется, завершен, отменен
 
 
 class Delivery(models.Model):
@@ -46,7 +51,9 @@ class Delivery(models.Model):
         verbose_name = _("доставка заказа")
         verbose_name_plural = _("доставки заказов")
 
-    delivery_type = models.CharField(max_length=512, default="обычная", choices=DELIVERY_TYPES, verbose_name=_("тип доставки"))
+    delivery_type = models.CharField(
+        max_length=512, default="обычная", choices=DELIVERY_TYPES, verbose_name=_("тип доставки")
+    )
     city = models.CharField(null=True, blank=True, max_length=30, verbose_name=_("город доставки"))
     address = models.CharField(null=True, blank=True, max_length=100, verbose_name=_("адрес доставки"))
     pay = models.CharField(max_length=512, default="картой", choices=PAY_TYPES, verbose_name=_("тип оплаты"))
@@ -54,6 +61,7 @@ class Delivery(models.Model):
 
 class ProductInOrder(models.Model):
     """Модель продуктов в заказе"""
+
     class Meta:
         verbose_name = _("продукт в заказе")
         verbose_name_plural = _("продукты в заказе")
@@ -61,4 +69,4 @@ class ProductInOrder(models.Model):
     product = models.ForeignKey(Product, verbose_name=_("продукт в заказе"), on_delete=models.CASCADE)
     order = models.ForeignKey(Order, verbose_name=_("заказ"), on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("цена"))
-    amount =     models.PositiveIntegerField(verbose_name=_("количество"), default=1)
+    amount = models.PositiveIntegerField(verbose_name=_("количество"), default=1)
