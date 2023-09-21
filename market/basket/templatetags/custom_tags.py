@@ -1,7 +1,7 @@
 from django import template
 from decimal import Decimal
 
-
+# flake8-in-file-ignores: noqa: E772
 register = template.Library()
 
 
@@ -14,7 +14,7 @@ def sum_price(basket):
     try:
         summ_price = sum([Decimal(item["price"]) * item["amount"] for item in basket.values()])
         return summ_price if summ_price > 0 else 0
-    except:
+    except AttributeError:
         return 0
 
 
@@ -27,5 +27,5 @@ def sum_amount(basket):
     try:
         summ_amount = sum([item["amount"] for item in basket.values()])
         return summ_amount if summ_amount > 0 else 0
-    except:
+    except AttributeError:
         return 0

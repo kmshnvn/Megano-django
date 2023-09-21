@@ -51,15 +51,18 @@ class Delivery(models.Model):
         max_length=512,
         default="обычная",
         choices=[("Обычная доставка", _("Обычная доставка")), ("Экспресс доставка", _("Экспресс доставка"))],
-        verbose_name=_("тип доставки")
+        verbose_name=_("тип доставки"),
     )
     city = models.CharField(null=True, blank=True, max_length=30, verbose_name=_("город доставки"))
     address = models.CharField(null=True, blank=True, max_length=100, verbose_name=_("адрес доставки"))
     pay = models.CharField(
         max_length=512,
         default="картой",
-        choices=[("Онлайн картой", _("Онлайн картой")), ("Онлайн со случайного счета", _("Онлайн со случайного счета"))],
-        verbose_name=_("тип оплаты")
+        choices=[
+            ("Онлайн картой", _("Онлайн картой")),
+            ("Онлайн со случайного счета", _("Онлайн со случайного счета")),
+        ],
+        verbose_name=_("тип оплаты"),
     )
 
 

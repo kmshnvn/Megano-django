@@ -11,8 +11,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Создаем статусы заказа...")
         for status in ORDER_STATUS_NAMES:
-            order_status, created = OrderStatus.objects.get_or_create(
-                name=status,
-                defaults={"name": status}
-            )
+            order_status, created = OrderStatus.objects.get_or_create(name=status, defaults={"name": status})
         self.stdout.write("Успешно создано!")
