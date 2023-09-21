@@ -13,16 +13,16 @@
                             <div class="ProductCard-photo">
                                 <img src="{{product.preview.url}}" alt="{{product.name}}" />
                             </div>
+
                             <div class="ProductCard-picts">
-                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="assets/img/content/home/bigGoods.png">
-                                    <img src="{% static "assets/img/content/home/bigGoods.png" %}" alt="bigGoods.png" />
+                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
                                 </a>
-                                <a class="ProductCard-pict" href="assets/img/content/home/slider.png">
-                                    <img src="{% static "assets/img/content/home/slider.png" %}" alt="slider.png" />
-                                </a>
-                                <a class="ProductCard-pict" href="assets/img/content/home/videoca.png">
-                                    <img src="{% static "assets/img/content/home/videoca.png" %}" alt="videoca.png" />
-                                </a>
+                                {% for img in product.productimage_set.all %}
+                                    <a class="ProductCard-pict" href="{{ img.image.url }}">
+                                        <img src="{{ img.image.url }}" alt="{{ img.image.name }}" />
+                                    </a>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="ProductCard-desc">
