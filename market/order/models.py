@@ -5,10 +5,6 @@ from products.models import Product
 from django.core.validators import RegexValidator
 
 
-DELIVERY_TYPES = [("Обычная доставка", _("Обычная доставка")), ("Экспресс доставка", _("Экспресс доставка"))]
-PAY_TYPES = [("Онлайн картой", _("Онлайн картой")), ("Онлайн со случайного счета", _("Онлайн со случайного счета"))]
-
-
 class Order(models.Model):
     """Модель заказа"""
 
@@ -52,11 +48,19 @@ class Delivery(models.Model):
         verbose_name_plural = _("доставки заказов")
 
     delivery_type = models.CharField(
-        max_length=512, default="обычная", choices=DELIVERY_TYPES, verbose_name=_("тип доставки")
+        max_length=512,
+        default="обычная",
+        choices=[("Обычная доставка", _("Обычная доставка")), ("Экспресс доставка", _("Экспресс доставка"))],
+        verbose_name=_("тип доставки")
     )
     city = models.CharField(null=True, blank=True, max_length=30, verbose_name=_("город доставки"))
     address = models.CharField(null=True, blank=True, max_length=100, verbose_name=_("адрес доставки"))
-    pay = models.CharField(max_length=512, default="картой", choices=PAY_TYPES, verbose_name=_("тип оплаты"))
+    pay = models.CharField(
+        max_length=512,
+        default="картой",
+        choices=[("Онлайн картой", _("Онлайн картой")), ("Онлайн со случайного счета", _("Онлайн со случайного счета"))],
+        verbose_name=_("тип оплаты")
+    )
 
 
 class ProductInOrder(models.Model):

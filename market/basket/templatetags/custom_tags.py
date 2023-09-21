@@ -12,8 +12,9 @@ def sum_price(basket):
     :param basket: Корзина пользователся в сессии
     """
     try:
-        return sum([Decimal(item["price"]) * item["amount"] for item in basket.values()])
-    except Exception:
+        summ_price = sum([Decimal(item["price"]) * item["amount"] for item in basket.values()])
+        return summ_price if summ_price > 0 else 0
+    except:
         return 0
 
 
@@ -24,6 +25,7 @@ def sum_amount(basket):
     :param basket: Корзина пользователся в сессии
     """
     try:
-        return sum([item["amount"] for item in basket.values()])
-    except Exception:
+        summ_amount = sum([item["amount"] for item in basket.values()])
+        return summ_amount if summ_amount > 0 else 0
+    except:
         return 0
