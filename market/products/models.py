@@ -54,6 +54,20 @@ class Detail(models.Model):
         return f"Detail(pk={self.pk}, name={self.name!r})"
 
 
+class ProductImage(models.Model):
+    """Дополнительные изображения продукта"""
+
+    class Meta:
+        verbose_name = _("изображение продукта")
+        verbose_name_plural = _("изображения продукта")
+
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to="products/image")
+
+    def __str__(self) -> str:
+        return f"ProductImage(pk={self.pk})"
+
+
 class ProductDetail(models.Model):
     """Значение свойства продукта"""
 

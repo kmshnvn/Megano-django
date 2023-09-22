@@ -2698,7 +2698,7 @@ a {
 
 @media screen and (min-width: 990px) {
     a:hover {
-        
+
         border-bottom: 1px solid #0063d1;
         transition: border 0.4s;
     }
@@ -2930,4 +2930,19 @@ button.link {
 
 .wrap-content {
     margin: 0 auto;
+}
+
+.preview {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.ProductCard-width {
+    width: 400px;
+    max-height: 400px;
+}
+
+.CardPicture-img {
+    max-height: 226px;
+    object-fit: contain;
 }

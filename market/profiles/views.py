@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import (
@@ -10,7 +9,6 @@ from django.contrib.auth.views import (
 from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, FormView, TemplateView
 
 from config import settings
@@ -98,18 +96,18 @@ class ProfileDetailView(TemplateView):
         data = super().get_context_data(**kwargs)
         data = {"profile": Profile.objects.get(user=self.request.user)}
         data['form'] = UserForm(instance=self.request.user,
-                                initial={"avatar": data['profile'].avatar,
+                                initial={"avatar": data['profile'].avatar.url,
                                          "phone": data['profile'].phone,
                                          "name": User.get_full_name(self.request.user)
                                          })
-
+        for c, v in data.items():
+            print(c, v)
         return data
 
     def post(self, request):
         form = UserForm(request.POST)
         with transaction.atomic():
             if form.is_valid():
-                form.save()
                 avatar = form.cleaned_data.get('avatar')
                 phone = form.cleaned_data.get('phone')
                 name = form.cleaned_data.get('name')
@@ -118,11 +116,12 @@ class ProfileDetailView(TemplateView):
                     avatar=avatar,
                     phone=phone,
                 )
-                User.objects.filter(id=self.request.user.id).update(
+                User.objects.filter(id=self.request.user.user_id).update(
                     first_name=name.split()[0],
                     last_name=name.split()[1],
                     email=email,
                 )
+                form.save()
                 # password = form.cleaned_data.get('password')
                 # password_check = form.cleaned_data.get('password_check')
                 # if password == password_check and password != "":
