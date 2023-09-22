@@ -51,7 +51,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <form method="post" enctype="multipart/form-data" action="{% url "basket:add_product" offers.0.product.pk offers.0.pk %}">
+                            <form method="post" enctype="multipart/form-data" action="{% url "basket:add_random_product" product.pk %}">
                                 {% csrf_token %}
                                 <div class="ProductCard-cart">
                                     <div class="ProductCard-cartElement ProductCard-cartElement_amount">
@@ -189,6 +189,15 @@
                                                                 <div class="Order-infoContent">
                                                                     <span class="Order-price">
                                                                         {{offer.price}}$
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="Order-info">
+                                                                <div class="Order-infoType">Остаток в магазине:
+                                                                </div>
+                                                                <div class="Order-infoContent">
+                                                                    <span class="Order-price">
+                                                                        {{offer.remainder}} шт.
                                                                     </span>
                                                                 </div>
                                                             </div>
