@@ -32,12 +32,30 @@ class OrderStatus(models.Model):
     """Модель статуса заказа"""
 
     class Meta:
-        verbose_name = _("статус заказа")
-        verbose_name_plural = _("статусы заказов")
+        verbose_name = "статус заказа"
+        verbose_name_plural = "статусы заказов"
 
     name = models.CharField(
         max_length=15, verbose_name=_("название статуса")
     )  # создан, оплачен, доставляется, завершен, отменен
+
+
+class DeliveryTypesChoices(models.TextChoices):
+    """
+    Модель для выбора типа доставки
+    """
+
+    REGULAR = "Обычная доставка", "Обычная доставка"
+    EXPRESS = "Экспресс доставка", "Экспресс доставка"
+
+
+class PayChoices(models.TextChoices):
+    """
+    Модель для выбора типа оплаты
+    """
+
+    CARD = "Онлайн картой", "Онлайн картой"
+    ACCOUNT = "Онлайн со случайного счета", "Онлайн со случайного счета"
 
 
 class Delivery(models.Model):
@@ -49,19 +67,16 @@ class Delivery(models.Model):
 
     delivery_type = models.CharField(
         max_length=512,
-        default="обычная",
-        choices=[("Обычная доставка", _("Обычная доставка")), ("Экспресс доставка", _("Экспресс доставка"))],
+        default=DeliveryTypesChoices.REGULAR,
+        choices=DeliveryTypesChoices.choices,
         verbose_name=_("тип доставки"),
     )
     city = models.CharField(null=True, blank=True, max_length=30, verbose_name=_("город доставки"))
     address = models.CharField(null=True, blank=True, max_length=100, verbose_name=_("адрес доставки"))
     pay = models.CharField(
         max_length=512,
-        default="картой",
-        choices=[
-            ("Онлайн картой", _("Онлайн картой")),
-            ("Онлайн со случайного счета", _("Онлайн со случайного счета")),
-        ],
+        choices=PayChoices.choices,
+        default=PayChoices.CARD,
         verbose_name=_("тип оплаты"),
     )
 
