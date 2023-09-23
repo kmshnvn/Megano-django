@@ -17,6 +17,7 @@ from setting_constance.setting_constance import *  # noqa
 # from constance import config
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse_lazy
 
 config = dotenv_values(os.path.join("..", ".env"))
 
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "basket",
     "history",
+    "order",
 ]
 
 # email configs
@@ -200,8 +202,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = reverse_lazy("profiles:login")
 
 SHELL_PLUS = "ipython"
 SHELL_PLUS_PRINT_SQL = True
 
 BASKET_SESSION_ID = "basket"
+ORDER_SESSION_ID = "order"

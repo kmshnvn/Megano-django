@@ -48,7 +48,7 @@
                             <strong class="Cart-title">Итого:
                             </strong><span class="Cart-price">{{basket.get_total_price}}&nbsp;$</span>
                         </div>
-                        <div class="Cart-block"><a class="btn btn_success btn_lg" href="order.html">Оформить заказ</a>
+                        <div class="Cart-block"><a class="btn btn_success btn_lg" href="{% url "order:make_order_step_1" %}">Оформить заказ</a>
                         </div>
                     </div>
             {% else %}
