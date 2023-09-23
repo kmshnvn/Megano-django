@@ -74,14 +74,41 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
+    def clean_phone(self):
+        """Проверка phone на валидность"""
+
+        phone = self.cleaned_data.get("phone")
+
+        if Profile.regex_phone(phone):
+            return phone
+        else:
+            raise ValidationError(_("Такай телефон не может быть сохранен"))
+
+    avatar = forms.ImageField(
+        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
+                                      "id": "avatar",
+                                      "name": "avatar",
+                                      "type": "file",
+                                      "data-validate": "onlyImgAvatar"}),
+        required=False,
+    )
     name = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
                                       "id": "name",
                                       "value": "",
                                       "type": "text",
                                       "data-validate": "require"}),
+    )
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-input",
+                                      "id": "phone",
+                                      "name": "phone",
+                                      "type": "text",
+                                      "value": "+70000000000",
+                                      "data-validate": "require"}),
+        validators=[Profile.regex_phone]
     )
     email = forms.CharField(
         widget=forms.EmailInput(attrs={"class": "form-input",
@@ -91,19 +118,19 @@ class UserForm(forms.ModelForm):
                                        "value": "send@test.test",
                                        "data-validate": "require"})
     )
-    password = forms.CharField(
+    password1 = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
                                       "id": "password",
-                                      "name": "password",
+                                      "name": "password1",
                                       "type": "password",
                                       "default": "",
                                       "placeholder": "Тут можно изменить пароль"}),
-        required=False,
+        required=False
     )
-    password_check = forms.CharField(
+    password2 = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
                                       "id": "password_check",
-                                      "name": "password_check",
+                                      "name": "password2",
                                       "type": "password",
                                       "placeholder": "Введите пароль повторно"}),
         required=False,
@@ -118,25 +145,3 @@ class UserForm(forms.ModelForm):
         return email
 
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['avatar', 'phone']
-
-    avatar = forms.ImageField(
-        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
-                                      "id": "avatar",
-                                      "name": "avatar",
-                                      "type": "file",
-                                      "data-validate": "onlyImgAvatar"}),
-        required=False,
-    )
-    phone = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "phone",
-                                      "name": "phone",
-                                      "type": "text",
-                                      "value": "+70000000000",
-                                      "data-validate": "require"}),
-        # validators=[Profile.regex_phone(value=Profile.phone)],
-    )

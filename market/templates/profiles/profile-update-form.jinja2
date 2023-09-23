@@ -40,48 +40,48 @@
                                         <div class="form-group">
                                             <label class="form-label" for="form.avatar.id_for_label">Аватар
                                             </label>
-                                            {% if profile.avatar %}
-                                                <img width="280" src="{{ profile.avatar.url }}">
-                                                <form method="post" enctype="multipart/form-data">
+                                            {% if user.profile.avatar %}
+                                                <img width="280" src="{{ user.profile.avatar.url }}">
+                                                <form method="post">
                                                     {% csrf_token %}
-                                                    {{ profile_form.avatar }}
+                                                    {{ form.avatar }}
                                                     <button type="submit">Изменить фото</button>
                                                 </form>
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">
-                                                    <label class="Profile-fileLabel" for="profile_form.avatar.id_for_label">
-                                                    <img width="100" src="static/assets/img/icons/upload.png" />Загрузить фото
+                                                    <label class="Profile-fileLabel" for="user_form.avatar.id_for_label">
+                                                        <img width="100" src="static/assets/img/icons/upload.png" />Загрузить фото
                                                     </label>
                                                 </div>
                                             {% endif %}
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="user-input" for={{ user_form.name.id_for_label }}>ФИО
+                                            <div class="user-input" for={{ form.name.id_for_label }}>ФИО
                                             </div>
-                                            {{ user_form.name }}
+                                            {{ form.name }}
                                         </div>
                                     </div>
                                     <div class="row-block">
                                         <div class="form-group">
-                                            <div class="user-input" for="{{ profile_form.phone.id_for_label }}">Телефон
+                                            <div class="user-input" for="{{ form.phone.id_for_label }}">Телефон
                                             </div>
-                                            {{ profile_form.phone }}
+                                            {{ form.phone }}
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-label" for="{{ user_form.email.id_for_label }}">E-mail
+                                            <div class="form-label" for="{{ form.email.id_for_label }}">E-mail
                                             </div>
-                                            {{ user_form.email }}
+                                            {{ form.email }}
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="{{ user_form.password.id_for_label }}">Пароль
-                                            </label>
-                                            {{ user_form.password }}
+                                            <div class="form-label" for="{{ form.password1.id_for_label }}">Пароль
+                                            </div>
+                                            {{ form.password1 }}
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="{{ user_form.password_check.id_for_label }}">Подтверждение пароля
-                                            </label>
-                                            {{ user_form.password_check }}
+                                            <div class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля
+                                            </div>
+                                            {{ form.password2 }}
                                         </div>
                                         <div class="form-group">
                                             <div class="Profile-btn">

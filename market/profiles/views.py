@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import (
@@ -8,15 +7,12 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.db import transaction
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, TemplateView
-from django.utils.translation import gettext_lazy as _
-
 
 from config import settings
-from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm, ProfileForm
+from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm
 from .models import Profile
 
 
@@ -93,62 +89,53 @@ class RegisterView(CreateView):
 class ProfileDetailView(TemplateView):
     """ Представление для редактирования страницы личного кабинета пользователя"""
 
-    # form_class = ProfileUpdateForm
     model = User
     template_name = "profiles/profile-update-form.jinja2"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        profile_data = {
-            'profile': Profile.objects.get(user=self.request.user),
-            'name': User.get_full_name(self.request.user),
-            'user': User.objects.select_related('Profile')
-        }
-        for e, v in data.items():
-            print(e, v)
-
-        profile_data['user_form'] = UserForm(instance=self.request.user, initial=profile_data)
-        profile_data['profile_form'] = ProfileForm(instance=self.request.user, initial=profile_data)
-
-        return profile_data
+        data = {"profile": Profile.objects.get(user=self.request.user)}
+        data['form'] = UserForm(instance=self.request.user,
+                                initial={"avatar": data['profile'].avatar.url,
+                                         "phone": data['profile'].phone,
+                                         "name": User.get_full_name(self.request.user)
+                                         })
+        for c, v in data.items():
+            print(c, v)
+        return data
 
     def post(self, request):
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        form = UserForm(request.POST)
         with transaction.atomic():
-            if user_form.is_valid() and profile_form.is_valid():
-                user_form.save()
-                profile_form.save()
-                # data = {
-                #     "avatar": profile_form.cleaned_data.get("avatar"),
-                #     "name": user_form.cleaned_data.get("name"),
-                #     "phone": profile_form.cleaned_data.get("phone"),
-                #     "email": user_form.cleaned_data.get("email"),
-                # }
-                messages.success(request, _('Ваш профиль был успешно обновлен!'))
+            if form.is_valid():
+                avatar = form.cleaned_data.get('avatar')
+                phone = form.cleaned_data.get('phone')
+                name = form.cleaned_data.get('name')
+                email = form.cleaned_data.get('email')
+                Profile.objects.filter(user=self.request.user).update(
+                    avatar=avatar,
+                    phone=phone,
+                )
+                User.objects.filter(id=self.request.user.user_id).update(
+                    first_name=name.split()[0],
+                    last_name=name.split()[1],
+                    email=email,
+                )
+                form.save()
+                # password = form.cleaned_data.get('password')
+                # password_check = form.cleaned_data.get('password_check')
+                # if password == password_check and password != "":
+                #     username = form.cleaned_data.get('username')
+                #     user = authenticate(username=username, password=password)
+                #     login(request, user)
+                #     form.save()
+                #     messages.success(request, _('Ваш профиль был успешно обновлен!'))
+                # else:
+                #     messages.warning(request, _('Ошибка ввода данных. Пароли не совпадают'))
+                # return redirect('profiles:profile')
             else:
-                user_form = UserForm(instance=request.user)
-                profile_form = ProfileForm(instance=request.user.profile)
-            return render(request, 'profiles/profile-update-form.jinja2', {
-                'user_form': user_form,
-                'profile_form': profile_form
-            })
-
-        # password = form.cleaned_data.get('password', "")
-        # password_check = form.cleaned_data.get('password_check', "")
-        #
-        # if password == password_check:
-        #     username = form.cleaned_data.get('username')
-        #     user = authenticate(username=username, password=password)
-        #     login(request, user)
-        #     form.save()
-        #     messages.success(request, _('Ваш профиль был успешно обновлен!'))
-        #     return redirect('profiles:profile')
-        # else:
-        #     messages.warning(request, _('Ошибка ввода данных. Пароли не совпадают'))
-
-
-        #
-        # else:
-        #     form = ProfileUpdateForm()
-        #     return render(request, 'profiles/profile-update-form.jinja2', {'form': form})
+                data = self.get_context_data()
+                UserForm(instance=request.user, initial=data)
+        return render(request, 'profiles/profile-update-form.jinja2', {
+            'form': form,
+        })
