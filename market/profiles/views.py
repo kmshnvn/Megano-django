@@ -15,6 +15,8 @@ from .forms import RegisterUserForm, EmailAuthenticationForm
 from .models import Profile
 from market.config import settings
 
+from django.contrib.auth.views import LogoutView
+
 
 class ResetPasswordView(PasswordResetView):
     """Представление формы сброса пароля."""
@@ -84,3 +86,7 @@ class RegisterView(CreateView):
             login(request=self.request, user=user)
 
         return response
+
+
+class LogoutView(LogoutView):
+    next_page = reverse_lazy("profiles:login")
