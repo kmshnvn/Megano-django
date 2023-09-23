@@ -32,6 +32,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, verbose_name=_("категория"), related_name="products", on_delete=models.PROTECT
     )
+    limited = models.BooleanField(default=False, verbose_name=_("ограниченный тираж"))
 
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
@@ -51,6 +52,20 @@ class Detail(models.Model):
 
     def __str__(self) -> str:
         return f"Detail(pk={self.pk}, name={self.name!r})"
+
+
+class ProductImage(models.Model):
+    """Дополнительные изображения продукта"""
+
+    class Meta:
+        verbose_name = _("изображение продукта")
+        verbose_name_plural = _("изображения продукта")
+
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to="products/image")
+
+    def __str__(self) -> str:
+        return f"ProductImage(pk={self.pk})"
 
 
 class ProductDetail(models.Model):

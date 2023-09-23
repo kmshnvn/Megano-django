@@ -14,12 +14,14 @@ from .models import (
     Product,
 )
 from basket.forms import BasketAddProductForm
+from history.models import BrowsingHistory
 
 
 class ProductDetailView(FormMixin, DetailView):
     model = Product
     form_class = CommentAddForm
     template_name = "products/product-detail.jinja2"
+    context_object_name = "product"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -30,8 +32,18 @@ class ProductDetailView(FormMixin, DetailView):
         comment_count = Comment.objects.filter(product_id=self.object.pk).count()
         form_basket = BasketAddProductForm
 
+        if self.request.user.is_authenticated:
+            history_object, created = BrowsingHistory.objects.update_or_create(
+                user=self.request.user,
+                product=self.get_object(),
+                defaults={
+                    "user": self.request.user,
+                    "product": self.get_object(),
+                },
+            )
+            data["history"] = history_object
+
         data["offers"] = offers
-        data["product"] = product_details
         data["product_detail"] = product_details
         data["min_price"] = offers.aggregate(Min("price"))["price__min"]
         data["comments_list"] = comments

@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import Category, Product, Detail, ProductDetail
+
+from .models import Category, Product, Detail, ProductDetail, ProductImage
 
 
 class DetailsInline(admin.TabularInline):
     model = Product.details.through
+
+
+class ProductInline(admin.StackedInline):
+    model = ProductImage
 
 
 @admin.register(Category)
@@ -14,7 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [DetailsInline]
+    inlines = [ProductInline, DetailsInline]
     list_display = "pk", "name"
     list_display_links = "pk", "name"
 
