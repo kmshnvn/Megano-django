@@ -106,5 +106,32 @@ class PaymentView(LoginRequiredMixin, View):
         return redirect(to="order:payment_progress", order_pk=order_pk)
 
 
-class PaymentProgressView(TemplateView):
+class PaymentProgressView(LoginRequiredMixin, TemplateView):
     template_name = "order/payment/payment-progress.jinja2"
+
+
+class HistoryOrdersView(LoginRequiredMixin, TemplateView):
+    template_name = "order/history-orders.jinja2"
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        orders = Order.objects.filter(user=self.request.user)
+        data["products"] = ProductInOrder.objects.filter(order_id__in=orders).select_related("product", "order")
+        return data
+
+
+class OneOrderView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest, order_pk) -> HttpResponse:
+        order = Order.objects.select_related("order_status", "delivery").get(pk=order_pk, user=request.user)
+        products = ProductInOrder.objects.select_related("product").filter(order_id=order_pk)
+        context = {
+            "order": order,
+            "products": products,
+            "status": order.order_status,
+            "delivery": order.delivery,
+            "total": sum([product.price for product in products]),
+        }
+        if order.delivery.delivery_type == _("Экспресс доставка"):
+            context["delivery_sum"] = context["total"] / 100 * 5
+
+        return render(request, "order/one-order.jinja2", context=context)
