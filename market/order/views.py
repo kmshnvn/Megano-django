@@ -106,7 +106,7 @@ class PaymentView(LoginRequiredMixin, View):
         return redirect(to="order:payment_progress", order_pk=order_pk)
 
 
-class PaymentProgressView(LoginRequiredMixin, ListView):
+class PaymentProgressView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest) -> HttpResponse:
         return render(request, "order/payment/payment-progress.jinja2")
 
