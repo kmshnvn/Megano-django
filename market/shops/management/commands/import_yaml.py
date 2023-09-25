@@ -28,16 +28,16 @@ class Command(BaseCommand):
         super().__init__(stdout, stderr, no_color, force_color)
         self.success_import = None
 
-    # def add_arguments(self, parser) -> None:
-    #     """
-    #     Берет аргумент названия файла из командной строки, если есть.
-    #
-    #     :param parser: объект парсера аргументов командной строки
-    #     :return: None
-    #     """
-    #     logger.debug("Парсим аргументы командной строки")
-    #     parser.add_argument("--file", required=False)
-    #     parser.add_argument("--email", required=False)
+    def add_arguments(self, parser) -> None:
+        """
+        Берет аргумент названия файла из командной строки, если есть.
+
+        :param parser: объект парсера аргументов командной строки
+        :return: None
+        """
+        logger.debug("Парсим аргументы командной строки")
+        parser.add_argument("--file", required=False)
+        parser.add_argument("--email", required=False)
 
     def create_product_and_offer(
         self,
@@ -167,7 +167,7 @@ class Command(BaseCommand):
             logger.error(f"Возникла ошибка при получении магазина: {e}")
             return None
 
-    def send_email(self, filename: str, log_path: str, email="ikamyshin@yandex.ru") -> None:
+    def send_email(self, filename: str, log_path: str, email=None) -> None:
         """
         Отправляет email пользователю об успешном или неуспешном выполнении импорта файла
         :param filename: Название файла импорта
@@ -176,6 +176,8 @@ class Command(BaseCommand):
         :return: None
         """
         try:
+            if email is None:
+                email = settings.EMAIL_HOST_USER
             subject = f"Импорт файла {filename}"
             subject += " прошел успешно." if self.success_import else " не был проведен."
 
@@ -268,6 +270,22 @@ class Command(BaseCommand):
         if images:
             pass
 
+    def check_yaml_filename(self, file_args: str, yaml_files: List[str]) -> List[str]:
+        """
+        Проверяет наличие файла с указанным именем в списке YAML-файлов и возвращает список файлов для импорта.
+
+        :param file_args: Имя файла, который необходимо проверить
+        :param yaml_files: Список всех YAML-файлов в директории импорта.
+        :return: Оставляем в списке файл, либо None
+        """
+        if file_args in yaml_files:
+            yaml_files = [file_args]
+        else:
+            yaml_files = []
+            logger.info(f"Файл {file_args} не найден")
+
+        return yaml_files
+
     def handle(self, *args, **options):
         """
         Обработчик команды. Импортирует данные из файлов YAML и добавляет товары и предложения в базу данных.
@@ -280,20 +298,18 @@ class Command(BaseCommand):
             folder_path = "import_data/to_import"
             success_folder = "import_data/success"
             error_folder = "import_data/failed"
+            file_path = ""
 
-            # file_args = options["file"]
-            # email_args = options["email"]
+            file_args = options["file"]
+            email_args = options["email"]
 
             yaml_files = [filename for filename in os.listdir(folder_path) if filename.endswith(".yaml")]
+            if file_args:
+                yaml_files = self.check_yaml_filename(file_args, yaml_files)
+
             if not yaml_files:
                 logger.error("Нет файлов для импорта")
             else:
-                # if file_args:
-                #     if file_args in yaml_files:
-                #         yaml_files = [file_args]
-                #     else:
-                #         logger.info(f"Файл {file_args} не найден")
-                # else:
                 filename = yaml_files[0]
                 log_path = f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt"
                 self.success_import = False
@@ -306,18 +322,20 @@ class Command(BaseCommand):
                 self.import_file(file_path)
 
                 if self.success_import:
-                    shutil.move(file_path, os.path.join(success_folder, filename))
                     logger.info("Импорт выполнен успешно")
+                    if os.path.exists(file_path):
+                        shutil.move(file_path, os.path.join(success_folder, filename))
                 else:
                     logger.error("В файле нет товаров для импорта или возникла ошибка")
                     if os.path.exists(file_path):
                         shutil.move(file_path, os.path.join(error_folder, filename))
 
                 logger.removeHandler(handler)
-                # if email_args:
-                #     self.send_email(filename, log_path, email_args)
+                if email_args:
+                    self.send_email(filename, log_path, email_args)
                 self.send_email(filename, log_path)
 
         except Exception as e:
-            shutil.move(file_path, os.path.join(error_folder, filename))
+            if os.path.exists(file_path):
+                shutil.move(file_path, os.path.join(error_folder, filename))
             logger.exception(f"Ошибка при выполнении команды: {e}")
