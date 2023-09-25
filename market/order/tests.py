@@ -2,9 +2,10 @@ from django.test import TestCase
 from profiles.models import Profile
 from django.urls import reverse
 from django.contrib.auth.models import User
+from order.models import Order, ProductInOrder
 
 
-class MakeOrderStepOneTestCase(TestCase):
+class MakeOrderTestCase(TestCase):
     """
     Тест оформления заказа
     """
@@ -79,3 +80,87 @@ class MakeOrderStepOneTestCase(TestCase):
         self.assertContains(response, "Получено недостаточно данных для оформления заказа!")
         self.assertEqual(self.client.session.get("basket"), None)
         self.assertEqual(self.client.session.get("order"), {})
+
+
+class HistoryOrderTestCase(TestCase):
+    """Тест истории заказов"""
+
+    fixtures = [
+        "fixtures/01-user-fixtures.json",
+        "fixtures/02-profile-fixtures.json",
+        "fixtures/03-products-fixtures.json",
+        "fixtures/05-category-fixtures.json",
+        "fixtures/04-shop-fixtures.json",
+        "fixtures/011-offers-fixtures.json",
+        "fixtures/013-order_orderstatus.json",
+        "fixtures/014-order_delivery.json",
+        "fixtures/015-order_order.json",
+        "fixtures/016-order_productinorder.json",
+    ]
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.user = User.objects.get(pk=2)
+        cls.order = Order.objects.get(pk=7)
+
+    def setUp(self) -> None:
+        response = self.client.get(reverse("order:history"))
+        self.assertEqual(response.status_code, 302)
+        self.client.force_login(self.user)
+
+    def test_history_order(self):
+        response = self.client.get(reverse("order:history"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.order.pk)
+        self.assertContains(response, self.order.delivery.pay)
+        self.assertContains(response, self.order.delivery.delivery_type)
+        self.assertContains(response, self.order.order_status.name)
+
+
+class OneOrderTestCase(TestCase):
+    """Тест одного заказа"""
+
+    fixtures = [
+        "fixtures/01-user-fixtures.json",
+        "fixtures/02-profile-fixtures.json",
+        "fixtures/03-products-fixtures.json",
+        "fixtures/05-category-fixtures.json",
+        "fixtures/04-shop-fixtures.json",
+        "fixtures/011-offers-fixtures.json",
+        "fixtures/013-order_orderstatus.json",
+        "fixtures/014-order_delivery.json",
+        "fixtures/015-order_order.json",
+        "fixtures/016-order_productinorder.json",
+    ]
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.user = User.objects.get(pk=2)
+        cls.order = Order.objects.get(pk=7)
+        cls.products = ProductInOrder.objects.filter(order=cls.order)
+
+    def setUp(self) -> None:
+        response = self.client.get(reverse("order:one_order", kwargs={"order_pk": self.order.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.client.force_login(self.user)
+
+    def test_one_order(self):
+        response = self.client.get(reverse("order:one_order", kwargs={"order_pk": self.order.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.order.pk)
+        self.assertContains(response, self.order.customer)
+        self.assertContains(response, self.order.phone)
+        self.assertContains(response, self.order.email)
+
+        self.assertContains(response, self.order.delivery.pay)
+        self.assertContains(response, self.order.delivery.delivery_type)
+        self.assertContains(response, self.order.delivery.city)
+        self.assertContains(response, self.order.delivery.address)
+        self.assertContains(response, self.order.order_status.name)
+        self.assertContains(response, "total")
+
+        for product in self.products:
+            self.assertContains(response, product.amount)
+            self.assertContains(response, product.product.name)
+            self.assertContains(response, product.product.image.url)
+            self.assertContains(response, product.product.description)
