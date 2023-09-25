@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
-    "django-celery-results",
+    "django_celery_results",
     "django_celery_beat",
     "history",
     "order",

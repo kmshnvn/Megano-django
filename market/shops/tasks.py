@@ -1,10 +1,15 @@
-# from celery import shared_task
-#
-# from . import import_yaml
+from celery import shared_task
+
+from .import_yaml import Command
 
 
-# @shared_task(name="Импорт товаров")
-# def etl_task(*args, **kwargs):
-#     unloads = import_yaml.Command()
-#     return "my result data"
-# здесь может быть более полезная информация
+@shared_task(name="Импорт товаров")
+def etl_task(*args, **kwargs):
+    func = Command().handle()
+    print(func)
+    if func:
+        unloads = func.load()
+        multiplication = func.transform(unloads)
+        func.extract(multiplication)
+
+    return "my result data"

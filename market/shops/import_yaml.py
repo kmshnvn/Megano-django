@@ -1,6 +1,5 @@
 import os
 import shutil
-import sys
 import uuid
 import logging
 from typing import Dict, List
@@ -29,16 +28,16 @@ class Command(BaseCommand):
         super().__init__(stdout, stderr, no_color, force_color)
         self.success_import = None
 
-    def add_arguments(self, parser) -> None:
-        """
-        Берет аргумент названия файла из командной строки, если есть.
-
-        :param parser: объект парсера аргументов командной строки
-        :return: None
-        """
-        logger.debug("Парсим аргументы командной строки")
-        parser.add_argument("--file", required=False)
-        parser.add_argument("--email", required=False)
+    # def add_arguments(self, parser) -> None:
+    #     """
+    #     Берет аргумент названия файла из командной строки, если есть.
+    #
+    #     :param parser: объект парсера аргументов командной строки
+    #     :return: None
+    #     """
+    #     logger.debug("Парсим аргументы командной строки")
+    #     parser.add_argument("--file", required=False)
+    #     parser.add_argument("--email", required=False)
 
     def create_product_and_offer(
         self,
@@ -168,7 +167,7 @@ class Command(BaseCommand):
             logger.error(f"Возникла ошибка при получении магазина: {e}")
             return None
 
-    def send_email(self, filename: str, log_path: str, email) -> None:
+    def send_email(self, filename: str, log_path: str, email="ikamyshin@yandex.ru") -> None:
         """
         Отправляет email пользователю об успешном или неуспешном выполнении импорта файла
         :param filename: Название файла импорта
@@ -205,7 +204,7 @@ class Command(BaseCommand):
 
         shop = data.get("yml_catalog").get("shop")
         shop_id = shop.get("shopID")
-
+        logger.info(shop_id)
         shop_query = self.check_shop_id(shop_id)
         logger.debug(shop_query)
         if shop_query is None:
@@ -282,22 +281,20 @@ class Command(BaseCommand):
             success_folder = "import_data/success"
             error_folder = "import_data/failed"
 
-            file_args = options["file"]
-            email_args = options["email"]
+            # file_args = options["file"]
+            # email_args = options["email"]
 
             yaml_files = [filename for filename in os.listdir(folder_path) if filename.endswith(".yaml")]
             if not yaml_files:
                 logger.error("Нет файлов для импорта")
-                sys.exit(1)
-
-            if file_args:
-                if file_args in yaml_files:
-                    yaml_files = [file_args]
-                else:
-                    logger.info(f"Файл {file_args} не найден")
-                    sys.exit(1)
-
-            for filename in yaml_files:
+            else:
+                # if file_args:
+                #     if file_args in yaml_files:
+                #         yaml_files = [file_args]
+                #     else:
+                #         logger.info(f"Файл {file_args} не найден")
+                # else:
+                filename = yaml_files[0]
                 log_path = f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt"
                 self.success_import = False
                 handler = logging.FileHandler(log_path)
@@ -312,11 +309,14 @@ class Command(BaseCommand):
                     shutil.move(file_path, os.path.join(success_folder, filename))
                     logger.info("Импорт выполнен успешно")
                 else:
-                    shutil.move(file_path, os.path.join(error_folder, filename))
                     logger.error("В файле нет товаров для импорта или возникла ошибка")
+                    if os.path.exists(file_path):
+                        shutil.move(file_path, os.path.join(error_folder, filename))
+
                 logger.removeHandler(handler)
-                if email_args:
-                    self.send_email(filename, log_path, email_args)
+                # if email_args:
+                #     self.send_email(filename, log_path, email_args)
+                self.send_email(filename, log_path)
 
         except Exception as e:
             shutil.move(file_path, os.path.join(error_folder, filename))
