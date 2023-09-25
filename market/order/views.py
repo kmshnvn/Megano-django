@@ -112,12 +112,13 @@ class PaymentProgressView(LoginRequiredMixin, ListView):
 
 
 class HistoryOrdersView(LoginRequiredMixin, ListView):
-    def get(self, request: HttpRequest) -> HttpResponse:
+    context_object_name = "products"
+    template_name = "order/history-orders.jinja2"
+
+    def get_queryset(self):
         orders = Order.objects.filter(user=self.request.user)
-        context = {
-            "products": ProductInOrder.objects.filter(order__in=orders).select_related("product", "order")
-        }
-        return render(request, "order/history-orders.jinja2", context=context)
+        products = ProductInOrder.objects.filter(order__in=orders).select_related("product", "order")
+        return products
 
 
 class OneOrderView(LoginRequiredMixin, View):
