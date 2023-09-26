@@ -1,5 +1,6 @@
 from comments.forms import CommentAddForm
 from comments.models import Comment
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
 from django.db.models import Min
 from django.views.generic import DetailView
@@ -15,6 +16,7 @@ from .models import (
 )
 from basket.forms import BasketAddProductForm
 from history.models import BrowsingHistory
+from shops.tasks import etl_task
 
 
 class ProductDetailView(FormMixin, DetailView):
@@ -78,7 +80,15 @@ class UploadFileView(FormView):
     form_class = UploadFileForm
     success_url = reverse_lazy("products:upload_file")
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
     def form_valid(self, form):
         form.save()
         self.success_message = "Файл успешно загружен."
+
+        etl_task.delay()
         return super().form_valid(form)

@@ -295,7 +295,7 @@ class Command(BaseCommand):
         :return: None
         """
         try:
-            folder_path = "import_data/to_import"
+            folder_path = "media/import_files"
             success_folder = "import_data/success"
             error_folder = "import_data/failed"
             file_path = ""

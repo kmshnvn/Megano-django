@@ -253,7 +253,7 @@ LOGGING = {
     },
 }
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = REDIS_URL
 CELERY_TASK_TRACK_STARTED = True
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
