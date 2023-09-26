@@ -3,9 +3,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-
-from profiles.models import Profile
 
 
 class RegisterUserForm(UserCreationForm):
@@ -72,69 +71,59 @@ class UserForm(forms.ModelForm):
     Форма обновления данных профиля пользователя
     """
 
+    regex_phone = RegexValidator(
+        regex=r"^((8|\+7|)(\d{10}))$", message=_("Формат номера телефона должен быть: +79999999999 или 89999999999")
+    )
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
-
-    def clean_phone(self):
-        """Проверка phone на валидность"""
-
-        phone = self.cleaned_data.get("phone")
-
-        if Profile.regex_phone(phone):
-            return phone
-        else:
-            raise ValidationError(_("Такай телефон не может быть сохранен"))
+        fields = ['first_name', 'last_name', 'email', 'password1']
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-input",
+                                                 "value": "",
+                                                 "type": "text",
+                                                 "data-validate": "require",
+                                                 "placeholder": "Имя"
+                                                 }),
+            "last_name": forms.TextInput(attrs={"class": "form-input",
+                                                "value": "",
+                                                "type": "text",
+                                                "data-validate": "require",
+                                                "placeholder": "Фамилия"
+                                                }),
+            "email": forms.EmailInput(attrs={"class": "form-input",
+                                             "name": "mail",
+                                             "type": "text",
+                                             "value": "send@test.test",
+                                             "data-validate": "require"
+                                             }),
+        }
 
     avatar = forms.ImageField(
-        widget=forms.FileInput(attrs={"class": "Profile-file form-input",
-                                      "id": "avatar",
-                                      "name": "avatar",
-                                      "type": "file",
-                                      "data-validate": "onlyImgAvatar"}),
-        required=False,
-    )
-    name = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "name",
-                                      "value": "",
-                                      "type": "text",
-                                      "data-validate": "require"}),
-    )
+        widget=forms.FileInput(attrs={"name": "avatar",
+                                      "data-validate": "onlyImgAvatar",
+                                      }), required=False)
+
     phone = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "phone",
                                       "name": "phone",
                                       "type": "text",
                                       "value": "+70000000000",
-                                      "data-validate": "require"}),
-        validators=[Profile.regex_phone]
-    )
-    email = forms.CharField(
-        widget=forms.EmailInput(attrs={"class": "form-input",
-                                       "id": "mail",
-                                       "name": "mail",
-                                       "type": "text",
-                                       "value": "send@test.test",
-                                       "data-validate": "require"})
-    )
+                                      "data-validate": [regex_phone],
+                                      }))
     password1 = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "password",
-                                      "name": "password1",
-                                      "type": "password",
-                                      "default": "",
-                                      "placeholder": "Тут можно изменить пароль"}),
-        required=False
-    )
+        widget=forms.PasswordInput(attrs={"class": "form-input",
+                                          "name": "password1",
+                                          "type": "password",
+                                          "placeholder": "Тут можно изменить пароль",
+                                          }), required=False)
+
     password2 = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-input",
-                                      "id": "password_check",
-                                      "name": "password2",
-                                      "type": "password",
-                                      "placeholder": "Введите пароль повторно"}),
-        required=False,
-    )
+        widget=forms.PasswordInput(attrs={"class": "form-input",
+                                          "placeholder": "Введите пароль повторно",
+                                          "name": "password",
+                                          "type": "password",
+                                          }), required=False)
 
     def clean_email(self):
         """Проверка email на уникальность"""
@@ -144,4 +133,15 @@ class UserForm(forms.ModelForm):
             raise ValidationError(_("Такая почта уже зарегистрированная"))
         return email
 
-
+    def clean_password(self):
+        cleaned_data = self.cleaned_data
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+        if password1 != "":
+            if password1 != password2:
+                raise forms.ValidationError(_("Пароли не совпадают"))
+            else:
+                return authenticate(username=self.cleaned_data.get('email'),
+                                    password=self.cleaned_data.get("password"))
+        else:
+            return cleaned_data

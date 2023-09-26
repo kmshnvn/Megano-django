@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Страничка редактирования профиля
+    Страница редактирования профиля
 {% endblock %}
 
 {% block content %}
@@ -21,9 +21,11 @@
                                     <ul class="menu menu_vt">
                                         <li class="menu-item"><a class="menu-link" href="#">Личный кабинет</a>
                                         </li>
-                                        <li class="menu-item_ACTIVE menu-item"><a class="#" href="">Профиль</a>
+                                        <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{% url 'profiles:profile' %}">Профиль</a>
                                         </li>
-                                        <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                        <li class="menu-item"><a class="menu-link" href="{% url 'order:history' %}">История заказов</a>
+                                        </li>
+                                        <li class="menu-item"><a class="menu-link" href="{% url 'history:view_history' %}">История просмотров</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -38,49 +40,43 @@
                                 <div class="row">
                                     <div class="row-block">
                                         <div class="form-group">
-                                            <label class="form-label" for="form.avatar.id_for_label">Аватар
-                                            </label>
+                                            <div>Аватар</div>
                                             {% if user.profile.avatar %}
                                                 <img width="280" src="{{ user.profile.avatar.url }}">
-                                                <form method="post">
-                                                    {% csrf_token %}
-                                                    {{ form.avatar }}
-                                                    <button type="submit">Изменить фото</button>
-                                                </form>
+                                                <button type="submit">Изменить фото</button>
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">
-                                                    <label class="Profile-fileLabel" for="user_form.avatar.id_for_label">
+                                                    <button type="submit">
                                                         <img width="100" src="static/assets/img/icons/upload.png" />Загрузить фото
-                                                    </label>
+                                                    </button>
                                                 </div>
                                             {% endif %}
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="user-input" for={{ form.name.id_for_label }}>ФИО
-                                            </div>
-                                            {{ form.name }}
+                                            <div>Имя</div>
+                                            {{ form.first_name }}
+                                        </div>
+                                        <div class="form-group">
+                                            <div>Фамилия</div>
+                                            {{ form.last_name }}
                                         </div>
                                     </div>
                                     <div class="row-block">
                                         <div class="form-group">
-                                            <div class="user-input" for="{{ form.phone.id_for_label }}">Телефон
-                                            </div>
+                                            <div>Телефон</div>
                                             {{ form.phone }}
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-label" for="{{ form.email.id_for_label }}">E-mail
-                                            </div>
+                                            <div>E-mail</div>
                                             {{ form.email }}
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-label" for="{{ form.password1.id_for_label }}">Пароль
-                                            </div>
+                                            <div>Пароль</div>
                                             {{ form.password1 }}
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля
-                                            </div>
+                                            <div>Подтверждение пароля</div>
                                             {{ form.password2 }}
                                         </div>
                                         <div class="form-group">
