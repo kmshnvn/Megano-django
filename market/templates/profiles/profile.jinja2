@@ -42,17 +42,16 @@
                                         <div class="form-group">
                                             <div>Аватар</div>
                                             {% if user.profile.avatar %}
-                                                <img width="280" src="{{ form.avatar }}">
-                                                    <button type="submit">Изменить фото</button>
+                                                <img width="280" src="{{ user.profile.avatar.url }}">
+                                                {{ form.avatar }}
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">
                                                     <button type="submit">
-                                                        <img width="100" src="static/assets/img/icons/upload.png" />Загрузить фото
+                                                        <img width="100" src="static/assets/img/icons/upload.png" />{{ form.avatar }}
                                                     </button>
                                                 </div>
                                             {% endif %}
                                         </div>
-
                                         <div class="form-group">
                                             <div>Имя</div>
                                             {{ form.first_name }}
@@ -83,8 +82,6 @@
                                             <div class="Profile-btn">
                                                 <button class="btn btn_success" type="submit">Сохранить
                                                 </button>
-                                            </div>
-                                            <div class="Profile-success">Профиль успешно сохранен
                                             </div>
                                         </div>
                                     </div>

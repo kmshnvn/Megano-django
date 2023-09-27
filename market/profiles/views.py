@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordResetView,
@@ -11,6 +13,7 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, TemplateView
+from django.utils.translation import gettext_lazy as _
 
 from config import settings
 from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm
@@ -96,11 +99,10 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
 
     model = User
     template_name = "profiles/profile.jinja2"
-    # context_object_name = "profile"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context["profile"] = Profile.objects.get(user=self.request.user)
+        context['profile'] = Profile.objects.get(user=self.request.user)
         context['form'] = UserForm(instance=self.request.user,
                                    initial={"avatar": context['profile'].avatar,
                                             "phone": context['profile'].phone,
@@ -118,10 +120,24 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
                     avatar=avatar,
                     phone=phone,
                 )
+                username = form.cleaned_data.get("username")
+                password1 = form.cleaned_data.get("password1")
+                password2 = form.cleaned_data.get("password2")
+                if password1 == password2:
+                    user = authenticate(username=username, password=password1)
+                    login(request, user)
+                    messages.success(request, _("Пароль успешно обновлен"))
+                    return redirect('profiles:profile')
+                else:
+                    if password1 != password2:
+                        messages.success(request, _("Пароли не совпадают. Попробуйте снова."))
+                        return redirect('profiles:profile')
                 form.save()
+                messages.success(request, _("Данные успешно обновлены"))
+                return redirect('profiles:profile')
+
         else:
             print(form.errors)
 
         context = self.get_context_data()
-
         return render(request, 'profiles/profile.jinja2', context=context)

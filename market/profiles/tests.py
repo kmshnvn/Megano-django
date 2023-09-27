@@ -145,7 +145,6 @@ class ProfileTestCase(TestCase):
         """Тест ответа POST-запроса страницы"""
 
         data = {
-            # "avatar": "кар-карыч.png",
             "first_name": "Карэн",
             "last_name": "Карычев",
             "email": "kar_karych@admin.com",
