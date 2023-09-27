@@ -42,8 +42,8 @@
                                         <div class="form-group">
                                             <div>Аватар</div>
                                             {% if user.profile.avatar %}
-                                                <img width="280" src="{{ user.profile.avatar.url }}">
-                                                <button type="submit">Изменить фото</button>
+                                                <img width="280" src="{{ form.avatar }}">
+                                                    <button type="submit">Изменить фото</button>
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">
                                                     <button type="submit">

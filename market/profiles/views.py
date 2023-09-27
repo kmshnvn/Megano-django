@@ -111,23 +111,15 @@ class ProfileDetailView(TemplateView):
         return context
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        form = UserForm(request.POST)
+        form = UserForm(instance=self.request.user, data=request.POST, files=request.FILES)
 
         with transaction.atomic():
             if form.is_valid():
                 avatar = form.cleaned_data.get('avatar')
                 phone = form.cleaned_data.get('phone')
-                first_name = form.cleaned_data.get('first_name')
-                last_name = form.cleaned_data.get('last_name')
-                email = form.cleaned_data.get('email')
                 Profile.objects.filter(user=self.request.user).update(
                     avatar=avatar,
                     phone=phone,
-                )
-                User.objects.filter(pk=self.request.user.pk).update(
-                    first_name=first_name,
-                    last_name=last_name,
-                    email=email,
                 )
                 form.save()
             else:

@@ -126,14 +126,17 @@ class UserForm(forms.ModelForm):
                                           }), required=False)
 
     def clean_email(self):
-        """Проверка email на уникальность"""
+        """ Проверка email на уникальность """
 
         email = self.cleaned_data.get("email").strip()
-        if User.objects.filter(email__iexact=email).exists():
+
+        if User.objects.exclude(pk=self.instance.pk).filter(email__iexact=email).exists():
             raise ValidationError(_("Такая почта уже зарегистрированная"))
         return email
 
     def clean_password(self):
+        """ Проверка паролей """
+
         cleaned_data = self.cleaned_data
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")

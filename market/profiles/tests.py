@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.test import TestCase, Client
+from django.urls import reverse
+
 from profiles.models import Profile
 
 
@@ -114,3 +116,50 @@ class ProfileModelTestCase(TestCase):
 
         self.assertEqual(profile.user, self.user)
         self.assertEqual(profile.phone, self.data["phone"])
+
+
+class ProfileTestCase(TestCase):
+    """Тест представления детальной страницы профиля"""
+
+    fixtures = [
+        "fixtures/01-user-fixtures.json",
+        "fixtures/02-profile-fixtures.json",
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.page_url = reverse("profiles:profile")
+        cls.user = User.objects.get(pk=8)
+        cls.profile = Profile.objects.get(user=cls.user)
+        cls.password = "Common_Password_123"
+
+    def setUp(self) -> None:
+        self.client.force_login(self.user)
+
+    def test_get_method(self):
+        """Тест ответа GET-запроса страницы"""
+
+        response = self.client.get(self.page_url)
+        self.assertEqual(200, response.status_code),
+        self.assertIn("profiles/profile.jinja2", response.template_name)
+
+    def test_post_method(self):
+        """Тест ответа POST-запроса страницы"""
+
+        data = {
+            "avatar": "кар-карыч.png",
+            "first_name": "Карэн",
+            "last_name": "Карычев",
+            "email": "kar_karych@admin.com",
+            "phone": "+79999999999",
+            "password1": "password1test",
+            "password2": "password1test",
+        }
+        response = self.client.post(self.page_url, data=data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.profile.phone)
+        # self.assertContains(response, self.profile.avatar)
+        self.assertContains(response, self.user.email)
+        self.assertContains(response, self.user.first_name)
+        self.assertContains(response, self.user.last_name)
