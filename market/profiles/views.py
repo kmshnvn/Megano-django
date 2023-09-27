@@ -91,21 +91,18 @@ class ProfileLogoutView(LogoutView):
     next_page = reverse_lazy("profiles:login")
 
 
-class ProfileDetailView(TemplateView):
+class ProfileDetailView(LoginRequiredMixin, TemplateView):
     """ Представление для редактирования страницы личного кабинета пользователя"""
 
     model = User
     template_name = "profiles/profile.jinja2"
-    context_object_name = "profile"
+    # context_object_name = "profile"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = {"profile": Profile.objects.get(user=self.request.user)}
+        # context["profile"] = Profile.objects.get(user=self.request.user)
         context['form'] = UserForm(instance=self.request.user,
-                                   initial={"first_name": self.request.user.first_name,
-                                            "lst_name": self.request.user.last_name,
-                                            "email": self.request.user.email,
-                                            "avatar": context['profile'].avatar,
+                                   initial={"avatar": context['profile'].avatar,
                                             "phone": context['profile'].phone,
                                             })
         return context
@@ -113,8 +110,8 @@ class ProfileDetailView(TemplateView):
     def post(self, request: HttpRequest) -> HttpResponse:
         form = UserForm(instance=self.request.user, data=request.POST, files=request.FILES)
 
-        with transaction.atomic():
-            if form.is_valid():
+        if form.is_valid():
+            with transaction.atomic():
                 avatar = form.cleaned_data.get('avatar')
                 phone = form.cleaned_data.get('phone')
                 Profile.objects.filter(user=self.request.user).update(
@@ -122,10 +119,9 @@ class ProfileDetailView(TemplateView):
                     phone=phone,
                 )
                 form.save()
-            else:
-                print(form.errors)
-                context = self.get_context_data()
-                UserForm(instance=self.request.user, initial=context)
-        return render(request, 'profiles/profile.jinja2', {
-            'form': form,
-        })
+        else:
+            print(form.errors)
+
+        context = self.get_context_data()
+
+        return render(request, 'profiles/profile.jinja2', context=context)

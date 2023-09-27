@@ -77,7 +77,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1']
+        fields = ['first_name', 'last_name', 'email']
         widgets = {
             "first_name": forms.TextInput(attrs={"class": "form-input",
                                                  "value": "",
@@ -134,17 +134,17 @@ class UserForm(forms.ModelForm):
             raise ValidationError(_("Такая почта уже зарегистрированная"))
         return email
 
-    def clean_password(self):
-        """ Проверка паролей """
-
-        cleaned_data = self.cleaned_data
-        password1 = cleaned_data.get("password1")
-        password2 = cleaned_data.get("password2")
-        if password1 != "":
-            if password1 != password2:
-                raise forms.ValidationError(_("Пароли не совпадают"))
-            else:
-                return authenticate(username=self.cleaned_data.get('email'),
-                                    password=self.cleaned_data.get("password"))
-        else:
-            return cleaned_data
+    # def clean_password1(self):
+    #     """ Проверка паролей """
+    #
+    #     cleaned_data = self.cleaned_data
+    #     password1 = cleaned_data.get("password1")
+    #     password2 = cleaned_data.get("password2")
+    #     if password1 != "":
+    #         if password1 != password2:
+    #             raise forms.ValidationError(_("Пароли не совпадают"))
+    #         else:
+    #             return authenticate(username=self.cleaned_data.get('email'),
+    #                                 password=self.cleaned_data.get("password"))
+    #     else:
+    #         return cleaned_data

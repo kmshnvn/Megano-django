@@ -130,8 +130,6 @@ class ProfileTestCase(TestCase):
     def setUpTestData(cls):
         cls.page_url = reverse("profiles:profile")
         cls.user = User.objects.get(pk=8)
-        cls.profile = Profile.objects.get(user=cls.user)
-        cls.password = "Common_Password_123"
 
     def setUp(self) -> None:
         self.client.force_login(self.user)
@@ -147,7 +145,7 @@ class ProfileTestCase(TestCase):
         """Тест ответа POST-запроса страницы"""
 
         data = {
-            "avatar": "кар-карыч.png",
+            # "avatar": "кар-карыч.png",
             "first_name": "Карэн",
             "last_name": "Карычев",
             "email": "kar_karych@admin.com",
@@ -158,8 +156,10 @@ class ProfileTestCase(TestCase):
         response = self.client.post(self.page_url, data=data)
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.profile.phone)
-        # self.assertContains(response, self.profile.avatar)
-        self.assertContains(response, self.user.email)
-        self.assertContains(response, self.user.first_name)
-        self.assertContains(response, self.user.last_name)
+
+        expected_user = User.objects.get(pk=8)
+        self.assertEqual(expected_user.first_name, data['first_name'])
+        self.assertEqual(expected_user.last_name, data['last_name'])
+
+        expected_profile = Profile.objects.get(user=expected_user)
+        self.assertEqual(expected_profile.phone, data['phone'])
