@@ -75,7 +75,6 @@ class Command(BaseCommand):
                     category=category,
                 )
 
-                # Проход по параметрам продукта
                 for param_name, param_value in params.items():
                     detail, created = Detail.objects.get_or_create(name=param_name)
                     ProductDetail.objects.create(

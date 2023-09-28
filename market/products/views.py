@@ -1,6 +1,6 @@
 from comments.forms import CommentAddForm
 from comments.models import Comment
-from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.db.models import Min
 from django.views.generic import DetailView
@@ -75,16 +75,16 @@ class ProductDetailView(FormMixin, DetailView):
         return reverse("products:product_detail", kwargs={"pk": self.object.pk})
 
 
-class UploadFileView(FormView):
+class UploadFileView(PermissionRequiredMixin, FormView):
     template_name = "products/upload_file.jinja2"
     form_class = UploadFileForm
     success_url = reverse_lazy("products:upload_file")
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_superuser:
-            return super().dispatch(request, *args, **kwargs)
-        else:
-            raise PermissionDenied
+    permission_required = [
+        "products.add_detail",
+        "products.add_product",
+        "products.add_productdetail",
+        "products.add_productimage",
+    ]
 
     def form_valid(self, form):
         form.save()
