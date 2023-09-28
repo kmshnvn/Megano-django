@@ -154,11 +154,11 @@ class ProfileTestCase(TestCase):
         }
         response = self.client.post(self.page_url, data=data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
         expected_user = User.objects.get(pk=8)
-        self.assertEqual(expected_user.first_name, data['first_name'])
-        self.assertEqual(expected_user.last_name, data['last_name'])
+        self.assertEqual(expected_user.first_name, data["first_name"])
+        self.assertEqual(expected_user.last_name, data["last_name"])
 
         expected_profile = Profile.objects.get(user=expected_user)
-        self.assertEqual(expected_profile.phone, data['phone'])
+        self.assertEqual(expected_profile.phone, data["phone"])

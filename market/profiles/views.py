@@ -6,7 +6,8 @@ from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView, LogoutView,
+    PasswordResetCompleteView,
+    LogoutView,
 )
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
@@ -95,18 +96,21 @@ class ProfileLogoutView(LogoutView):
 
 
 class ProfileDetailView(LoginRequiredMixin, TemplateView):
-    """ Представление для редактирования страницы личного кабинета пользователя"""
+    """Представление для редактирования страницы личного кабинета пользователя"""
 
     model = User
     template_name = "profiles/profile.jinja2"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
-        context['form'] = UserForm(instance=self.request.user,
-                                   initial={"avatar": context['profile'].avatar,
-                                            "phone": context['profile'].phone,
-                                            })
+        context["profile"] = Profile.objects.get(user=self.request.user)
+        context["form"] = UserForm(
+            instance=self.request.user,
+            initial={
+                "avatar": context["profile"].avatar,
+                "phone": context["profile"].phone,
+            },
+        )
         return context
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -114,30 +118,34 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
 
         if form.is_valid():
             with transaction.atomic():
-                avatar = form.cleaned_data.get('avatar')
-                phone = form.cleaned_data.get('phone')
+                avatar = form.cleaned_data.get("avatar")
+                phone = form.cleaned_data.get("phone")
                 Profile.objects.filter(user=self.request.user).update(
                     avatar=avatar,
                     phone=phone,
                 )
-                username = form.cleaned_data.get("username")
-                password1 = form.cleaned_data.get("password1")
-                password2 = form.cleaned_data.get("password2")
-                if password1 == password2:
-                    user = authenticate(username=username, password=password1)
-                    login(request, user)
-                    messages.success(request, _("Пароль успешно обновлен"))
-                    return redirect('profiles:profile')
-                else:
-                    if password1 != password2:
-                        messages.success(request, _("Пароли не совпадают. Попробуйте снова."))
-                        return redirect('profiles:profile')
+                #
+                # FIXME Сброс пароля реализован выше - смотри представления ResetPassword. Поэтому поля для
+                # FIXME нужно удалить из формы
+                #
+                # username = form.cleaned_data.get("username")
+                # password1 = form.cleaned_data.get("password1")
+                # password2 = form.cleaned_data.get("password2")
+                # if password1 == password2:
+                #     user = authenticate(username=username, password=password1)
+                #     login(request, user)
+                #     messages.success(request, _("Пароль успешно обновлен"))
+                #     return redirect('profiles:profile')
+                # else:
+                #     if password1 != password2:
+                #         messages.success(request, _("Пароли не совпадают. Попробуйте снова."))
+                #         return redirect('profiles:profile')
                 form.save()
                 messages.success(request, _("Данные успешно обновлены"))
-                return redirect('profiles:profile')
+                return redirect("profiles:profile")
 
         else:
             print(form.errors)
 
         context = self.get_context_data()
-        return render(request, 'profiles/profile.jinja2', context=context)
+        return render(request, "profiles/profile.jinja2", context=context)
