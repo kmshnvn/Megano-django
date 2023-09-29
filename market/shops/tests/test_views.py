@@ -13,7 +13,7 @@ class CatalogListViewTest(TestCase):
         "fixtures/04-shop-fixtures.json",
         "fixtures/05-category-fixtures.json",
         "fixtures/06-comment-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
     ]
 
     @classmethod
