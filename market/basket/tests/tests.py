@@ -31,7 +31,7 @@ class BasketAddProductTestCase(TestCase):
         "fixtures/05-category-fixtures.json",
         "fixtures/08-details-fixtures.json",
         "fixtures/09-products-detail-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
     ]
 
     @classmethod
@@ -92,7 +92,7 @@ class RemoveProductTestCase(TestCase):
         "fixtures/05-category-fixtures.json",
         "fixtures/08-details-fixtures.json",
         "fixtures/09-products-detail-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
     ]
 
     @classmethod
@@ -147,7 +147,7 @@ class ChangeAmountProductTestCase(TestCase):
         "fixtures/05-category-fixtures.json",
         "fixtures/08-details-fixtures.json",
         "fixtures/09-products-detail-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
     ]
 
     @classmethod
