@@ -19,6 +19,7 @@ class ProductDetailView(FormMixin, DetailView):
     model = Product
     form_class = CommentAddForm
     template_name = "products/product-detail.jinja2"
+    context_object_name = "product"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -26,7 +27,8 @@ class ProductDetailView(FormMixin, DetailView):
         offers = Offer.objects.prefetch_related("shop").filter(product_id=self.object.pk)
         product_details = ProductDetail.objects.prefetch_related("detail", "product").filter(product=self.object)
         comments = Comment.objects.select_related("author", "product").filter(product_id=self.object.pk)[:10]
-        comment_count = Comment.objects.filter(product_id=self.object.pk).count()
+        comment_count = Comment.objects.filter(product_id=self.object.pk).count()  # comment_count = comments.count()
+
         form_basket = BasketAddProductForm
 
         if self.request.user.is_authenticated:
@@ -41,7 +43,6 @@ class ProductDetailView(FormMixin, DetailView):
             data["history"] = history_object
 
         data["offers"] = offers
-        data["product"] = product_details
         data["product_detail"] = product_details
         data["min_price"] = offers.aggregate(Min("price"))["price__min"]
         data["comments_list"] = comments
@@ -59,7 +60,7 @@ class ProductDetailView(FormMixin, DetailView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        comment = form.save(commit=False)
+        comment = form.save()
         comment.author = self.request.user
         comment.product = Product.objects.get(pk=self.kwargs["pk"])
         comment.save()

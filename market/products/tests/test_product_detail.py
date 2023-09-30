@@ -18,8 +18,8 @@ class ProductDetailTestCase(TestCase):
         "fixtures/06-comment-fixtures.json",
         "fixtures/08-details-fixtures.json",
         "fixtures/09-products-detail-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
-        "fixtures/012-history-products-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
+        "fixtures/12-history-products-fixtures.json",
     ]
 
     @classmethod

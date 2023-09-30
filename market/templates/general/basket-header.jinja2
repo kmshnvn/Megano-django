@@ -14,7 +14,7 @@
                         {% sum_price request.session.basket %}&nbsp;$
                 </span>
                 <div class="CartBlock">
-                    <a class="CartBlock-block" href=#><img class="CartBlock-img" src="{% static 'assets/img/icons/loon-icon.svg' %}" alt="loon-icon.svg"/></a>
+                    <a class="CartBlock-block" href={% url 'profiles:profile' %}><img class="CartBlock-img" src="{% static 'assets/img/icons/loon-icon.svg' %}" alt="loon-icon.svg"/></a>
                 </div>
             </div>
         </div>

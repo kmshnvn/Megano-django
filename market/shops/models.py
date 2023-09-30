@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from products.models import Product
 from profiles.models import User
 
-phoneNumberIsValid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
+phone_number_is_valid = RegexValidator(regex=r"^\+?1?\d{8,15}$")
 
 
 class Shop(models.Model):
@@ -22,7 +22,7 @@ class Shop(models.Model):
         related_name="shops",
         verbose_name=_("товары в магазине"),
     )
-    phoneNumber = models.CharField(validators=[phoneNumberIsValid], max_length=16)
+    phoneNumber = models.CharField(validators=[phone_number_is_valid], max_length=16)
     adress = models.CharField(max_length=512, verbose_name=_("адресс"))
     email = models.EmailField(max_length=127, verbose_name=_("почта"))
     legal_adress = models.CharField(max_length=512, verbose_name=_("юридический адресс"))

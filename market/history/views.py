@@ -1,8 +1,9 @@
 ﻿from django.views.generic.list import ListView
 from .models import BrowsingHistory
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class HistoryView(ListView):
+class HistoryView(LoginRequiredMixin, ListView):
     template_name = "history/view-histroy.jinja2"
     model = BrowsingHistory
     context_object_name = "history"

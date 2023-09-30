@@ -1,19 +1,23 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView,
+    PasswordResetCompleteView, LogoutView,
 )
 from django.db import transaction
-from django.shortcuts import redirect
-
+from django.http import HttpResponse, HttpRequest
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, FormView, TemplateView
 
-from .forms import RegisterUserForm, EmailAuthenticationForm
+from config import settings
+from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm
 from .models import Profile
-from market.config import settings
 
 
 class ResetPasswordView(PasswordResetView):
@@ -84,3 +88,44 @@ class RegisterView(CreateView):
             login(request=self.request, user=user)
 
         return response
+
+
+class ProfileLogoutView(LogoutView):
+    next_page = reverse_lazy("profiles:login")
+
+
+class ProfileDetailView(LoginRequiredMixin, TemplateView):
+    """ Представление для редактирования страницы личного кабинета пользователя"""
+
+    model = User
+    template_name = "profiles/profile.jinja2"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['form'] = UserForm(instance=self.request.user,
+                                   initial={"avatar": context['profile'].avatar,
+                                            "phone": context['profile'].phone,
+                                            })
+        return context
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        form = UserForm(instance=self.request.user, data=request.POST, files=request.FILES)
+        print(request.POST)
+        print(request.FILES)
+        if form.is_valid():
+            with transaction.atomic():
+                avatar = form.cleaned_data.get('avatar')
+                phone = form.cleaned_data.get('phone')
+                if avatar is not "":
+                    Profile.objects.filter(user=self.request.user).update(
+                        avatar=avatar,
+                        phone=phone,
+                    )
+                form.save()
+                messages.success(request, _("Данные успешно обновлены"))
+                return redirect('profiles:profile')
+        else:
+            print(form.errors)
+        context = self.get_context_data()
+        return render(request, 'profiles/profile.jinja2', context=context)
