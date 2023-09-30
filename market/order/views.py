@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from django.http import HttpRequest, HttpResponse
 from .forms import OrderStep1Form, DeliveryStep2Form, DeliveryStep3Form
 from order.services.make_order import MakeOrder
@@ -106,5 +106,34 @@ class PaymentView(LoginRequiredMixin, View):
         return redirect(to="order:payment_progress", order_pk=order_pk)
 
 
-class PaymentProgressView(TemplateView):
-    template_name = "order/payment/payment-progress.jinja2"
+class PaymentProgressView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        return render(request, "order/payment/payment-progress.jinja2")
+
+
+class HistoryOrdersView(LoginRequiredMixin, ListView):
+    context_object_name = "products"
+    template_name = "order/history-orders.jinja2"
+
+    def get_queryset(self):
+        orders = Order.objects.filter(user=self.request.user)
+        products = ProductInOrder.objects.filter(order__in=orders).select_related("product", "order")
+        return products
+
+
+class OneOrderView(LoginRequiredMixin, View):
+    def get(self, request: HttpRequest, order_pk) -> HttpResponse:
+        order = Order.objects.select_related("order_status", "delivery").get(pk=order_pk, user=request.user)
+        products = ProductInOrder.objects.select_related("product").filter(order_id=order_pk)
+
+        context = {
+            "order": order,
+            "products": products,
+            "status": order.order_status,
+            "delivery": order.delivery,
+            "total": sum([product.price for product in products]),
+        }
+        if order.delivery.delivery_type == _("Экспресс доставка"):
+            context["delivery_sum"] = context["total"] / 100 * 5
+
+        return render(request, "order/one-order.jinja2", context=context)

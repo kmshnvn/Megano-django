@@ -112,7 +112,7 @@
     "pk": 7,
     "fields": {
       "password": "pbkdf2_sha256$600000$WdJjXeHnF6h6GeSo7CXssE$+Q52dSBDb144vlyjNpdtSf3segHNWzVj0iL+LJ/iAg8=",
-      "last_login": "2023-08-26T20:43:54Z",
+      "last_login": "2023-09-12T13:04:50.898Z",
       "is_superuser": true,
       "username": "admin2",
       "first_name": "Никита",
@@ -121,6 +121,24 @@
       "is_staff": true,
       "is_active": true,
       "date_joined": "2023-08-26T20:43:28Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$CaPWJNlugbVZpRWZLAkZNI$ONz+d1HoCScZtx7GZjwY44Ct0KcpJleD1csth3sxwG8=",
+      "last_login": "2023-09-13T07:27:12.005Z",
+      "is_superuser": true,
+      "username": "kar_karych",
+      "first_name": "Кар",
+      "last_name": "Карыч",
+      "email": "kar_karych@admin.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-09-13T07:16:16Z",
       "groups": [],
       "user_permissions": []
     }
