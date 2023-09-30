@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import dotenv_values
-from setting_constance.setting_constance import * # noqa
+from setting_constance.setting_constance import *  # noqa
+
 # from constance import config
 import dj_database_url
 from django.utils.translation import gettext_lazy as _
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "basket",
     "history",
+    "discounts",
 ]
 
 # email configs
@@ -122,7 +124,7 @@ DATABASES = {"default": dj_database_url.parse(config["DATABASE_URL"])}
 
 REDIS_URL = config["REDIS_URL"]
 
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 CONSTANCE_REDIS_CONNECTION = {
     "default": {
@@ -138,7 +140,7 @@ CACHES = {
     }
 }
 
-CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
+CONSTANCE_DATABASE_CACHE_BACKEND = "default"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
