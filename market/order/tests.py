@@ -16,7 +16,7 @@ class MakeOrderTestCase(TestCase):
         "fixtures/03-products-fixtures.json",
         "fixtures/05-category-fixtures.json",
         "fixtures/04-shop-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
+        "fixtures/11-offers-fixtures.json",
     ]
 
     @classmethod
@@ -91,11 +91,11 @@ class HistoryOrderTestCase(TestCase):
         "fixtures/03-products-fixtures.json",
         "fixtures/05-category-fixtures.json",
         "fixtures/04-shop-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
-        "fixtures/013-order_orderstatus.json",
-        "fixtures/014-order_delivery.json",
-        "fixtures/015-order_order.json",
-        "fixtures/016-order_productinorder.json",
+        "fixtures/11-offers-fixtures.json",
+        "fixtures/13-order_orderstatus.json",
+        "fixtures/14-order_delivery.json",
+        "fixtures/15-order_order.json",
+        "fixtures/16-order_productinorder.json",
     ]
 
     @classmethod
@@ -126,11 +126,11 @@ class OneOrderTestCase(TestCase):
         "fixtures/03-products-fixtures.json",
         "fixtures/05-category-fixtures.json",
         "fixtures/04-shop-fixtures.json",
-        "fixtures/011-offers-fixtures.json",
-        "fixtures/013-order_orderstatus.json",
-        "fixtures/014-order_delivery.json",
-        "fixtures/015-order_order.json",
-        "fixtures/016-order_productinorder.json",
+        "fixtures/11-offers-fixtures.json",
+        "fixtures/13-order_orderstatus.json",
+        "fixtures/14-order_delivery.json",
+        "fixtures/15-order_order.json",
+        "fixtures/16-order_productinorder.json",
     ]
 
     @classmethod

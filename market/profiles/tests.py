@@ -10,7 +10,7 @@ from profiles.models import Profile
 class ProfileViewTestCase(TestCase):
     fixtures = [
         "fixtures/01-user-fixtures.json",
-        "fixtures/010-user-group-fixtures.json",
+        "fixtures/0-user-group-fixtures.json",
     ]
 
     @classmethod
