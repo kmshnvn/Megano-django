@@ -1,8 +1,13 @@
+from io import BytesIO
+
+from PIL import Image
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 from profiles.models import Profile
 
@@ -145,8 +150,8 @@ class ProfileTestCase(TestCase):
         """Тест ответа POST-запроса страницы"""
 
         data = {
-            "first_name": "Карэн",
-            "last_name": "Карычев",
+            "first_name": "Кар",
+            "last_name": "Карыч",
             "email": "kar_karych@admin.com",
             "phone": "+79999999999",
             "password1": "password1test",
@@ -154,7 +159,7 @@ class ProfileTestCase(TestCase):
         }
         response = self.client.post(self.page_url, data=data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
         expected_user = User.objects.get(pk=8)
         self.assertEqual(expected_user.first_name, data['first_name'])
@@ -162,3 +167,12 @@ class ProfileTestCase(TestCase):
 
         expected_profile = Profile.objects.get(user=expected_user)
         self.assertEqual(expected_profile.phone, data['phone'])
+
+    def test_upload_image(self):
+        """Тест загрузки файла аватара"""
+
+        file_image = 'media/users/9/user-details/кар-карыч.png'
+        with open(file_image, 'rb') as image:
+            image = SimpleUploadedFile(name=file_image, content=image.read(), content_type="image/png")
+            response = self.client.post(self.page_url, data={'image': image})
+            self.assertEqual(response.status_code, 302)

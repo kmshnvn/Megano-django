@@ -47,7 +47,7 @@
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">
                                                     <button type="submit">
-                                                        <img width="100" src="static/assets/img/icons/upload.png" />{{ form.avatar }}
+                                                        {{ form.avatar }}
                                                     </button>
                                                 </div>
                                             {% endif %}
@@ -65,10 +65,12 @@
                                         <div class="form-group">
                                             <div>Телефон</div>
                                             {{ form.phone }}
+                                            <div class="form-error">{{ form.phone.errors }}</div>
                                         </div>
                                         <div class="form-group">
                                             <div>E-mail</div>
                                             {{ form.email }}
+                                            <div class="form-error">{{ form.email.errors }}</div>
                                         </div>
                                         <div class="form-group">
                                             <div>Пароль</div>
