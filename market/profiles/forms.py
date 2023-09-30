@@ -6,6 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
+from profiles.models import avatar_upload_path
+
 
 class RegisterUserForm(UserCreationForm):
     """Форма регистрации пользователя"""
@@ -102,6 +104,7 @@ class UserForm(forms.ModelForm):
     avatar = forms.ImageField(
         widget=forms.FileInput(attrs={"name": "avatar",
                                       "data-validate": "onlyImgAvatar",
+                                      "upload_to": [avatar_upload_path],
                                       }), required=False)
 
     phone = forms.CharField(
@@ -110,7 +113,7 @@ class UserForm(forms.ModelForm):
                                       "type": "text",
                                       "value": "+70000000000",
                                       "data-validate": [regex_phone],
-                                      }))
+                                      }), required=False)
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={"class": "form-input",
                                           "name": "password1",
@@ -133,3 +136,4 @@ class UserForm(forms.ModelForm):
         if User.objects.exclude(pk=self.instance.pk).filter(email__iexact=email).exists():
             raise ValidationError(_("Такая почта уже зарегистрированная"))
         return email
+
