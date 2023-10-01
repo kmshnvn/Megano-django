@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView
 from django.http import HttpRequest, HttpResponse
-from .forms import OrderStep1Form, DeliveryStep2Form, DeliveryStep3Form
+from .forms import OrderStep1Form, OrderStep2Form, OrderStep3Form
 from order.services.make_order import MakeOrder
 from django.contrib.auth.mixins import LoginRequiredMixin
 from order.models import Order, ProductInOrder
@@ -35,12 +35,12 @@ class MakeOrderStepTwo(LoginRequiredMixin, View):
 
     def get(self, request: HttpRequest) -> HttpRequest:
         context = {
-            "form_delivery": DeliveryStep2Form,
+            "form_delivery": OrderStep2Form,
         }
         return render(request, "order/make-order-step2.jinja2", context=context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        form = DeliveryStep2Form(request.POST)
+        form = OrderStep2Form(request.POST)
         if form.is_valid():
             make_order = MakeOrder(request=request)
             make_order.writing_data_order_in_session(key="step_2", cleaned_data=form.cleaned_data)
@@ -54,12 +54,12 @@ class MakeOrderStepThree(LoginRequiredMixin, View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {
-            "form_delivery": DeliveryStep3Form,
+            "form_delivery": OrderStep3Form,
         }
         return render(request, "order/make-order-step3.jinja2", context=context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        form = DeliveryStep3Form(request.POST)
+        form = OrderStep3Form(request.POST)
         if form.is_valid():
             make_order = MakeOrder(request=request)
             make_order.writing_data_order_in_session(key="step_3", cleaned_data=form.cleaned_data)
@@ -70,6 +70,7 @@ class MakeOrderStepFour(LoginRequiredMixin, View):
     """
     Класс создания заказа шаг четвертый - подтверждение и оплата заказа
     При неполноте данных, недостаточном балансе или отсутствия товара рендерит страницу-ошибку
+    Если выбрана экспресс доставка, то к стоимости прибавляется 5% от стоимости заказа
     """
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -79,6 +80,7 @@ class MakeOrderStepFour(LoginRequiredMixin, View):
             order = Order.objects.filter(user=request.user).select_related("order_status", "delivery").last()
             products = ProductInOrder.objects.select_related("product").filter(order=order)
             context = {"order": order, "products": products, "sum": sum([product.price for product in products])}
+
             if order.delivery.delivery_type == _("Экспресс доставка"):
                 context["delivery_sum"] = context["sum"] / 100 * 5
 
@@ -112,6 +114,10 @@ class PaymentProgressView(LoginRequiredMixin, View):
 
 
 class HistoryOrdersView(LoginRequiredMixin, ListView):
+    """
+    Представление для отображения всех заказов пользователя.
+    Если пользователя не аутентифицирован, то он перенаправляется на страницу входа
+    """
     context_object_name = "products"
     template_name = "order/history-orders.jinja2"
 
@@ -122,6 +128,10 @@ class HistoryOrdersView(LoginRequiredMixin, ListView):
 
 
 class OneOrderView(LoginRequiredMixin, View):
+    """
+    Представление для отображения конкретного заказа пользователя.
+    Если пользователя не аутентифицирован, то он перенаправляется на страницу входа
+    """
     def get(self, request: HttpRequest, order_pk) -> HttpResponse:
         order = Order.objects.select_related("order_status", "delivery").get(pk=order_pk, user=request.user)
         products = ProductInOrder.objects.select_related("product").filter(order_id=order_pk)

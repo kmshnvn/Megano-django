@@ -52,10 +52,9 @@ class BasketObject:
             }
         return basket
 
-    def add_product_in_basket(self, request: HttpRequest, product_pk: int, offer_pk: int, amount: int) -> None:
+    def add_product_in_basket(self, product_pk: int, offer_pk: int, amount: int) -> None:
         """
         Метод для добавления продукта в корзину
-        :param: request - WSGI request
         :param: product_pk - первичный ключ продукта
         :param: offer_pk - первичный ключ предложения
         :param: amount - количество продуктов, желаемых для добавления в корзину
