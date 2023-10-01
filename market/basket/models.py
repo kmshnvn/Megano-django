@@ -20,11 +20,11 @@ class Basket(models.Model):
         on_delete=models.PROTECT,
     )
     offer = models.ForeignKey(
-        Offer, related_name="offers", verbose_name=_("предложения магазинов"), null=True, on_delete=models.PROTECT
+        Offer, related_name="baskets", verbose_name=_("предложения магазинов"), null=True, on_delete=models.PROTECT
     )
 
     product = models.ForeignKey(
-        Product, related_name="products", verbose_name=_("продукт магазина"), null=True, on_delete=models.PROTECT
+        Product, related_name="baskets", verbose_name=_("продукт магазина"), null=True, on_delete=models.PROTECT
     )
 
-    amount = models.PositiveIntegerField(verbose_name=_("количество"), default=0)
+    amount = models.PositiveIntegerField(verbose_name=_("количество"), default=1)
