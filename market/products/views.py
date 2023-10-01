@@ -1,18 +1,22 @@
 from comments.forms import CommentAddForm
 from comments.models import Comment
-from django.urls import reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.urls import reverse, reverse_lazy
 from django.db.models import Min
 from django.views.generic import DetailView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, FormView
 from shops.models import (
     Offer,
 )
+
+from .forms import UploadFileForm
 from .models import (
     ProductDetail,
     Product,
 )
 from basket.forms import BasketAddProductForm
 from history.models import BrowsingHistory
+from shops.tasks import etl_task
 
 
 class ProductDetailView(FormMixin, DetailView):
@@ -69,3 +73,22 @@ class ProductDetailView(FormMixin, DetailView):
 
     def get_success_url(self):
         return reverse("products:product_detail", kwargs={"pk": self.object.pk})
+
+
+class UploadFileView(PermissionRequiredMixin, FormView):
+    template_name = "products/upload_file.jinja2"
+    form_class = UploadFileForm
+    success_url = reverse_lazy("products:upload_file")
+    permission_required = [
+        "products.add_detail",
+        "products.add_product",
+        "products.add_productdetail",
+        "products.add_productimage",
+    ]
+
+    def form_valid(self, form):
+        form.save()
+        self.success_message = "Файл успешно загружен."
+
+        etl_task.delay()
+        return super().form_valid(form)

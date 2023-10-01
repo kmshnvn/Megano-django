@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "django_jinja",
     "django_extensions",
     "basket",
+    "django_celery_results",
+    "django_celery_beat",
     "history",
     "order",
 ]
@@ -209,3 +211,57 @@ SHELL_PLUS_PRINT_SQL = True
 
 BASKET_SESSION_ID = "basket"
 ORDER_SESSION_ID = "order"
+
+LOGFILE_NAME_ERROR = BASE_DIR / "error_logs.txt"
+LOGFILE_NAME = BASE_DIR / "info_log.txt"
+LOGFILE_SIZE = 5 * 1024 * 1024
+LOGFILE_COUNT = 3
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
+        "error_logfile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGFILE_NAME_ERROR,
+            "maxBytes": LOGFILE_SIZE,
+            "backupCount": LOGFILE_COUNT,
+            "formatter": "verbose",
+            "level": "ERROR",
+        },
+        "info_logfile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGFILE_NAME,
+            "maxBytes": LOGFILE_SIZE,
+            "backupCount": LOGFILE_COUNT,
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": [
+            "console",
+            "error_logfile",
+            "info_logfile",
+        ],
+        "level": "INFO",
+    },
+}
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+CELERY_BROKER_TRANSPORT_OPTION = {"visibility_timeout": 3600}
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TASK_DEFAULT_QUEUE = "default"

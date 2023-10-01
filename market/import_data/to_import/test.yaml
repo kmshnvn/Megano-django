@@ -1,0 +1,24 @@
+yml_catalog:
+  shop:
+    shopID: 5
+    offers:
+      1:
+        name: Новый товар импорта 3
+        description: Описания товара
+        image: https://avatars.mds.yandex.net/get-mpic/1642819/img_id8645818683197701740.jpeg/orig
+        category: Электроника/Смартфоны и аксессуары
+        price: 1200
+        count: 345
+        params:
+          Цвет: Красный
+          Ширина: 1080 см
+      2:
+        name: Новый товар импорта 2
+        description: Описания товара
+        image: Ссылка на изображение
+        category: Тест
+        price: 1200
+        count: 345
+        params:
+          Цвет: Красный
+          Ширина: 1080 см
