@@ -212,8 +212,8 @@ SHELL_PLUS_PRINT_SQL = True
 BASKET_SESSION_ID = "basket"
 ORDER_SESSION_ID = "order"
 
-LOGFILE_NAME_ERROR = BASE_DIR / "logs" / "error_logs.txt"
-LOGFILE_NAME = BASE_DIR / "logs" / "info_log.txt"
+LOGFILE_NAME_ERROR = BASE_DIR / "error_logs.txt"
+LOGFILE_NAME = BASE_DIR / "info_log.txt"
 LOGFILE_SIZE = 5 * 1024 * 1024
 LOGFILE_COUNT = 3
 
