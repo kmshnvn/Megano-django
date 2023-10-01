@@ -12,8 +12,8 @@ from django.db import transaction
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, FormView, TemplateView
+from django.utils.translation import gettext_lazy as _
 
 from config import settings
 from .forms import RegisterUserForm, EmailAuthenticationForm, UserForm
@@ -111,24 +111,21 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
 
     def post(self, request: HttpRequest) -> HttpResponse:
         form = UserForm(instance=self.request.user, data=request.POST, files=request.FILES)
-        print(request.POST)
-        print(request.FILES)
+
         if form.is_valid():
             with transaction.atomic():
                 avatar = form.cleaned_data.get('avatar')
                 phone = form.cleaned_data.get('phone')
-                if avatar is not "":
-                    Profile.objects.filter(user=self.request.user).update(
-                        avatar=avatar,
-                        phone=phone,
-                    )
-                form.save()
-                password1 = form.cleaned_data.get('password1')
-                password2 = form.cleaned_data.get('password2')
-
-                messages.success(request, _("Данные успешно обновлены"))
-                return redirect('profiles:profile')
+                Profile.objects.filter(user=self.request.user).update(
+                    avatar=avatar,
+                    phone=phone,
+                )
+                password1 = form.cleaned_data.get("password1")
+                password2 = form.cleaned_data.get("password2")
+                if password1 == password2 and password1 != "":
+                    return reverse_lazy("profiles/password-reset-form.jinja2")
         else:
             print(form.errors)
+
         context = self.get_context_data()
         return render(request, 'profiles/profile.jinja2', context=context)
