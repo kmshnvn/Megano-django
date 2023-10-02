@@ -11,7 +11,7 @@ from django.contrib.auth.views import (
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, FormView, TemplateView
 from django.utils.translation import gettext_lazy as _
 
@@ -120,10 +120,11 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
                     avatar=avatar,
                     phone=phone,
                 )
+                form.save()
                 password1 = form.cleaned_data.get("password1")
                 password2 = form.cleaned_data.get("password2")
                 if password1 == password2 and password1 != "":
-                    return reverse_lazy("profiles/password-reset-form.jinja2")
+                    return reverse("profiles/password-reset-form.jinja2")
         else:
             print(form.errors)
 

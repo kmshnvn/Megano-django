@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 
-from profiles.models import avatar_upload_path
+from profiles.models import avatar_upload_path, regex_phone
 
 
 class RegisterUserForm(UserCreationForm):
@@ -73,28 +73,22 @@ class UserForm(forms.ModelForm):
     Форма обновления данных профиля пользователя
     """
 
-    regex_phone = RegexValidator(
-        regex=r"^((8|\+7|)(\d{10}))$", message=_("Формат номера телефона должен быть: +79999999999 или 89999999999")
-    )
-
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
         widgets = {
             "first_name": forms.TextInput(attrs={"class": "form-input",
-                                                 "value": "",
                                                  "type": "text",
                                                  "data-validate": "require",
                                                  "placeholder": "Имя"
                                                  }),
             "last_name": forms.TextInput(attrs={"class": "form-input",
-                                                "value": "",
                                                 "type": "text",
                                                 "data-validate": "require",
                                                 "placeholder": "Фамилия"
                                                 }),
             "email": forms.EmailInput(attrs={"class": "form-input",
-                                             "name": "mail",
+                                             "name": "email",
                                              "type": "text",
                                              "value": "send@test.test",
                                              "data-validate": "require"
@@ -104,7 +98,6 @@ class UserForm(forms.ModelForm):
     avatar = forms.ImageField(
         widget=forms.FileInput(attrs={"name": "avatar",
                                       "data-validate": "onlyImgAvatar",
-                                      "upload_to": [avatar_upload_path],
                                       }), required=False)
 
     phone = forms.CharField(
@@ -123,7 +116,7 @@ class UserForm(forms.ModelForm):
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={"class": "form-input",
-                                          "name": "password",
+                                          "name": "password2",
                                           "type": "password",
                                           "placeholder": "Введите пароль повторно",
                                           }), required=False)
@@ -136,4 +129,3 @@ class UserForm(forms.ModelForm):
         if User.objects.exclude(pk=self.instance.pk).filter(email__iexact=email).exists():
             raise ValidationError(_("Такая почта уже зарегистрированная"))
         return email
-
