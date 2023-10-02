@@ -33,7 +33,7 @@ class OrderStep1Form(forms.ModelForm):
         fields = "customer", "email", "phone"
 
 
-class DeliveryStep2Form(forms.ModelForm):
+class OrderStep2Form(forms.ModelForm):
     class Meta:
         model = Delivery
         widgets = {
@@ -59,7 +59,7 @@ class DeliveryStep2Form(forms.ModelForm):
         fields = "delivery_type", "city", "address"
 
 
-class DeliveryStep3Form(forms.ModelForm):
+class OrderStep3Form(forms.ModelForm):
     class Meta:
         model = Delivery
         widgets = {
