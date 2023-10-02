@@ -12,7 +12,7 @@ from PIL import Image
 from django.db import transaction
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
-from products.models import Category, Product, Detail, ProductDetail
+from products.models import Category, Product, Detail, ProductDetail, ProductImage
 from shops.models import Shop, Offer
 from market.config import settings
 
@@ -99,13 +99,12 @@ class Command(BaseCommand):
         except Exception as e:
             logger.error(f"Ошибка при создании товара: {e}")
 
-    def create_image_paths(self, image_url: str, shop_id: int, offer_id: str) -> str:
+    def create_image_paths(self, image_url: str, preview_flag: bool = False) -> str:
         """
         Загружает изображение по указанной URL, сохраняет его на сервере и возвращает уникальное имя файла.
 
         :param image_url: URL изображения
-        :param shop_id: Идентификатор магазина
-        :param offer_id: Идентификатор товара
+        :param preview_flag: Дополнительно сохраняем превью изображения, если True
         :return: Уникальное имя файла изображения или пустая строка, если произошла ошибка
         """
         try:
@@ -113,7 +112,7 @@ class Command(BaseCommand):
             response = requests.get(image_url)
 
             if response.status_code == 200:
-                unique_filename = f"{shop_id}_{offer_id}_{str(uuid.uuid4())[:7]}.webp"
+                unique_filename = f"img_id{str(uuid.uuid4())[:8]}.webp"
                 img_path = f"media/products/image/{unique_filename}"
                 prev_path = f"media/products/preview/{unique_filename}"
 
@@ -121,8 +120,9 @@ class Command(BaseCommand):
                 prev = img
 
                 img.save(img_path, format="WEBP")
-                prev.thumbnail(size=(300, 300))
-                prev.save(prev_path, format="WEBP")
+                if preview_flag:
+                    prev.thumbnail(size=(300, 300))
+                    prev.save(prev_path, format="WEBP")
 
                 return unique_filename
 
@@ -169,6 +169,7 @@ class Command(BaseCommand):
     def send_email(self, filename: str, log_path: str, email=None) -> None:
         """
         Отправляет email пользователю об успешном или неуспешном выполнении импорта файла
+
         :param filename: Название файла импорта
         :param log_path: Путь к файлу логов данного файла
         :param email: email пользователя
@@ -193,6 +194,26 @@ class Command(BaseCommand):
         except Exception as e:
             logger.error(f"Email не был отправлен при импорте файлов. Возникла ошибка {e}")
 
+    def import_images(self, products_data: Dict) -> None:
+        """
+        Берем изображения товара из файла и загружаем их в БД
+
+        :param products_data:
+        :return:
+        """
+        logger.debug("Импортируем изображения")
+        for product in products_data.values():
+            pk = product["pk"]
+            imgs = product["image"]
+            product_inst = Product.objects.get(pk=pk)
+            logger.debug(f"Приступаем к скачиванию изображений {pk}")
+            for img in imgs.values():
+                unique_filename = self.create_image_paths(image_url=img)
+                ProductImage.objects.create(product=product_inst, image=f"products/image/{unique_filename}")
+
+        self.success_import = True
+        return
+
     def import_file(self, file_path: str) -> None:
         """
         Импортирует данные из файла YAML и добавляет товары и предложения в базу данных.
@@ -204,6 +225,11 @@ class Command(BaseCommand):
             data = yaml.safe_load(yaml_file)
 
         shop = data.get("yml_catalog").get("shop")
+        products_data = data.get("yml_catalog").get("images")
+
+        if products_data:
+            self.import_images(products_data)
+
         shop_id = shop.get("shopID")
         logger.info(shop_id)
         shop_query = self.check_shop_id(shop_id)
@@ -247,7 +273,7 @@ class Command(BaseCommand):
                     logger.error(f"Категория товара {offer_id} ({category}) не относится к существующей")
                     continue
 
-                unique_filename = self.create_image_paths(image_url, shop_id, offer_id)
+                unique_filename = self.create_image_paths(image_url=image_url, preview_flag=True)
 
                 shop_product_query = Offer.objects.filter(shop=shop_id).filter(product__name=product_name)
                 if not shop_product_query:
