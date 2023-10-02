@@ -1,4 +1,3 @@
-from PIL.Image import Image
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
@@ -14,12 +13,13 @@ def avatar_upload_path(instance: "Profile", filename: str) -> str:
     )
 
 
+regex_phone = RegexValidator(
+    regex=r"^((8|\+7|)(\d{10}))$", message=_("Формат номера телефона должен быть: +79999999999 или 89999999999")
+)
+
+
 class Profile(models.Model):
     """Профиль пользователя"""
-
-    regex_phone = RegexValidator(
-        regex=r"^((8|\+7|)(\d{10}))$", message=_("Формат номера телефона должен быть: +79999999999 или 89999999999")
-    )
 
     class Meta:
         ordering = ["pk"]
