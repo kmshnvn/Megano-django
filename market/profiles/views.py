@@ -5,7 +5,8 @@ from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView, LogoutView,
+    PasswordResetCompleteView,
+    LogoutView,
 )
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
@@ -93,18 +94,21 @@ class ProfileLogoutView(LogoutView):
 
 
 class ProfileDetailView(LoginRequiredMixin, TemplateView):
-    """ Представление для редактирования страницы личного кабинета пользователя"""
+    """Представление для редактирования страницы личного кабинета пользователя"""
 
     model = User
     template_name = "profiles/profile.jinja2"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
-        context['form'] = UserForm(instance=self.request.user,
-                                   initial={"avatar": context['profile'].avatar,
-                                            "phone": context['profile'].phone,
-                                            })
+        context["profile"] = Profile.objects.get(user=self.request.user)
+        context["form"] = UserForm(
+            instance=self.request.user,
+            initial={
+                "avatar": context["profile"].avatar,
+                "phone": context["profile"].phone,
+            },
+        )
         return context
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -112,13 +116,14 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
         print(request.FILES)
         if form.is_valid():
             with transaction.atomic():
-                avatar = request.FILES.get('avatar')
-                # avatar = form.cleaned_data.get('avatar')
-                phone = form.cleaned_data.get('phone')
-                Profile.objects.filter(user=self.request.user).update(
-                    avatar=avatar,
-                    phone=phone,
-                )
+                avatar = request.FILES.get("avatar")
+                phone = form.cleaned_data.get("phone")
+
+                profile = self.request.user.profile
+                profile.avatar = avatar
+                profile.phone = phone
+                profile.save()
+
                 form.save()
                 password1 = form.cleaned_data.get("password1")
                 password2 = form.cleaned_data.get("password2")
@@ -128,4 +133,4 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
             print(form.errors)
 
         context = self.get_context_data()
-        return render(request, 'profiles/profile.jinja2', context=context)
+        return render(request, "profiles/profile.jinja2", context=context)
