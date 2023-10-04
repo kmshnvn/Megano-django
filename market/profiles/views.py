@@ -109,10 +109,11 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
 
     def post(self, request: HttpRequest) -> HttpResponse:
         form = UserForm(instance=self.request.user, data=request.POST, files=request.FILES)
-
+        print(request.FILES)
         if form.is_valid():
             with transaction.atomic():
-                avatar = form.cleaned_data.get('avatar')
+                avatar = request.FILES.get('avatar')
+                # avatar = form.cleaned_data.get('avatar')
                 phone = form.cleaned_data.get('phone')
                 Profile.objects.filter(user=self.request.user).update(
                     avatar=avatar,

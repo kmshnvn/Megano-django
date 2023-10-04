@@ -97,7 +97,7 @@ class UserForm(forms.ModelForm):
     avatar = forms.ImageField(
         widget=forms.FileInput(attrs={"name": "avatar",
                                       "data-validate": "onlyImgAvatar",
-                                      }), required=False)
+                                      }), required=False, allow_empty_file=True)
 
     phone = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-input",
@@ -111,14 +111,14 @@ class UserForm(forms.ModelForm):
                                           "name": "password1",
                                           "type": "password",
                                           "placeholder": "Тут можно изменить пароль",
-                                          }), required=False)
+                                          }), required=False, max_length=100)
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={"class": "form-input",
                                           "name": "password2",
                                           "type": "password",
                                           "placeholder": "Введите пароль повторно",
-                                          }), required=False)
+                                          }), required=False, max_length=100)
 
     def clean_email(self):
         """ Проверка email на уникальность """

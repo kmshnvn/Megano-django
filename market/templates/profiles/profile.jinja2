@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <div>Аватар</div>
                                             {% if user.profile.avatar %}
-                                                <img width="280" src="{{ user.profile.avatar.url }}">
+                                                <img width="280" src="{{ user.profile.avatar }}">
                                                 {{ form.avatar }}
                                             {% else %}
                                                 <div class="Profile-avatar Profile-avatar_noimg">

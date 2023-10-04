@@ -166,5 +166,5 @@ class ProfileTestCase(TestCase):
         image_path = 'media/users/9/user-details/кар-карыч.png'
         with open(image_path, 'rb') as img:
             image = SimpleUploadedFile(name='image.png', content=img.read(), content_type='image/png')
-            response = self.client.post(self.page_url, data={'image': image})
+            response = self.client.post(self.page_url, data={'avatar': image})
             self.assertEqual(response.status_code, 200)
