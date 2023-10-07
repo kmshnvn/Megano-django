@@ -140,7 +140,7 @@ class ProfileTestCase(TestCase):
 
         response = self.client.get(self.page_url)
         self.assertEqual(200, response.status_code),
-        self.assertIn("profiles/profile.jinja2", response.template_name)
+        self.assertIn("profiles/profile_update_form.jinja2", response.template_name)
 
     def test_post_method(self):
         """Тест ответа POST-запроса страницы"""
@@ -153,18 +153,18 @@ class ProfileTestCase(TestCase):
         }
 
         expected_user = User.objects.get(pk=8)
-        self.assertEqual(expected_user.first_name, data['first_name'])
-        self.assertEqual(expected_user.last_name, data['last_name'])
-        self.assertEqual(expected_user.email, data['email'])
+        self.assertEqual(expected_user.first_name, data["first_name"])
+        self.assertEqual(expected_user.last_name, data["last_name"])
+        self.assertEqual(expected_user.email, data["email"])
 
         expected_profile = Profile.objects.get(user=expected_user)
-        self.assertEqual(expected_profile.phone, data['phone'])
+        self.assertEqual(expected_profile.phone, data["phone"])
 
     def test_upload_image(self):
         """Тест загрузки изображения"""
 
-        image_path = 'media/users/9/user-details/кар-карыч.png'
-        with open(image_path, 'rb') as img:
-            image = SimpleUploadedFile(name='image.png', content=img.read(), content_type='image/png')
-            response = self.client.post(self.page_url, data={'avatar': image})
+        image_path = "media/users/9/user-details/кар-карыч.png"
+        with open(image_path, "rb") as img:
+            image = SimpleUploadedFile(name="image.png", content=img.read(), content_type="image/png")
+            response = self.client.post(self.page_url, data={"avatar": image})
             self.assertEqual(response.status_code, 200)
