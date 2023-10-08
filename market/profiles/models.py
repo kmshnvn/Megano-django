@@ -5,12 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 def avatar_upload_path(instance: "Profile", filename: str) -> str:
-    """ Функция, указывающая путь по которому сохранять аватарки"""
+    """Функция, указывающая путь по которому сохранять аватарки"""
 
-    return "users/{pk}/user-details/{filename}".format(
-        pk=instance.pk,
-        filename=filename
-    )
+    return "users/{pk}/user-details/{filename}".format(pk=instance.pk, filename=filename)
 
 
 regex_phone = RegexValidator(

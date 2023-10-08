@@ -74,7 +74,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ["first_name", "last_name", "email"]
         widgets = {
             "first_name": forms.TextInput(attrs={"class": "form-input",
                                                  "type": "text",
@@ -121,7 +121,7 @@ class UserForm(forms.ModelForm):
                                           }), required=False, max_length=100)
 
     def clean_email(self):
-        """ Проверка email на уникальность """
+        """Проверка email на уникальность"""
 
         email = self.cleaned_data.get("email").strip()
 

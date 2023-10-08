@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 from profiles.models import Profile
 

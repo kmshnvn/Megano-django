@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -79,3 +82,30 @@ class ProductDetail(models.Model):
     detail = models.ForeignKey(Detail, on_delete=models.PROTECT)
     value = models.CharField(max_length=128, verbose_name=_("значение"))
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+
+
+def generate_unique_filename(instance: "UploadedFile", filename: str) -> str:
+    """
+    Генерация уникального имени для файла,
+    чтобы после импорта он не потерялся (если файл уже есть)
+
+    :param instance: Экземпляр модели 'UploadedFile', для которого генерируется имя файла.
+    :param filename: Имя файла при загрузке
+    :return: Уникальное имя файла
+    """
+    name_list = filename.split(".")
+    ext = name_list[1]
+    filename = name_list[0]
+    unique_filename = f"{filename}_{str(uuid.uuid4())[:5]}.{ext}"
+    return os.path.join("import_files", unique_filename)
+
+
+class UploadedFile(models.Model):
+    """
+    Модель загрузки файла
+    """
+
+    file = models.FileField(upload_to=generate_unique_filename)
+
+    def __str__(self):
+        return self.file.name
