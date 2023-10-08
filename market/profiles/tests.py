@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.test import TestCase, Client
