@@ -1,3 +1,5 @@
+from discounts.models import BasketDiscount
+from django.db.models import Max
 from shops.models import Offer
 from .models import Basket
 from django.http import HttpRequest, Http404
@@ -133,12 +135,14 @@ class BasketObject:
         else:
             raise Http404
 
-    def get_total_price(self) -> int:
+    def get_total_price(self) -> Decimal:
         """
         Подсчет стоимости всех продуктов в корзине
         :return: сумма цен всех товаров в корзине
         """
-        return sum([Decimal(item["price"]) * item["amount"] for item in self.basket.values()])
+        price = sum([Decimal(item["price"]) * item["amount"] for item in self.basket.values()])
+        price = return_basket_discount(price, self.basket.values())
+        return price
 
     def clear(self) -> None:
         """
@@ -157,3 +161,24 @@ class BasketObject:
         """
         self.session[settings.BASKET_SESSION_ID] = self.basket
         self.session.modified = True
+
+
+def return_basket_discount(price, basket_values) -> Decimal:
+    """
+    Функция возвращает конечную цену товаров в корзине со скидкой.
+    Применяются скидки только на корзину.
+    """
+
+    list_offers_pk = [item["offer_pk"] for item in basket_values]
+    discounts_list = (
+        BasketDiscount.objects.prefetch_related("offer").filter(active=True).filter(offer__pk__in=list_offers_pk)
+    )
+
+    if len(discounts_list) > 0:
+        max_priority = discounts_list.aggregate(Max("priority"))
+        discount = discounts_list.filter(priority=max_priority["priority__max"])
+
+        if discount[0].amount_money <= price:
+            price = price - discount[0].discount_amount
+
+    return price
