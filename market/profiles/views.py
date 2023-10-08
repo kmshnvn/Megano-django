@@ -6,7 +6,8 @@ from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
-    PasswordResetCompleteView, LogoutView,
+    PasswordResetCompleteView,
+    LogoutView,
 )
 from django.db import transaction
 from django.http import HttpResponse, HttpRequest
@@ -80,7 +81,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         with transaction.atomic():
             response = super().form_valid(form)
-            Profile.objects.create(user=self.object)  # создаем профиль пользователя
+            Profile.objects.create(user=self.object)
 
             username = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password1")
@@ -95,18 +96,21 @@ class ProfileLogoutView(LogoutView):
 
 
 class ProfileDetailView(LoginRequiredMixin, TemplateView):
-    """ Представление для редактирования страницы личного кабинета пользователя"""
+    """Представление для редактирования страницы личного кабинета пользователя"""
 
     model = User
     template_name = "profiles/profile.jinja2"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
-        context['form'] = UserForm(instance=self.request.user,
-                                   initial={"avatar": context['profile'].avatar,
-                                            "phone": context['profile'].phone,
-                                            })
+        context["profile"] = Profile.objects.get(user=self.request.user)
+        context["form"] = UserForm(
+            instance=self.request.user,
+            initial={
+                "avatar": context["profile"].avatar,
+                "phone": context["profile"].phone,
+            },
+        )
         return context
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -115,17 +119,17 @@ class ProfileDetailView(LoginRequiredMixin, TemplateView):
         print(request.FILES)
         if form.is_valid():
             with transaction.atomic():
-                avatar = form.cleaned_data.get('avatar')
-                phone = form.cleaned_data.get('phone')
-                if avatar is not "":
+                avatar = form.cleaned_data.get("avatar")
+                phone = form.cleaned_data.get("phone")
+                if avatar != "":
                     Profile.objects.filter(user=self.request.user).update(
                         avatar=avatar,
                         phone=phone,
                     )
                 form.save()
                 messages.success(request, _("Данные успешно обновлены"))
-                return redirect('profiles:profile')
+                return redirect("profiles:profile")
         else:
             print(form.errors)
         context = self.get_context_data()
-        return render(request, 'profiles/profile.jinja2', context=context)
+        return render(request, "profiles/profile.jinja2", context=context)

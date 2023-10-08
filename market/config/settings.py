@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "basket",
     "history",
+    "order",
+    "discounts",
 ]
 
 # email configs
