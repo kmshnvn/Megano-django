@@ -1,6 +1,3 @@
-# from io import BytesIO
-#
-# from PIL import Image
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse

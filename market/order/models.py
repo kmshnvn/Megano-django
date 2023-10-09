@@ -37,7 +37,7 @@ class OrderStatus(models.Model):
 
     name = models.CharField(
         max_length=15, verbose_name=_("название статуса")
-    )  # создан, оплачен, доставляется, завершен, отменен
+    )
 
 
 class DeliveryTypesChoices(models.TextChoices):

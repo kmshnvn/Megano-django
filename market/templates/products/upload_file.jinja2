@@ -1,0 +1,20 @@
+{% extends "general/base.jinja2" %}
+{% load static %}
+{% block title %}
+    Загрузить файл товаров
+{% endblock %}
+{% block content %}
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                <h1 class="my_modal-title">Загрузить файл товаров</h1>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn_muted">Загрузить файл</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

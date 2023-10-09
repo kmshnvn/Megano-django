@@ -26,7 +26,6 @@ def add_product(request: HttpRequest, product_pk: int, offer_pk=None) -> HttpRes
         amount = 1
     basket = BasketObject(request=request)
     basket.add_product_in_basket(
-        request=request,
         product_pk=product_pk,
         offer_pk=offer_pk,
         amount=amount,
