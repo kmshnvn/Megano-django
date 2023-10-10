@@ -13,7 +13,7 @@ class Promotion(models.Model):
     title = models.CharField(max_length=150, verbose_name=_("название"))
     description = models.CharField(max_length=350, verbose_name=_("описание"))
     date_start = models.DateTimeField(auto_now=True, verbose_name=_("дата начала"))
-    date_finish = models.DateTimeField(auto_now=True, verbose_name=_("дата окончания"))
+    date_finish = models.DateTimeField(verbose_name=_("дата окончания"))
     active = models.BooleanField(default=False, verbose_name=_("активный статус"))
     priority = models.IntegerField(default=1, verbose_name=_("приоритет скидки"))
 

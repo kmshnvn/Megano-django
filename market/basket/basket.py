@@ -1,5 +1,4 @@
-from discounts.models import BasketDiscount
-from django.db.models import Max
+from discounts.calculate import DiscountCalculation
 from shops.models import Offer
 from .models import Basket
 from django.http import HttpRequest, Http404
@@ -78,7 +77,13 @@ class BasketObject:
         :return: None
         """
         offer = Offer.objects.get(pk=offer_pk)
-        self.basket[str(offer_pk)] = {"product": offer.product.pk, "amount": amount, "price": str(offer.price)}
+
+        discounts = DiscountCalculation(offer)
+        discounts.calculate_product_discount()
+        discounts.calculate_category_discount()
+        price = discounts.price
+
+        self.basket[str(offer_pk)] = {"product": offer.product.pk, "amount": amount, "price": str(price)}
         self.save()
         self.update_or_create_basket(offer_pk=offer_pk, amount=amount)
 
@@ -140,7 +145,8 @@ class BasketObject:
         :return: сумма цен всех товаров в корзине
         """
         price = sum([Decimal(item["price"]) * item["amount"] for item in self.basket.values()])
-        price = return_basket_discount(price, self.basket.values())
+        price = DiscountCalculation.return_basket_discount(price=price, basket_values=self.basket.values())
+
         return price
 
     def clear(self) -> None:
@@ -160,24 +166,3 @@ class BasketObject:
         """
         self.session[settings.BASKET_SESSION_ID] = self.basket
         self.session.modified = True
-
-
-def return_basket_discount(price, basket_values) -> Decimal:
-    """
-    Функция возвращает конечную цену товаров в корзине со скидкой.
-    Применяются скидки только на корзину.
-    """
-
-    list_offers_pk = [item["offer_pk"] for item in basket_values]
-    discounts_list = (
-        BasketDiscount.objects.prefetch_related("offer").filter(active=True).filter(offer__pk__in=list_offers_pk)
-    )
-
-    if len(discounts_list) > 0:
-        max_priority = discounts_list.aggregate(Max("priority"))
-        discount = discounts_list.filter(priority=max_priority["priority__max"])
-
-        if discount[0].amount_money <= price:
-            price = price - discount[0].discount_amount
-
-    return price
