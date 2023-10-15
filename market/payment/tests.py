@@ -25,12 +25,12 @@ class PaymentAPITestCase(APITestCase):
         )
 
         cls.order = Order.objects.create(
-            user_id=1,
+            user_id=cls.superuser.pk,
             customer="Test Customer",
             email="test@example.com",
             phone="1234567890",
-            order_status_id=1,
-            delivery_id=1,
+            order_status_id=cls.order_status.pk,
+            delivery_id=cls.delivery.pk,
             is_paid=False,
         )
 
@@ -40,10 +40,10 @@ class PaymentAPITestCase(APITestCase):
 
         :return: None
         """
-        url = reverse("api:get_status_order", kwargs={"pk": 1})
+        url = reverse("api:get_status_order", kwargs={"pk": self.order.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {"id": 1, "status": "Не оплачен"})
+        self.assertEqual(response.data, {"id": self.order.pk, "status": "Не оплачен"})
 
     def test_get_order_status_not_exist(self) -> None:
         """
