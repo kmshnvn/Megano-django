@@ -17,6 +17,19 @@ class DiscountCalculation:
     def __init__(self, offer: Offer) -> None:
         self.offer = offer
         self.price = offer.price
+        self.product_discount = None
+        self.category_discount = None
+
+    def get_best_discount(self):
+        """
+        Метод класса вычисляет и возвращает найболее лучшую скидку для клиента.
+        Выбирается скидка при которой ценна товара для клиента будет дешевле.
+        """
+
+        self.calculate_product_discount()
+        self.calculate_category_discount()
+
+        return self.category_discount if self.product_discount >= self.category_discount else self.product_discount
 
     @classmethod
     def return_basket_discount(cls, price, basket_values) -> Decimal:
@@ -46,7 +59,7 @@ class DiscountCalculation:
 
     def calculate_product_discount(self):
         """
-        Метод возвращает конечную цену товара со скидкой.
+        Метод расчета конечной цены товара со скидкой.
         Если к товару применяется несколько кидок,
         выбирается скидка в которой больше процент на скидку.
         """
@@ -54,12 +67,14 @@ class DiscountCalculation:
         if ProductDiscount.objects.filter(product=self.offer.product).filter(active=True):
             product_discount = ProductDiscount.objects.filter(product=self.offer.product).filter(active=True)
             percent = self.sort_discounts(product_discount)
-            product_result_price = self.calculate_discount(self.price, percent)
-            self.price = product_result_price
+            self.product_discount = self.calculate_discount(self.price, percent)
+
+        else:
+            self.product_discount = self.price
 
     def calculate_category_discount(self):
         """
-        Метод возвращает конечную цену товара со скидкой на категории.
+        Метод расчета конечной цены товара со скидкой на категории.
         Если к товару применяется несколько кидок,
         выбирается скидка в которой больше процент на скидку.
         """
@@ -69,8 +84,10 @@ class DiscountCalculation:
                 active=True
             )
             percent = self.sort_discounts(category_discount)
-            category_result_price = self.calculate_discount(self.price, percent)
-            self.price = category_result_price
+            self.category_discount = self.calculate_discount(self.price, percent)
+
+        else:
+            self.category_discount = self.price
 
     @classmethod
     def sort_discounts(cls, query: QuerySet) -> int:

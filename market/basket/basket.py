@@ -79,9 +79,7 @@ class BasketObject:
         offer = Offer.objects.get(pk=offer_pk)
 
         discounts = DiscountCalculation(offer)
-        discounts.calculate_product_discount()
-        discounts.calculate_category_discount()
-        price = discounts.price
+        price = discounts.get_best_discount()
 
         self.basket[str(offer_pk)] = {"product": offer.product.pk, "amount": amount, "price": str(price)}
         self.save()
