@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("", include("shops.urls")),  # главная страница
+    path("", include("shops.urls")),
     path("admin/", admin.site.urls),
     path("profile/", include("profiles.urls")),
     path("products/", include("products.urls")),
@@ -28,6 +28,8 @@ urlpatterns = [
     path("basket/", include("basket.urls")),
     path("history/", include("history.urls")),
     path("order/", include("order.urls")),
+    path("discount/", include("discounts.urls")),
+    path("api/", include("payment.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
