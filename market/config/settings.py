@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "history",
     "order",
+    "discounts",
     "rest_framework",
     "django_filters",
 ]
