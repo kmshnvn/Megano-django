@@ -26,6 +26,7 @@ class Order(models.Model):
     )
     order_status = models.ForeignKey("OrderStatus", verbose_name=_("статус заказа"), on_delete=models.CASCADE)
     delivery = models.ForeignKey("Delivery", verbose_name=_("доставка"), on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=False, verbose_name=_("Не оплачен"))
 
 
 class OrderStatus(models.Model):
@@ -35,9 +36,7 @@ class OrderStatus(models.Model):
         verbose_name = "статус заказа"
         verbose_name_plural = "статусы заказов"
 
-    name = models.CharField(
-        max_length=15, verbose_name=_("название статуса")
-    )
+    name = models.CharField(max_length=15, verbose_name=_("название статуса"))
 
 
 class DeliveryTypesChoices(models.TextChoices):
