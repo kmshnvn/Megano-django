@@ -26,9 +26,12 @@
           <nav class="row-block">
             <div class="row ControlPanel-rowSplit">
               <div class="row-block">
+                {% if user.is_authenticated %}
+                  <a class="ControlPanel-title" href="{% url 'profiles:logout' %}">Выход</a>
+                {% else %}
                   <a class="ControlPanel-title" href="{% url 'profiles:login' %}">Вход</a>
                   <a class="ControlPanel-title" href="{% url 'profiles:registration_user' %}">Регистрация</a>
-                  <a class="ControlPanel-title" href="{% url 'profiles:logout' %}">Выход</a>
+                {% endif %}
               </div>
             </div>
           </nav>
@@ -47,7 +50,7 @@
     </div>
     <div class="wrap">
         <div class="row Header-rowMain">
-        <div class="row-block Header-logo"><a class="logo" href="{% url 'shops:main-page' %}"><img class="logo-image" src="{% static 'assets/img/logo.png'%}" alt="logo.png"/></a>
+        <div class="row-block Header-logo"><a class="logo" href="/"><img class="logo-image" src="{% static 'assets/img/logo.png'%}" alt="logo.png"/></a>
         </div>
         <nav class="row-block row-block_right Header-menu">
           <div class="menuModal" id="navigate">
