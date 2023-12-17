@@ -338,7 +338,7 @@ class Command(BaseCommand):
                 filename = yaml_files[0]
                 log_path = f"logs/import/{filename.split('.')[0]}_{str(uuid.uuid4())[:5]}.txt"
                 self.success_import = False
-                handler = logging.FileHandler(log_path)
+                handler = logging.FileHandler(filename)
                 handler.setFormatter(logging.Formatter(fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
                 logger.addHandler(handler)
 
