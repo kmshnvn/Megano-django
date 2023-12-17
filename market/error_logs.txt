@@ -18,3 +18,254 @@ Traceback (most recent call last):
   File "C:\Users\User\AppData\Local\pypoetry\Cache\virtualenvs\python-django-team27-dGGw-sPd-py3.11\Lib\site-packages\django\template\loader.py", line 47, in select_template
     raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
 django.template.exceptions.TemplateDoesNotExist: history/browsinghistory_list.html
+2023-10-18 15:22:10,196 [ERROR] django.request: Internal Server Error: /api/v1/order/pay/
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/payment/views.py", line 41, in update
+    if self.queryset.filter(pk=pk, is_paid=False):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 412, in __bool__
+    self._fetch_all()
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+2023-10-18 15:22:11,305 [ERROR] django.request: Internal Server Error: /api/v1/order/pay/
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/payment/views.py", line 41, in update
+    if self.queryset.filter(pk=pk, is_paid=False):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 412, in __bool__
+    self._fetch_all()
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+2023-10-18 15:23:41,984 [ERROR] django.request: Internal Server Error: /api/v1/order/pay/
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/payment/views.py", line 41, in update
+    if self.queryset.filter(pk=pk, is_paid=False):
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 412, in __bool__
+    self._fetch_all()
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ivan/Library/Caches/pypoetry/virtualenvs/python-django-team27-ErWgcLjZ-py3.11/lib/python3.11/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column order_order.is_paid does not exist
+LINE 1: ..."."order_status_id", "order_order"."delivery_id", "order_ord...
+                                                             ^
+
+2023-10-18 15:41:30,505 [ERROR] shops.management.commands.import_yaml: Ошибка при выполнении команды: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_aa9aa_2cd97.txt'
+Traceback (most recent call last):
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/shops/management/commands/import_yaml.py", line 341, in handle
+    handler = logging.FileHandler(log_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_aa9aa_2cd97.txt'
+2023-10-18 15:42:31,925 [ERROR] shops.management.commands.import_yaml: Ошибка при выполнении команды: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0_00ec2.txt'
+Traceback (most recent call last):
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/shops/management/commands/import_yaml.py", line 341, in handle
+    handler = logging.FileHandler(log_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0_00ec2.txt'
+2023-10-18 15:43:27,378 [ERROR] shops.management.commands.import_yaml: Ошибка при выполнении команды: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0_bbafa.txt'
+Traceback (most recent call last):
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/shops/management/commands/import_yaml.py", line 342, in handle
+    handler = logging.FileHandler(log_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0_bbafa.txt'
+2023-10-18 15:44:07,699 [ERROR] shops.management.commands.import_yaml: Ошибка при выполнении команды: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0.txt'
+Traceback (most recent call last):
+  File "/Users/ivan/PycharmProjects/python_django_team27/market/shops/management/commands/import_yaml.py", line 342, in handle
+    handler = logging.FileHandler(log_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1181, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py", line 1213, in _open
+    return open_func(self.baseFilename, self.mode,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/ivan/PycharmProjects/python_django_team27/market/logs/import/test_365c0.txt'
+2023-10-18 15:45:36,317 [ERROR] shops.management.commands.import_yaml: Категория товара 2 (Тест) не относится к существующей
+2023-10-18 15:45:36,317 [ERROR] shops.management.commands.import_yaml: Email не был отправлен при импорте файлов. Возникла ошибка [Errno 2] No such file or directory: 'logs/import/test_365c0_a141a.txt'
